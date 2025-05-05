@@ -35,6 +35,9 @@ lake init test
 
 #### SOME WORDS ON DEPENDENT TYPE THEORY
 
+- [Curry–Howard correspondence](https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence) : there is a one-to-one correspondence between between computer programs and mathematical proofs
+
+
 - consider the set of all formal strings and the semantic equivalence relation on them, for example, `λ (x: Nat) => x + 4` and `fun (y: Nat) => y + 4` are two different strings but have the same semantic.
 
 - we will use the word expression for both string and its semantic without confusion
@@ -43,7 +46,7 @@ lake init test
 
     - level -1: ...
 
-    - level 0: `1`, `1.5`, `"Hello World"`, `1 + 1 = 2`
+    - level 0: `1`, `1.5`, `"Hello World"`, `1 + 1 = 2` - like literals in programming
 
     - level 1: `Int`, `Float`, `String`, `Prop`
 
@@ -54,3 +57,10 @@ lake init test
     - level 4: ...
 
 - there is a function that maps expression at level `k` to level `k+1` which is, to the best of my knowledge, not specified in `lean`. but an equivalent version in `python` is `type`, in `javascript` is `typeof`
+
+- if `α` and `β` are expressions at level `k`, then `α → β` is also an expression at level `k`. In math, `α → β` is like $\mathrm{Hom}(\alpha, \beta)$ which is the collection of all morphisms from $\alpha$ to $\beta$
+
+- `α → β → γ = α × β → γ` - this is just the tensor-hom adjunction
+
+- `Prop` is at level 1 which is the same level with `Int`, `Float`, `String`, 
+
