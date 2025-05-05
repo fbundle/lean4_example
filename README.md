@@ -10,7 +10,9 @@ some lean4 examples
 
 - `elan` binaries will be stored at `$HOME/.elan`
 
-## CREATE HELLO WORLD PROJECT
+## HELLO WORLD
+
+make a hello world project as follows:
 
 ```bash
 mkdir test
@@ -18,13 +20,11 @@ cd test
 lake init test
 ```
 
-- `lake build` - build
-
-- `lake exe test` - build and run
+execute `lake build` to build. execute `lake exe test` to build and run
 
 # FOR PROGRAMMERS
 
-main reference: [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/). `examples/functional_programming_in_lean/1_getting_to_know_lean` should be sufficient except proving termination of a function (`TODO`)
+main reference: [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/). `examples/functional_programming_in_lean` should be sufficient except proving termination of a function (`TODO`)
 
 # FOR MATHEMATICIANS
 
