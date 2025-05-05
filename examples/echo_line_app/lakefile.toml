@@ -1,0 +1,10 @@
+name = "echo_line_app"
+version = "0.1.0"
+defaultTargets = ["echo_line_app"]
+
+[[lean_lib]]
+name = "echo_line"
+
+[[lean_exe]]
+name = "echo_line_app"
+root = "Main"

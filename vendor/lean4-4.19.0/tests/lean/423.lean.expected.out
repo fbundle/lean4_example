@@ -1,0 +1,32 @@
+423.lean:3:35-3:40: error: application type mismatch
+  HAdd.hAdd a
+argument
+  a
+has type
+  T : Sort u
+but is expected to have type
+  Nat : Type
+423.lean:5:37-5:38: error: application type mismatch
+  Add T
+argument
+  T
+has type
+  Sort u : Type u
+but is expected to have type
+  Type ?u : Type (?u + 1)
+423.lean:5:47-5:48: error: application type mismatch
+  OfNat T
+argument
+  T
+has type
+  Sort u : Type u
+but is expected to have type
+  Type ?u : Type (?u + 1)
+423.lean:5:55-5:60: error: application type mismatch
+  HAdd.hAdd a
+argument
+  a
+has type
+  T : Sort u
+but is expected to have type
+  Nat : Type
