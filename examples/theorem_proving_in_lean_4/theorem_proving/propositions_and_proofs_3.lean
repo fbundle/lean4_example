@@ -2,42 +2,41 @@
 
 section
 
-variable (p q : Prop)
 -- commutativity of ∧
-example: (p ∧ q) → (q ∧ p) :=
+def and_comm1: (p ∧ q) → (q ∧ p) :=
   λ (hpq: p ∧ q) =>
     let hp := And.left hpq
     let hq := And.right hpq
     And.intro hq hp
 
 -- commutativity of ∨
-example : (p ∨ q) → (q ∨ p) :=
+def or_comm1: (p ∨ q) → (q ∨ p) :=
   λ (hpq: p ∨ q) =>
     Or.elim hpq -- proof for p ∨ q
       (λ hp => Or.intro_right q hp) -- proof for p → (q ∨ p)
       (λ hq => Or.intro_left p hq) -- proof for q → (p ∨ q)
-end
 
 -- negation of p and p is a contradiction
-example : ¬(¬p ∧ p) :=
+def contr_implies_false: ¬(¬p ∧ p) :=
   λ (h: ¬p ∧ p) =>
     let hnp := And.left h
     let hp := And.right h
     hnp hp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
 
 -- implies anything from a contradiction
-example : (¬ p ∧ p) → q :=
+def contr_implies_anything : (¬ p ∧ p) → q :=
   λ (h: ¬p ∧ p) =>
     let hnp := And.left h
     let hp := And.right h
     absurd hp hnp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
 
--- logcal equivalence
--- p ∧ q ↔ q ∧ p
-example : p ∧ q ↔ q ∧ p :=
-  ⟨λ hpq => And.intro (And.right hpq) (And.left hpq), λ hqp => And.intro (And.right hqp) (And.left hqp)⟩
 
+-- logical equivalence
+example : (p ∧ q) ↔ (q ∧ p) :=
+  Iff.intro and_comm1 and_comm1
+end
 /-
+
 
 
 
