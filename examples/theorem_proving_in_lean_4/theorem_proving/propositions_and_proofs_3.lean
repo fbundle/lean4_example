@@ -18,7 +18,15 @@ example : (p ∨ q) → (q ∨ p) :=
       (λ hq => Or.intro_left p hq) -- proof for q → (p ∨ q)
 end
 
+-- negation of p and p is a contradiction
+example : ¬(¬p ∧ p) :=
+  λ (h: ¬p ∧ p) =>
+    let hnp := And.left h
+    let hp := And.right h
+    hnp hp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
 /-
+
+
 
 
 
