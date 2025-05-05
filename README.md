@@ -25,9 +25,7 @@ lake init test
 
 ### FOR PROGRAMMERS
 
-- main reference: [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/)
-
-- `examples/functional_programming_in_lean/1_getting_to_know_lean` should be sufficient except proving termination of a function (`TODO`)
+main reference: [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/). `examples/functional_programming_in_lean/1_getting_to_know_lean` should be sufficient except proving termination of a function (`TODO`)
 
 ### FOR MATHEMATICIANS
 
