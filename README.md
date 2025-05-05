@@ -1,8 +1,6 @@
-some lean4 examples
-
 main reference: [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/)
 
-## SOME WORDS ON DEPENDENT TYPE THEORY
+# SOME WORDS ON DEPENDENT TYPE THEORY
 
 - [Curry–Howard correspondence](https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence) : there is a one-to-one correspondence between computer programs and mathematical proofs
 
@@ -43,7 +41,7 @@ main reference: [Theorem Proving in Lean 4](https://lean-lang.org/theorem_provin
 
 - theorem proving in `lean` is essentially programming, that is to construct objects at level -1 using programming convention
 
-## PROPOSITIONAL LOGIC
+# PROPOSITIONAL LOGIC
 
 ```lean
 Not: Prop → Prop
@@ -55,7 +53,7 @@ Iff: Prop × Prop → Prop
 
 Below, `p, q, r: Prop` are of type `Prop`
 
-### CONJUNCTION (AND)
+## CONJUNCTION (AND)
 
 `And` accepts two propositions and return a proposition, write `And p q` or `p ∧ q`
 
@@ -76,7 +74,7 @@ def and_comm1: (p ∧ q) → (q ∧ p) :=
     And.intro hq hp
 ```
 
-### DISJUNCTION (OR)
+## DISJUNCTION (OR)
 
 `Or` accepts two propositions and return a proposition, write `Or p q` or `p ∨ q`
 
@@ -97,7 +95,7 @@ def or_comm1: (p ∨ q) → (q ∨ p) :=
       (λ hq => Or.intro_left p hq) -- proof for q → (p ∨ q)
 ```
 
-### NEGATION AND FALSIFY (NOT)
+## NEGATION AND FALSIFY (NOT)
 
 `Not` accepts a proposition and returns a proposition, write `Not p` or `¬p`, note that `Not p` is just `p → False`
 
@@ -119,7 +117,7 @@ def contr_implies_anything : (¬ p ∧ p) → q :=
     absurd hp hnp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
 ```
 
-### LOGICAL EQUIVALENCE (IF AND ONLY IF)
+## LOGICAL EQUIVALENCE (IF AND ONLY IF)
 
 `Iff` accepts two propositions and returns a proposition, write `Iff p q` or `p ↔ q`
 
@@ -136,7 +134,7 @@ example : (p ∧ q) ↔ (q ∧ p) :=
 end
 ```
 
-### AUXILIARY SUBGOALS
+## AUXILIARY SUBGOALS
 
 ```lean
 -- subgoal
@@ -154,7 +152,7 @@ example (h : p ∧ q) : q ∧ p :=
   show q from And.right h
 ```
 
-### CLASSICAL LOGIC
+## CLASSICAL LOGIC
 
 Classical logic assumes [Law of excluded middle](https://en.wikipedia.org/wiki/Law_of_excluded_middle) (`em`), that is, `p ∨ ¬p` is always `True`. Moreover, law of excluded middle is true if and only if principle of double-negation elimination (`dne`) is true, that is `¬¬p → p`.
 
