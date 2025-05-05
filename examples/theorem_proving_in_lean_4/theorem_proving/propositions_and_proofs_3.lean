@@ -24,9 +24,20 @@ example : ¬(¬p ∧ p) :=
     let hnp := And.left h
     let hp := And.right h
     hnp hp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
+
+-- implies anything from a contradiction
+example : (¬ p ∧ p) → q :=
+  λ (h: ¬p ∧ p) =>
+    let hnp := And.left h
+    let hp := And.right h
+    absurd hp hnp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
+
+-- logcal equivalence
+-- p ∧ q ↔ q ∧ p
+example : p ∧ q ↔ q ∧ p :=
+  ⟨λ hpq => And.intro (And.right hpq) (And.left hpq), λ hqp => And.intro (And.right hqp) (And.left hqp)⟩
+
 /-
-
-
 
 
 

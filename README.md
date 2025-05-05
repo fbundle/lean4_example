@@ -112,7 +112,7 @@ Below, `p, q, r: Prop` are of type `Prop`
 - *or-elimination* rule: `Or.elim: (p ∨ q) × (p → r) × (q → r) → r` accepts a proof for `p ∨ q`, a proof for `p → r`, and a proof for `q → r`, then returns a proof for `r`
 
 
-### NOT
+### NEGATION AND FALSIFY (NOT)
 
 - `Not` accepts a proposition and returns a proposition
 
@@ -120,4 +120,17 @@ Below, `p, q, r: Prop` are of type `Prop`
     
     - note that `Not p` is just `p → False`
 
+- One can use `absurd` or `False.elim` to derive anything from `False` - see example
 
+
+### LOGICAL EQUIVALENCE (IF AND ONLY IF)
+
+- `Iff` accepts two propositions and returns a proposition
+
+    - write `Iff p q` or `p ↔ q`
+
+- *iff-introduction* rule: `Iff.intro: (p → q) × (q → p) → (p ↔ q)` accepts two proofs for `p → q` and `q → p` then return a proof for `p ↔ q`
+
+- *iff-elimination* rule: `Iff.mp: (p ↔ q) → (p → q)` accepts a proof for `p ↔ q` then returns a proof for `p → q`
+
+- *iff-elimination* rule: `Iff.mpr: (p ↔ q) → (q → p)` accepts a proof for `p ↔ q` then returns a proof for `q → p`
