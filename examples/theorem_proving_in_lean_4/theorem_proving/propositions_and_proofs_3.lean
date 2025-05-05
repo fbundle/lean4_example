@@ -35,6 +35,21 @@ def contr_implies_anything : (¬ p ∧ p) → q :=
 example : (p ∧ q) ↔ (q ∧ p) :=
   Iff.intro and_comm1 and_comm1
 end
+
+-- subgoal
+example (h : p ∧ q) : q ∧ p :=
+  have hp : p := h.left -- same as `let hp := And.left h`
+  have hq : q := h.right
+  show q ∧ p from And.intro hq hp
+
+-- subgoal
+example (h : p ∧ q) : q ∧ p :=
+  -- we already show p here by certificate hp
+  have hp : p := h.left
+  -- it suffices to show q because we can show q ∧ p from two certificates hq and hp
+  suffices hq : q from And.intro hq hp
+  show q from And.right h
+
 /-
 
 

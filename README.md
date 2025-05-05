@@ -67,7 +67,7 @@ main reference: [Theorem Proving in Lean 4](https://lean-lang.org/theorem_provin
 
 - in constructive mathematics, a proposition is true if and only if we can construct a proof for it
 
-- in `lean`, a proposition `p: Prop` is true if and only if we can construct an object `hp` (at level -1) of type `p`. that is, the truth of `p` is witnessed by constructing `hp`
+- in `lean`, a proposition `p: Prop` is true if and only if we can construct an object `hp` (at level -1) of type `p`. that is, the truth of `p` is witnessed by constructing the certificate `hp`
 
 - theorem proving in `lean` is essentially programming, that is to construct objects at level -1 using programming convention
 
@@ -85,9 +85,7 @@ Below, `p, q, r: Prop` are of type `Prop`
 
 ### CONJUNCTION (AND)
 
-- `And` accepts two propositions and return a proposition
-
-    - write `And p q` or `p ∧ q`
+`And` accepts two propositions and return a proposition, write `And p q` or `p ∧ q`
 
 - *and-introduction* rule: `And.intro: p × q → p ∧ q` accepts two proofs for `p` and `q` then returns a proof for `p ∧ q`
 
@@ -97,11 +95,18 @@ Below, `p, q, r: Prop` are of type `Prop`
 
 - *and-elimination* rule: `And.right: p ∧ q → q` accept a proof for `p ∧ q` then return a proof for `q`
 
+```lean
+-- commutativity of ∧
+def and_comm1: (p ∧ q) → (q ∧ p) :=
+  λ (hpq: p ∧ q) =>
+    let hp := And.left hpq
+    let hq := And.right hpq
+    And.intro hq hp
+```
+
 ### DISJUNCTION (OR)
 
-- `Or` accepts two propositions and return a proposition
-
-    - write `Or p q` or `p ∨ q`
+`Or` accepts two propositions and return a proposition, write `Or p q` or `p ∨ q`
 
 - *or-introduction* rule: `Or.intro_left: Prop × p → p ∨ q` accept `q: Prop` and a proof for `p` then return a proof for `p ∨ q`
 
@@ -111,26 +116,77 @@ Below, `p, q, r: Prop` are of type `Prop`
 
 - *or-elimination* rule: `Or.elim: (p ∨ q) × (p → r) × (q → r) → r` accepts a proof for `p ∨ q`, a proof for `p → r`, and a proof for `q → r`, then returns a proof for `r`
 
+```lean
+-- commutativity of ∨
+def or_comm1: (p ∨ q) → (q ∨ p) :=
+  λ (hpq: p ∨ q) =>
+    Or.elim hpq -- proof for p ∨ q
+      (λ hp => Or.intro_right q hp) -- proof for p → (q ∨ p)
+      (λ hq => Or.intro_left p hq) -- proof for q → (p ∨ q)
+```
 
 ### NEGATION AND FALSIFY (NOT)
 
-- `Not` accepts a proposition and returns a proposition
-
-    - write `Not p` or `¬p`
-    
-    - note that `Not p` is just `p → False`
+`Not` accepts a proposition and returns a proposition, write `Not p` or `¬p`, note that `Not p` is just `p → False`
 
 - One can use `absurd` or `False.elim` to derive anything from `False` - see example
 
+```lean
+-- negation of p and p is a contradiction
+def contr_implies_false: ¬(¬p ∧ p) :=
+  λ (h: ¬p ∧ p) =>
+    let hnp := And.left h
+    let hp := And.right h
+    hnp hp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
+
+-- implies anything from a contradiction
+def contr_implies_anything : (¬ p ∧ p) → q :=
+  λ (h: ¬p ∧ p) =>
+    let hnp := And.left h
+    let hp := And.right h
+    absurd hp hnp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
+```
 
 ### LOGICAL EQUIVALENCE (IF AND ONLY IF)
 
-- `Iff` accepts two propositions and returns a proposition
-
-    - write `Iff p q` or `p ↔ q`
+`Iff` accepts two propositions and returns a proposition, write `Iff p q` or `p ↔ q`
 
 - *iff-introduction* rule: `Iff.intro: (p → q) × (q → p) → (p ↔ q)` accepts two proofs for `p → q` and `q → p` then return a proof for `p ↔ q`
 
 - *iff-elimination* rule: `Iff.mp: (p ↔ q) → (p → q)` accepts a proof for `p ↔ q` then returns a proof for `p → q`
 
 - *iff-elimination* rule: `Iff.mpr: (p ↔ q) → (q → p)` accepts a proof for `p ↔ q` then returns a proof for `q → p`
+
+```lean
+-- logical equivalence
+example : (p ∧ q) ↔ (q ∧ p) :=
+  Iff.intro and_comm1 and_comm1
+end
+```
+
+### AUXILIARY SUBGOALS
+
+```lean
+-- subgoal
+example (h : p ∧ q) : q ∧ p :=
+  have hp : p := h.left -- same as `let hp := And.left h`
+  have hq : q := h.right
+  show q ∧ p from And.intro hq hp
+
+-- subgoal
+example (h : p ∧ q) : q ∧ p :=
+  -- we already show p here by certificate hp
+  have hp : p := h.left
+  -- it suffices to show q because we can show q ∧ p from two certificates hq and hp
+  suffices hq : q from And.intro hq hp
+  show q from And.right h
+```
+
+### CLASSICAL LOGIC
+
+Classical logic assumes [Law of excluded middle](https://en.wikipedia.org/wiki/Law_of_excluded_middle) (`em`), that is, `p ∨ ¬p` is always `True`. Moreover, law of excluded middle is true if and only if principle of double-negation elimination (`dne`) is true, that is `¬¬p → p`.
+
+Use `open Classical` to use classical logic
+
+
+
