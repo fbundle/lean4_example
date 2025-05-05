@@ -29,7 +29,7 @@ main reference: [Functional Programming in Lean](https://lean-lang.org/functiona
 
 ### FOR MATHEMATICIANS
 
-- main reference: [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/)
+main reference: [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/)
 
 #### SOME WORDS ON DEPENDENT TYPE THEORY
 
@@ -72,3 +72,4 @@ main reference: [Functional Programming in Lean](https://lean-lang.org/functiona
 
 - theorem proving in `lean` is essentially programming, that is to construct objects at level -1 using programming convention
 
+#### PROPOSITIONAL LOGIC
