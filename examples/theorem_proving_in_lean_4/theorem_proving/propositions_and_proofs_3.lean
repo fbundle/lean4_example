@@ -1,5 +1,27 @@
 
 
+section
+
+variable (p q : Prop)
+-- commutativity of ∧
+example: (p ∧ q) → (q ∧ p) :=
+  λ (hpq: p ∧ q) =>
+    let hp := And.left hpq
+    let hq := And.right hpq
+    And.intro hq, hp
+
+-- commutativity of ∨
+example : (p ∨ q) → (q ∨ p) :=
+  λ (hpq: p ∨ q) =>
+    match hpq with
+    | Or.intro_right p hq => Or.intro_left p hq
+    | Or.intro_left q hp => Or.intro_right q hp
+end
+
+/-
+
+
+
 -- TODO : finish all sorry proofs in this file
 
 section
@@ -49,9 +71,4 @@ section
 
 end
 
-
-variable (p q r : Prop)
-
-def p_and_q : Prop := And p q
-
-#check p_and_q
+-/

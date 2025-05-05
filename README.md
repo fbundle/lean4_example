@@ -83,14 +83,6 @@ Iff: Prop × Prop → Prop
 
 Below, `p, q, r: Prop` are of type `Prop`
 
-### NOT
-
-- `Not` accepts a proposition and returns a proposition
-
-    - write `Not p` or `¬p`
-    
-    - note that `Not p` is just `p → False`
-
 ### CONJUNCTION (AND)
 
 - `And` accepts two propositions and return a proposition
@@ -101,10 +93,31 @@ Below, `p, q, r: Prop` are of type `Prop`
 
 - note that, `let x := And.intro hp hq` can be also written as `let x: And := ⟨hp, hq⟩`
 
-- *and-elimination* rule: `And.left: p ∧ q → p` or `And.right: p ∧ q → q` accept a proof for proposition `p ∧ q` then return a proof for proposition `p` or `q`
+- *and-elimination* rule: `And.left: p ∧ q → p` accept a proof for `p ∧ q` then return a proof for `p`
+
+- *and-elimination* rule: `And.right: p ∧ q → q` accept a proof for `p ∧ q` then return a proof for `q`
 
 ### DISJUNCTION (OR)
 
-- *or-introduction* rule: `Or.intro_left: p → p ∨ q` or `Or.intro_right: q → p ∨ q` accept a proof for proposition `p` or `q` then return a proof for proposition `p ∨ q`
+- `Or` accepts two propositions and return a proposition
 
-- *or-elimination* rule: `Or.elim: (p ∨ q) × (p → r) × (q → r) → r` accepts a proof for `p ∨ q`, a proof for `p → r`, and a proof for `q → r`, then returns a proof for  
+    - write `Or p q` or `p ∨ q`
+
+- *or-introduction* rule: `Or.intro_left: Prop × p → p ∨ q` accept `q: Prop` and a proof for `p` then return a proof for `p ∨ q`
+
+- *or-introduction* rule: `Or.intro_left: Prop × q → p ∨ q` accept `p: Prop` and a proof for `q` then return a proof for `p ∨ q`
+
+- if it is inferrable, one can short hand `Or.intro_left` and `Or.intro_right` by `Or.inl: p → p ∨ q` and `Or.inr: q → p ∨ q`
+
+- *or-elimination* rule: `Or.elim: (p ∨ q) × (p → r) × (q → r) → r` accepts a proof for `p ∨ q`, a proof for `p → r`, and a proof for `q → r`, then returns a proof for `r`
+
+
+### NOT
+
+- `Not` accepts a proposition and returns a proposition
+
+    - write `Not p` or `¬p`
+    
+    - note that `Not p` is just `p → False`
+
+
