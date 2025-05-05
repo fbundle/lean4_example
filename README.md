@@ -1,9 +1,8 @@
-# LEAN4_EXAMPLE
 some lean4 examples
 
-## INSTALLATION
+# INSTALLATION
 
-### INSTALL ELAN
+## INSTALL ELAN
 
 - download `elan` at [https://github.com/leanprover/elan/releases/tag/v4.1.1](https://github.com/leanprover/elan/releases/tag/v4.1.1)
 
@@ -11,7 +10,7 @@ some lean4 examples
 
 - `elan` binaries will be stored at `$HOME/.elan`
 
-### CREATE HELLO WORLD PROJECT
+## CREATE HELLO WORLD PROJECT
 
 ```bash
 mkdir test
@@ -23,15 +22,15 @@ lake init test
 
 - `lake exe test` - build and run
 
-### FOR PROGRAMMERS
+# FOR PROGRAMMERS
 
 main reference: [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/). `examples/functional_programming_in_lean/1_getting_to_know_lean` should be sufficient except proving termination of a function (`TODO`)
 
-### FOR MATHEMATICIANS
+# FOR MATHEMATICIANS
 
 main reference: [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/)
 
-#### SOME WORDS ON DEPENDENT TYPE THEORY
+## SOME WORDS ON DEPENDENT TYPE THEORY
 
 - [Curry–Howard correspondence](https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence) : there is a one-to-one correspondence between computer programs and mathematical proofs
 
@@ -72,4 +71,40 @@ main reference: [Theorem Proving in Lean 4](https://lean-lang.org/theorem_provin
 
 - theorem proving in `lean` is essentially programming, that is to construct objects at level -1 using programming convention
 
-#### PROPOSITIONAL LOGIC
+## PROPOSITIONAL LOGIC
+
+```lean
+Not: Prop → Prop
+And: Prop × Prop → Prop
+Or: Prop × Prop → Prop
+Implies: Prop × Prop → Prop
+Iff: Prop × Prop → Prop
+```
+
+Below, `p, q, r: Prop` are of type `Prop`
+
+### NOT
+
+- `Not` accepts a proposition and returns a proposition
+
+    - write `Not p` or `¬p`
+    
+    - note that `Not p` is just `p → False`
+
+### CONJUNCTION (AND)
+
+- `And` accepts two propositions and return a proposition
+
+    - write `And p q` or `p ∧ q`
+
+- *and-introduction* rule: `And.intro: p × q → p ∧ q` accepts two proofs for `p` and `q` then returns a proof for `p ∧ q`
+
+- note that, `let x := And.intro hp hq` can be also written as `let x: And := ⟨hp, hq⟩`
+
+- *and-elimination* rule: `And.left: p ∧ q → p` or `And.right: p ∧ q → q` accept a proof for proposition `p ∧ q` then return a proof for proposition `p` or `q`
+
+### DISJUNCTION (OR)
+
+- *or-introduction* rule: `Or.intro_left: p → p ∨ q` or `Or.intro_right: q → p ∨ q` accept a proof for proposition `p` or `q` then return a proof for proposition `p ∨ q`
+
+- *or-elimination* rule: `Or.elim: (p ∨ q) × (p → r) × (q → r) → r` accepts a proof for `p ∨ q`, a proof for `p → r`, and a proof for `q → r`, then returns a proof for  

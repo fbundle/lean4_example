@@ -1,1 +1,0 @@
-{"version":3,"references":{"{\"c\":{\"n\":\"hello\",\"m\":\"Test.Basic\"}}":{"usages":[],"definition":[0,4,0,9]},"{\"c\":{\"n\":\"_example\",\"m\":\"Test.Basic\"}}":{"usages":[],"definition":[6,0,6,7]},"{\"c\":{\"n\":\"False\",\"m\":\"Init.Prelude\"}}":{"usages":[[26,14,26,19],[27,14,27,19],[27,22,27,27]],"definition":null}},"module":"Test.Basic"}

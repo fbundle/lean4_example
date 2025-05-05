@@ -48,3 +48,10 @@ section
 
 
 end
+
+
+variable (p q r : Prop)
+
+def p_and_q : Prop := And p q
+
+#check p_and_q
