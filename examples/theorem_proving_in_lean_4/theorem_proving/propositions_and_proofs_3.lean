@@ -8,14 +8,14 @@ example: (p ∧ q) → (q ∧ p) :=
   λ (hpq: p ∧ q) =>
     let hp := And.left hpq
     let hq := And.right hpq
-    And.intro hq, hp
+    And.intro hq hp
 
 -- commutativity of ∨
 example : (p ∨ q) → (q ∨ p) :=
   λ (hpq: p ∨ q) =>
-    match hpq with
-    | Or.intro_right p hq => Or.intro_left p hq
-    | Or.intro_left q hp => Or.intro_right q hp
+    Or.elim hpq -- proof for p ∨ q
+      (λ hp => Or.intro_right q hp) -- proof for p → (q ∨ p)
+      (λ hq => Or.intro_left p hq) -- proof for q → (p ∨ q)
 end
 
 /-
