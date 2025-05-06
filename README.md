@@ -97,7 +97,7 @@ def or_comm1: (p ∨ q) → (q ∨ p) :=
 
 ## NEGATION AND FALSIFY (NOT)
 
-`Not` accepts a proposition and returns a proposition, write `Not p` or `¬p`, note that `Not p` is just `p → False`
+`Not` accepts a proposition and returns a proposition, write `Not p` or `¬p`, note that `Not p` is precisely `p → False`
 
 - One can use `absurd` or `False.elim` to derive anything from `False` - see example
 
@@ -157,6 +157,8 @@ example (h : p ∧ q) : q ∧ p :=
 Classical logic assumes [Law of excluded middle](https://en.wikipedia.org/wiki/Law_of_excluded_middle) (`em`), that is, `p ∨ ¬p` is always `True`. Moreover, law of excluded middle is true if and only if principle of double-negation elimination (`dne`) is true, that is `¬¬p → p`.
 
 Use `open Classical` to use classical logic
+
+- `em: Prop → Prop`, `em p` is precisely `p ∨ ¬p`
 
 
 
