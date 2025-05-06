@@ -194,7 +194,9 @@ theorem hq : q :=
 
 - *reflexsive*: `Eq.refl: α → (a = a)` accepts an object `a` and returns a proof for `a = a`
 
-- *transitive*: `Eq.symm: (a = b) → (b = a)` accepts a proof for `a = b` and returns a proof for `b = a`
+- *symmetric*: `Eq.symm: (a = b) → (b = a)` accepts a proof for `a = b` and returns a proof for `b = a`
+
+- *transitive*: `Eq.trans: (a = b) × (b = c) → (a = c`) accepts two proofs for `a = b` and `b = c` and returns a proof for `a = c`
 
 
 
