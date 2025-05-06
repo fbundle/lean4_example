@@ -15,3 +15,6 @@ section
   theorem hq : q :=
     λ x => hpx x
 end
+
+
+#check Eq.refl
