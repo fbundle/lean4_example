@@ -165,9 +165,11 @@ Use `open Classical` to use classical logic
 
 ## UNIVERSAL QUANTIFIER (FOR ALL)
 
-in `lean`, the object `(∀ x : α, p x): Prop` is a proposition where `p: α → Prop` is a map from type `α` to `Prop`
+in `lean`, the object `(∀ x : α, p x): Prop` is a proposition where `p: α → Prop` is a map from type `α` to `Prop`. proof for `(∀ x : α, p x)` is `h: α → Prop` which sends each element `x` of `α` into a proof for `p x: Prop`
 
-  - proof for `(∀ x : α, p x)` is `h: α → Prop` which sends each element `x` of `α` into a proof for `p x: Prop`
+- *introduction rule*: Given a proof of `p x`, in a context where `x : α` is arbitrary, we obtain a proof `∀ x : α, p x`.
+
+- *eliminiation rule*: Given a proof `∀ x : α, p x` and any term `t : α`, we obtain a proof of `p t`.
 
 
 ```lean
