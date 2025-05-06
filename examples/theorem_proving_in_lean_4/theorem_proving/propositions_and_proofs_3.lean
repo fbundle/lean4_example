@@ -105,3 +105,18 @@ section
 end
 
 -/
+
+-- always true
+def p : Nat → Prop := λ _ => true
+
+-- for every x in Nat, p x
+def q := ∀ x : Nat, p x
+
+theorem hq : q :=
+  λ x => (show p x from rfl) -- λ n => (a proof for p n)
+
+#check hq
+
+
+
+#check p

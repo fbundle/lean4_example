@@ -154,11 +154,56 @@ example (h : p ∧ q) : q ∧ p :=
 
 ## CLASSICAL LOGIC
 
-Classical logic assumes [Law of excluded middle](https://en.wikipedia.org/wiki/Law_of_excluded_middle) (`em`), that is, `p ∨ ¬p` is always `True`. Moreover, law of excluded middle is true if and only if principle of double-negation elimination (`dne`) is true, that is `¬¬p → p`.
+classical logic assumes [Law of excluded middle](https://en.wikipedia.org/wiki/Law_of_excluded_middle) (`em`), that is, `p ∨ ¬p` is always `True`. Moreover, law of excluded middle is true if and only if principle of double-negation elimination (`dne`) is true, that is `¬¬p → p`.
 
 Use `open Classical` to use classical logic
 
 - `em: Prop → Prop`, `em p` is precisely `p ∨ ¬p`
+
+
+# PREDICATE LOGIC
+
+## UNIVERSAL QUANTIFIER
+
+in `lean`, the object `(∀ x : α, p x): Prop` is a proposition where `p: α → Prop` is a map from type `α` to `Prop`
+
+  - proof for `(∀ x : α, p x)` is `h: α → Prop` which sends each element `x` of `α` into a proof for `p x: Prop`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
