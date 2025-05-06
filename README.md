@@ -165,7 +165,7 @@ Use `open Classical` to use classical logic
 
 ## UNIVERSAL QUANTIFIER (FOR ALL)
 
-in `lean`, the object `(∀ x : α, p x): Prop` is a proposition where `p: α → Prop` is a map from type `α` to `Prop`, a proof for `(∀ x : α, p x)` is `h: α → Prop` which sends each element `x` of type `α` into a proof for `p x: Prop`
+in `lean`, the object `(∀ x : α, p x): Prop` is a proposition where `p: α → Prop` is a map from type `α` to `Prop`, a proof for `(∀ x : α, p x)` is `h: α → p x` which sends each element `x` of type `α` into a proof for `p x: Prop`
 
 - *introduction rule*: Given a proof of `p x`, in a context where `x : α` is arbitrary, we obtain a proof `∀ x : α, p x`.
 
@@ -190,7 +190,11 @@ theorem hq : q :=
 
 ## EQUALITY
 
+`Eq` accepts two objects and return a proposition, write `Eq a b` or `a = b`
 
+- *reflexsive*: `Eq.refl: α → (a = a)` accepts an object `a` and returns a proof for `a = a`
+
+- *transitive*: `Eq.symm: (a = b) → (b = a)` accepts a proof for `a = b` and returns a proof for `b = a`
 
 
 

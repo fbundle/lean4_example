@@ -16,5 +16,9 @@ section
     λ x => hpx x
 end
 
+section
 
-#check Eq.refl
+-- proof for 1 = 1
+example: 1 = 1 := Eq.refl 1
+
+end
