@@ -14,9 +14,4 @@ section
   -- proof for ∀ x : Nat, p x is a function from x to proof of p x
   theorem hq : q :=
     λ x => hpx x
-
-
-  
-
-
 end
