@@ -109,14 +109,13 @@ end
 -- always true
 def p : Nat → Prop := λ _ => true
 
+-- proof for p x for every x
+def hpx : Nat → p x :=
+  λ x => (show p x from rfl)
+
 -- for every x in Nat, p x
-def q := ∀ x : Nat, p x
+def q : Prop := ∀ x : Nat, p x
 
+-- proof for ∀ x : Nat, p x is a function from x to proof of p x
 theorem hq : q :=
-  λ x => (show p x from rfl) -- λ n => (a proof for p n)
-
-#check hq
-
-
-
-#check p
+  λ x => hpx x

@@ -163,11 +163,31 @@ Use `open Classical` to use classical logic
 
 # PREDICATE LOGIC
 
-## UNIVERSAL QUANTIFIER
+## UNIVERSAL QUANTIFIER (FOR ALL)
 
 in `lean`, the object `(∀ x : α, p x): Prop` is a proposition where `p: α → Prop` is a map from type `α` to `Prop`
 
   - proof for `(∀ x : α, p x)` is `h: α → Prop` which sends each element `x` of `α` into a proof for `p x: Prop`
+
+
+```lean
+-- always true
+def p : Nat → Prop := λ _ => true
+
+-- proof for p x for every x
+def hpx : Nat → p x :=
+  λ x => (show p x from rfl)
+
+-- for every x in Nat, p x
+def q : Prop := ∀ x : Nat, p x
+
+-- proof for ∀ x : Nat, p x is a function from x to proof of p x
+theorem hq : q :=
+  λ x => hpx x
+```
+
+## EQUALITY
+
 
 
 
