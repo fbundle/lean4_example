@@ -67,12 +67,14 @@ href="#x1-140002.9" id="QQ2-1-14">EXISTENTIAL QUANTIFIER <span
 class="lmsy-10">&#x2203;</span></a></span>
 <br /><span class="sectionToc" >2.10 <a 
 href="#x1-150002.10" id="QQ2-1-15">CLASSICAL LOGIC</a></span>
+<br /><span class="sectionToc" >2.11 <a 
+href="#x1-160002.11" id="QQ2-1-16">AUXILIARY SUBGOALS</a></span>
 <br /><span class="chapterToc" >3 <a 
-href="#x1-160003" id="QQ2-1-16">EQUALITY: PROOF BY CALCULATION</a></span>
+href="#x1-170003" id="QQ2-1-17">EQUALITY: PROOF BY CALCULATION</a></span>
 <br /><span class="chapterToc" >4 <a 
-href="#x1-170004" id="QQ2-1-17">TACTIC: LEAN AS A THEOREM PROVER</a></span>
+href="#x1-180004" id="QQ2-1-18">TACTIC: LEAN AS A THEOREM PROVER</a></span>
 <br /><span class="chapterToc" >5 <a 
-href="#x1-180005" id="QQ2-1-18">PROOF BY INDUCTION: THE NATURAL NUMBERS</a></span>
+href="#x1-190005" id="QQ2-1-19">PROOF BY INDUCTION: THE NATURAL NUMBERS</a></span>
 </div>
                                                                                                
                                                                                                
@@ -387,6 +389,150 @@ class="lmsy-10">¬¬ </span>p <span
 class="lmsy-10">&#x2194; </span>p</span></span>. With the principal of
 double-negation elimination, one is able to carry out proof by contradiction, which is generally not possible in constructive
 logic.
+<!--l. 117--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">2.11   </span> <a 
+ id="x1-160002.11"></a>AUXILIARY SUBGOALS</h3>
+<!--l. 120--><p class="noindent" >when writing lean proof, one can use <span class="texthl"><span id="textcolor177">have &#x003C;object&#x003E;: &#x003C;type&#x003E; := &#x003C;value&#x003E;</span></span> (same semantic ot <span class="texthl"><span id="textcolor178">let</span></span>) and <span class="texthl"><span id="textcolor179">show &#x003C;proposition&#x003E; from
+&#x003C;proof&#x003E;</span></span> so that the proof is easier to read for human.
+<!--l. 122-->
+<pre class="lstlisting" id="listing-1"><span class="label"><a 
+ id="x1-16001r1"></a></span><span style="color:#000000">   </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">subgoal</span></span> 
+<span class="label"><a 
+ id="x1-16002r2"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">example</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">(</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">)</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span> 
+<span class="label"><a 
+ id="x1-16003r3"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">have</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hp</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">left</span></span><span style="color:#000000"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">same</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">as</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">&#8216;</span></span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">let</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">hp</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">:=</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">And</span></span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">.</span></span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">left</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">h</span></span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">&#8216;</span></span> 
+<span class="label"><a 
+ id="x1-16004r4"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">have</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">right</span></span> 
+<span class="label"><a 
+ id="x1-16005r5"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">show</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">from</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#001A99"><span 
+class="ec-lmtt-9">intro</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hp</span></span> 
+<span class="label"><a 
+ id="x1-16006r6"></a></span><span style="color:#000000">   </span> 
+<span class="label"><a 
+ id="x1-16007r7"></a></span><span style="color:#000000">   </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">subgoal</span></span> 
+<span class="label"><a 
+ id="x1-16008r8"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">example</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">(</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">)</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span> 
+<span class="label"><a 
+ id="x1-16009r9"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">have</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hp</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">left</span></span> 
+<span class="label"><a 
+ id="x1-16010r10"></a></span><span style="color:#000000">   </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">it</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">suffices</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">to</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">show</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">hq</span></span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">:</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">q</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">because</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">we</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">can</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">show</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">q</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">p</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">from</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">two</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">certificates</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">hq</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">and</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">hp</span></span> 
+<span class="label"><a 
+ id="x1-16011r11"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">suffices</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">from</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#001A99"><span 
+class="ec-lmtt-9">intro</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hp</span></span> 
+<span class="label"><a 
+ id="x1-16012r12"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">show</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">from</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">right</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span></pre>
                                                                                                
                                                                                                
                                                                                                
@@ -396,20 +542,20 @@ logic.
                                                                                                
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;3</span><br /><a 
- id="x1-160003"></a>EQUALITY: PROOF BY CALCULATION</h2>
-<!--l. 3--><p class="noindent" >Let <span class="texthl"><span id="textcolor177">a</span></span> and <span class="texthl"><span id="textcolor178">b</span></span> be any objects, then <span class="texthl"><span id="textcolor179">a = b</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor180">Eq a b</span></span>). <span class="texthl"><span id="textcolor181">Eq</span></span> admits several properties
+ id="x1-170003"></a>EQUALITY: PROOF BY CALCULATION</h2>
+<!--l. 3--><p class="noindent" >Let <span class="texthl"><span id="textcolor180">a</span></span> and <span class="texthl"><span id="textcolor181">b</span></span> be any objects, then <span class="texthl"><span id="textcolor182">a = b</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor183">Eq a b</span></span>). <span class="texthl"><span id="textcolor184">Eq</span></span> admits several properties
      <ul class="itemize1">
      <li class="itemize">
-     <!--l. 6--><p class="noindent" >(reflexive): <span class="texthl"><span id="textcolor182">Eq.refl</span></span>
-     <!--l. 8--><p class="noindent" >Let <span class="texthl"><span id="textcolor183">a</span></span> be any object, then <span class="texthl"><span id="textcolor184">Eq.refl a: a = a</span></span> is a proof
+     <!--l. 6--><p class="noindent" >(reflexive): <span class="texthl"><span id="textcolor185">Eq.refl</span></span>
+     <!--l. 8--><p class="noindent" >Let <span class="texthl"><span id="textcolor186">a</span></span> be any object, then <span class="texthl"><span id="textcolor187">Eq.refl a: a = a</span></span> is a proof
      </li>
      <li class="itemize">
-     <!--l. 10--><p class="noindent" >(symmetric): <span class="texthl"><span id="textcolor185">Eq.symm</span></span>
-     <!--l. 12--><p class="noindent" >Let <span class="texthl"><span id="textcolor186">hab: a = b</span></span> be a proof, then <span class="texthl"><span id="textcolor187">Eq.symm hab: b = a</span></span> is also a proof
+     <!--l. 10--><p class="noindent" >(symmetric): <span class="texthl"><span id="textcolor188">Eq.symm</span></span>
+     <!--l. 12--><p class="noindent" >Let <span class="texthl"><span id="textcolor189">hab: a = b</span></span> be a proof, then <span class="texthl"><span id="textcolor190">Eq.symm hab: b = a</span></span> is also a proof
      </li>
      <li class="itemize">
-     <!--l. 14--><p class="noindent" >(transitive): <span class="texthl"><span id="textcolor188">Eq.trans</span></span>
-     <!--l. 16--><p class="noindent" >Let <span class="texthl"><span id="textcolor189">hab: a = b</span></span>, <span class="texthl"><span id="textcolor190">hbc: b = c</span></span> be proofs, then <span class="texthl"><span id="textcolor191">Eq.trans hab hbc: a = c</span></span> is also a proof</li></ul>
+     <!--l. 14--><p class="noindent" >(transitive): <span class="texthl"><span id="textcolor191">Eq.trans</span></span>
+     <!--l. 16--><p class="noindent" >Let <span class="texthl"><span id="textcolor192">hab: a = b</span></span>, <span class="texthl"><span id="textcolor193">hbc: b = c</span></span> be proofs, then <span class="texthl"><span id="textcolor194">Eq.trans hab hbc: a = c</span></span> is also a proof</li></ul>
                                                                                                
                                                                                                
                                                                                                
@@ -419,7 +565,7 @@ logic.
                                                                                                
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;4</span><br /><a 
- id="x1-170004"></a>TACTIC: <br 
+ id="x1-180004"></a>TACTIC: <br 
 class="newline" />LEAN AS A THEOREM PROVER</h2>
                                                                                                
                                                                                                
@@ -430,7 +576,7 @@ class="newline" />LEAN AS A THEOREM PROVER</h2>
                                                                                                
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;5</span><br /><a 
- id="x1-180005"></a>PROOF BY INDUCTION: <br 
+ id="x1-190005"></a>PROOF BY INDUCTION: <br 
 class="newline" />THE NATURAL NUMBERS</h2>
                                                                                                
                                                                                                
@@ -439,7 +585,7 @@ class="newline" />THE NATURAL NUMBERS</h2>
                                                                                                
                                                                                                
 <h2 class="likechapterHead"><a 
- id="x1-19000"></a>Bibliography</h2>
+ id="x1-20000"></a>Bibliography</h2>
    <div class="thebibliography">
    <p class="bibitem" ><span class="biblabel">
 <a 
