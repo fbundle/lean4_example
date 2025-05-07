@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-pushd
 cd docs
 htlatex index.tex
-popd
+cd ..
