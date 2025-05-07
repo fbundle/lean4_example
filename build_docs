@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-cd docs
-htlatex index.tex
-cd ..

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+mkdir -p docs/
+cd latex
+htlatex main.tex "" "" -d../docs/
+cd ..
