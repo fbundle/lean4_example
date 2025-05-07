@@ -2,7 +2,23 @@
 
 \usepackage{color_template}
 \usepackage{symbol_def}
-\usepackage{hyperref}
+
+\usepackage{hyperref} % for link
+
+
+
+% the following is to include lean code
+\usepackage{listings} 
+\usepackage{color}
+\definecolor{keywordcolor}{rgb}{0.7, 0.1, 0.1}   % red
+\definecolor{tacticcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}   % grey
+\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}      % green
+\definecolor{attributecolor}{rgb}{0.7, 0.1, 0.1} % red
+\def\lstlanguagefiles{lstlean.tex}
+% set default language
+\lstset{language=lean}
 
 
 \title{
@@ -13,17 +29,30 @@
 }
 \author{Nguyen Ngoc Khanh}
 
+
 \begin{document}
-
-\maketitle
-
-\tableofcontents
-
-\include{chapter/chapter0_prerequisites}
-\include{chapter/chapter1_dependent_type_theory}
-\include{chapter/chapterlast_references}
-
-
-
-
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	
+	example of including lean code
+	
+	\begin{lstlisting}[language=lean]
+		-- commutativity of ∧
+		def and_comm1: (p ∧ q) → (q ∧ p) :=
+		λ (hpq: p ∧ q) =>
+		let hp := And.left hpq
+		let hq := And.right hpq
+		And.intro hq hp
+	\end{lstlisting}
+	
+	\include{chapter/chapter0_prerequisites}
+	\include{chapter/chapter1_dependent_type_theory}
+	\include{chapter/chapterlast_references}
+	
+	
+	
+	
 \end{document}

@@ -5,7 +5,11 @@
 .ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-10{ font-family: sans-serif;}
+.ec-lmss-10{ font-family: sans-serif;}
+.ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-12{font-size:120%; font-family: sans-serif;}
+.ec-lmss-12{ font-family: sans-serif;}
+.ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
@@ -15,11 +19,33 @@
 .ec-lmss-17{ font-family: sans-serif;}
 .ec-lmss-17{ font-family: sans-serif;}
 .ec-lmss-17{ font-family: sans-serif;}
+.ec-lmss-17{ font-family: sans-serif;}
+.ec-lmss-17{ font-family: sans-serif;}
 .ec-lmsso-12{font-size:120%; font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
+.ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
+.ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
+.ec-lmtt-9{font-size:90%; font-family: monospace,monospace;}
+.ec-lmtt-9{ font-family: monospace,monospace;}
+.ec-lmtt-9{ font-family: monospace,monospace;}
+.ec-lmtt-9{ font-family: monospace,monospace;}
+.ec-lmtt-9{ font-family: monospace,monospace;}
+.ec-lmtt-9{ font-family: monospace,monospace;}
+.ec-lmtt-9{ font-family: monospace,monospace;}
+.ec-lmtti-10x-x-90{font-size:90%; font-family: monospace,monospace; font-style:italic;}
+.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
+.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
+.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
+.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
+.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
+.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
+.rm-lmr-9{font-size:90%;}
+.lmsy9-{font-size:90%;}
+.ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
+.ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
@@ -194,5 +220,11 @@ span.dashuline, .dashuline-math {text-decoration:underline dashed;}
 span.dotuline, .dotuline-math {text-decoration:underline dotted;}
 dl.enumerate-enumitem{display:grid; grid-template-columns: 3ch 1fr; align-items: top; row-gap:1ch;}
 .mdframed{margin-top:1em;margin-bottom:1em;}
+code.lstinline{font-family:monospace,monospace;}
+pre.listings{font-family: monospace,monospace; white-space: pre-wrap; margin-top:0.5em; margin-bottom:0.5em; }
+.lstlisting .label{margin-right:0.5em; }
+pre.lstlisting{font-family: monospace,monospace; white-space: pre-wrap; margin-top:0.5em; margin-bottom:0.5em; }
+pre.lstinputlisting{ font-family: monospace,monospace; white-space: pre-wrap; }
+.lstinputlisting .label{margin-right:0.5em;}
 /* end css.sty */
 
