@@ -613,7 +613,12 @@ section
 -- proof for 1 = 1
 example: 1 = 1 := Eq.refl 1
 
-end./examples/theorem_proving_in_lean_4/Main.lean
+end
+
+
+
+#check Prop
+./examples/theorem_proving_in_lean_4/Main.lean
 import theorem_proving.propositions_and_proofs_3
 import theorem_proving.quantifiers_and_equality_4
 

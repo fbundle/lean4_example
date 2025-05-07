@@ -34,72 +34,10 @@ href="#x1-20001" id="QQ2-1-2">PREREQUISITES</a></span>
 <br /><span class="chapterToc" >2 <a 
 href="#x1-30002" id="QQ2-1-3">DEPENDENT TYPE THEORY</a></span>
 <br /><span class="chapterToc" >3 <a 
-href="#x1-40003" id="QQ2-1-4">REFERENCES</a></span>
+href="#x1-40003" id="QQ2-1-4">PROPOSITIONAL LOGIC</a></span>
+<br /><span class="chapterToc" >4 <a 
+href="#x1-50004" id="QQ2-1-5">REFERENCES</a></span>
 </div>
-<!--l. 40--><p class="noindent" >example of including lean code
-<!--l. 42-->
-<pre class="lstlisting" id="listing-1"><span class="label"><a 
- id="x1-1001r1"></a></span><span style="color:#000000">   </span><span style="color:#000000">   </span><span style="color:#666666"><span 
-class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
-class="ec-lmtti-10x-x-90">commutativity</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
-class="ec-lmtti-10x-x-90">of</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
-class="lmsy9-">&#x2227;</span></span> 
-<span class="label"><a 
- id="x1-1002r2"></a></span><span style="color:#000000">   </span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
-class="ec-lmtt-9">def</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">and_comm1</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">(</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">q</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">)</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="lmsy9-">&#x2192;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">(</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">p</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">)</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">:=</span></span> 
-<span class="label"><a 
- id="x1-1003r3"></a></span><span style="color:#000000">   </span><span style="color:#000000">   </span><span style="color:#000000"><span 
-class="rm-lmr-9">&#728;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">(</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">hpq</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">q</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">)</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">=</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">&#x003E;</span></span> 
-<span class="label"><a 
- id="x1-1004r4"></a></span><span style="color:#000000">   </span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
-class="ec-lmtt-9">let</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">hp</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">:=</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">left</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">hpq</span></span> 
-<span class="label"><a 
- id="x1-1005r5"></a></span><span style="color:#000000">   </span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
-class="ec-lmtt-9">let</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">:=</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">right</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">hpq</span></span> 
-<span class="label"><a 
- id="x1-1006r6"></a></span><span style="color:#000000">   </span><span style="color:#000000">   </span><span style="color:#000000"><span 
-class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
-class="ec-lmtt-9">.</span></span><span style="color:#001A99"><span 
-class="ec-lmtt-9">intro</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
-class="ec-lmtt-9">hp</span></span> 
-<span class="label"><a 
- id="x1-1007r7"></a></span><span style="color:#000000">   </span></pre>
                                                                                                
                                                                                                
                                                                                                
@@ -120,6 +58,77 @@ class="ec-lmsso-10">Getting to Know Lean</span>
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;2</span><br /><a 
  id="x1-30002"></a>DEPENDENT TYPE THEORY</h2>
+<!--l. 3--><p class="noindent" >Some words on dependent type theory:
+<!--l. 5--><p class="noindent" >Consider the set of all formal strings <span 
+class="lmmi-10">S </span>and the semantic equivalence relation <span 
+class="lmsy-10">~ </span>on <span 
+class="lmmi-10">S</span>. For example, <span class="texthl"><span id="textcolor1"><span 
+class="lmmi-10">&#x03BB; </span>(x: Nat) =&#x003E; x + 4</span></span> and <span class="texthl"><span id="textcolor2">fun
+(y: Nat) =&#x003E; y+4</span></span> are two different strings but have the same meaning/semantic. We will use the same word <span 
+class="ec-lmsso-10">object </span>for both
+syntactic string and its meaning without confusion.
+<!--l. 7--><p class="noindent" >In lean, every object belongs to a <span 
+class="ec-lmsso-10">universe level</span>, below are some examples
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 10--><p class="noindent" >universe level -1: proofs
+     </li>
+     <li class="itemize">
+     <!--l. 11--><p class="noindent" >universe level 0: <span class="texthl"><span id="textcolor3">1</span></span>, <span class="texthl"><span id="textcolor4">-2</span></span>, <span class="texthl"><span id="textcolor5">1.5</span></span>, <span class="texthl"><span id="textcolor6">"hello world"</span></span>, <span class="texthl"><span id="textcolor7">true</span></span>, <span class="texthl"><span id="textcolor8"><span 
+class="lmmi-10">&#x03BB; </span>(x: Nat) =&#x003E; x + 4</span></span>
+     </li>
+     <li class="itemize">
+     <!--l. 12--><p class="noindent" >universe level 1: <span class="texthl"><span id="textcolor9">Nat</span></span>, <span class="texthl"><span id="textcolor10">Int</span></span>, <span class="texthl"><span id="textcolor11">Float</span></span>, <span class="texthl"><span id="textcolor12">String</span></span>, <span class="texthl"><span id="textcolor13">Bool</span></span>, <span class="texthl"><span id="textcolor14">Nat <span 
+class="lmsy-10">&#x2192; </span>Nat</span></span>
+     </li>
+     <li class="itemize">
+     <!--l. 13--><p class="noindent" >universe level 2: <span class="texthl"><span id="textcolor15">Type</span></span> (aka <span class="texthl"><span id="textcolor16">Type 0</span></span>)
+     </li>
+     <li class="itemize">
+     <!--l. 14--><p class="noindent" >universe level 3: <span class="texthl"><span id="textcolor17">Type 1</span></span>
+     </li>
+     <li class="itemize">
+     <!--l. 15--><p class="noindent" >universe level 4: ...</li></ul>
+<!--l. 18--><p class="noindent" >Moreover, every object has a type, that is a function <span class="texthl"><span id="textcolor18">t</span></span> that maps object from universe level <span 
+class="lmmi-10">n </span>to universe level <span 
+class="lmmi-10">n </span><span 
+class="rm-lmr-10">+ 1</span>. In
+programming, this is called getting type of (<span class="texthl"><span id="textcolor19">type</span></span> in Python, <span class="texthl"><span id="textcolor20">typeof</span></span> in Javascript). For example, <span class="texthl"><span id="textcolor21">t(1) = Nat</span></span>, <span class="texthl"><span id="textcolor22">t(true) = Bool</span></span>, <span class="texthl"><span id="textcolor23">t(<span 
+class="lmmi-10">&#x03BB;</span>
+(x: Nat) =&#x003E; x + 4) = Nat <span 
+class="lmsy-10">&#x2192; </span>Nat</span></span>. Given any object <span class="texthl"><span id="textcolor24"><span 
+class="lmmi-10">&#x03B1;</span></span></span> at level <span 
+class="lmmi-10">n</span>, the collection of all objects of type <span class="texthl"><span id="textcolor25"><span 
+class="lmmi-10">&#x03B1;</span></span></span> is called the
+universe <span class="texthl"><span id="textcolor26"><span 
+class="lmmi-10">&#x03B1;</span></span></span>. For example, universe <span class="texthl"><span id="textcolor27">Nat</span></span> consists of of all natural numbers. We write <span class="texthl"><span id="textcolor28">x: Nat</span></span> to denote <span class="texthl"><span id="textcolor29">x</span></span> is of type
+<span class="texthl"><span id="textcolor30">Nat</span></span>
+<!--l. 20--><p class="noindent" >In lean, <span 
+class="lmmi-10">t </span>is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using
+<span class="texthl"><span id="textcolor31">#eval</span></span> and <span class="texthl"><span id="textcolor32">#check</span></span>
+<!--l. 22--><p class="noindent" >On the side note, if <span class="texthl"><span id="textcolor33"><span 
+class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor34"><span 
+class="lmmi-10">&#x03B2;</span></span></span> are two objects at level <span 
+class="lmmi-10">n </span>and <span 
+class="lmmi-10">m</span>, then <span class="texthl"><span id="textcolor35"><span 
+class="lmmi-10">&#x03B1; </span><span 
+class="lmsy-10">&#x2192;</span><span 
+class="lmmi-10">&#x03B2;</span></span></span> is at level <span 
+class="rm-lmr-10">max</span><span 
+class="rm-lmr-10">(</span><span 
+class="lmmi-10">n,m</span><span 
+class="rm-lmr-10">)</span>. <span class="texthl"><span id="textcolor36"><span 
+class="lmmi-10">&#x03B1; </span><span 
+class="lmsy-10">&#x2192;</span><span 
+class="lmmi-10">&#x03B2;</span></span></span> is analogous to the
+hom-set <span 
+class="rm-lmr-10">Hom</span><span 
+class="rm-lmr-10">(</span><span 
+class="lmmi-10">&#x03B1;,&#x03B2;</span><span 
+class="rm-lmr-10">) </span>in mathematics, which is the collection of all morphisms from object <span 
+class="lmmi-10">&#x03B1; </span>into object <span 
+class="lmmi-10">&#x03B2; </span>in a certain
+category.
                                                                                                
                                                                                                
                                                                                                
@@ -129,7 +138,23 @@ class="ec-lmsso-10">Getting to Know Lean</span>
                                                                                                
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;3</span><br /><a 
- id="x1-40003"></a>REFERENCES</h2>
+ id="x1-40003"></a>PROPOSITIONAL LOGIC</h2>
+<!--l. 3--><p class="noindent" ><span class="texthl"><span id="textcolor37">Prop</span></span> is an object at level 1 which is the same level with <span class="texthl"><span id="textcolor38">Nat</span></span>. An element (level 0) of universe <span class="texthl"><span id="textcolor39">Prop</span></span> is called a
+proposition. For example, <span class="texthl"><span id="textcolor40">True</span></span>, <span class="texthl"><span id="textcolor41">1 + 1 = 3</span></span>, <span class="texthl"><span id="textcolor42">Fermat&#8217;s last theorem</span></span>. <a 
+href="https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence" >Curry&#8211;Howard correspondence</a> asserts that proving a
+proposition <span class="texthl"><span id="textcolor43">p: Prop</span></span> is equivalent to constructing an element <span class="texthl"><span id="textcolor44">x: p</span></span> at level -1. Hence, a proposition <span class="texthl"><span id="textcolor45">p: Prop</span></span> is said
+to be true if and only if there exists an element <span class="texthl"><span id="textcolor46">x: p</span></span> at level -1, we say the truth of <span class="texthl"><span id="textcolor47">p: Prop</span></span> is witnessed by <span class="texthl"><span id="textcolor48">x:
+p</span></span>
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;4</span><br /><a 
+ id="x1-50004"></a>REFERENCES</h2>
 <!--l. 3--><p class="noindent" >The sequence below is a list of references used in this note
      <dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
   1. </dt><dd 

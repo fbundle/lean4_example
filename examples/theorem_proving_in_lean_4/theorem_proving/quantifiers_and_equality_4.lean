@@ -22,3 +22,7 @@ section
 example: 1 = 1 := Eq.refl 1
 
 end
+
+
+
+#check Prop

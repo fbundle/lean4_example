@@ -5,11 +5,7 @@
 .ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-10{ font-family: sans-serif;}
-.ec-lmss-10{ font-family: sans-serif;}
-.ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-12{font-size:120%; font-family: sans-serif;}
-.ec-lmss-12{ font-family: sans-serif;}
-.ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
@@ -19,33 +15,11 @@
 .ec-lmss-17{ font-family: sans-serif;}
 .ec-lmss-17{ font-family: sans-serif;}
 .ec-lmss-17{ font-family: sans-serif;}
-.ec-lmss-17{ font-family: sans-serif;}
-.ec-lmss-17{ font-family: sans-serif;}
 .ec-lmsso-12{font-size:120%; font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
-.ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
-.ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
-.ec-lmtt-9{font-size:90%; font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtti-10x-x-90{font-size:90%; font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.rm-lmr-9{font-size:90%;}
-.lmsy9-{font-size:90%;}
-.ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
-.ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
@@ -220,11 +194,104 @@ span.dashuline, .dashuline-math {text-decoration:underline dashed;}
 span.dotuline, .dotuline-math {text-decoration:underline dotted;}
 dl.enumerate-enumitem{display:grid; grid-template-columns: 3ch 1fr; align-items: top; row-gap:1ch;}
 .mdframed{margin-top:1em;margin-bottom:1em;}
-code.lstinline{font-family:monospace,monospace;}
-pre.listings{font-family: monospace,monospace; white-space: pre-wrap; margin-top:0.5em; margin-bottom:0.5em; }
-.lstlisting .label{margin-right:0.5em; }
-pre.lstlisting{font-family: monospace,monospace; white-space: pre-wrap; margin-top:0.5em; margin-bottom:0.5em; }
-pre.lstinputlisting{ font-family: monospace,monospace; white-space: pre-wrap; }
-.lstinputlisting .label{margin-right:0.5em;}
+span.textso{letter-spacing: 0.3em; word-spacing: 0.3em}
+span.textul{text-decoration:underline}
+span.textst{text-decoration:line-through}
+span.textcaps{font-variant:small-caps}
+span#textcolor1{background-color:rgb(255,255,0)}
+span#textcolor2{background-color:}
+span#textcolor2{background-color:rgb(255,255,0)}
+span#textcolor3{background-color:}
+span#textcolor3{background-color:rgb(255,255,0)}
+span#textcolor4{background-color:}
+span#textcolor4{background-color:rgb(255,255,0)}
+span#textcolor5{background-color:}
+span#textcolor5{background-color:rgb(255,255,0)}
+span#textcolor6{background-color:}
+span#textcolor6{background-color:rgb(255,255,0)}
+span#textcolor7{background-color:}
+span#textcolor7{background-color:rgb(255,255,0)}
+span#textcolor8{background-color:}
+span#textcolor8{background-color:rgb(255,255,0)}
+span#textcolor9{background-color:}
+span#textcolor9{background-color:rgb(255,255,0)}
+span#textcolor10{background-color:}
+span#textcolor10{background-color:rgb(255,255,0)}
+span#textcolor11{background-color:}
+span#textcolor11{background-color:rgb(255,255,0)}
+span#textcolor12{background-color:}
+span#textcolor12{background-color:rgb(255,255,0)}
+span#textcolor13{background-color:}
+span#textcolor13{background-color:rgb(255,255,0)}
+span#textcolor14{background-color:}
+span#textcolor14{background-color:rgb(255,255,0)}
+span#textcolor15{background-color:}
+span#textcolor15{background-color:rgb(255,255,0)}
+span#textcolor16{background-color:}
+span#textcolor16{background-color:rgb(255,255,0)}
+span#textcolor17{background-color:}
+span#textcolor17{background-color:rgb(255,255,0)}
+span#textcolor18{background-color:}
+span#textcolor18{background-color:rgb(255,255,0)}
+span#textcolor19{background-color:}
+span#textcolor19{background-color:rgb(255,255,0)}
+span#textcolor20{background-color:}
+span#textcolor20{background-color:rgb(255,255,0)}
+span#textcolor21{background-color:}
+span#textcolor21{background-color:rgb(255,255,0)}
+span#textcolor22{background-color:}
+span#textcolor22{background-color:rgb(255,255,0)}
+span#textcolor23{background-color:}
+span#textcolor23{background-color:rgb(255,255,0)}
+span#textcolor24{background-color:}
+span#textcolor24{background-color:rgb(255,255,0)}
+span#textcolor25{background-color:}
+span#textcolor25{background-color:rgb(255,255,0)}
+span#textcolor26{background-color:}
+span#textcolor26{background-color:rgb(255,255,0)}
+span#textcolor27{background-color:}
+span#textcolor27{background-color:rgb(255,255,0)}
+span#textcolor28{background-color:}
+span#textcolor28{background-color:rgb(255,255,0)}
+span#textcolor29{background-color:}
+span#textcolor29{background-color:rgb(255,255,0)}
+span#textcolor30{background-color:}
+span#textcolor30{background-color:rgb(255,255,0)}
+span#textcolor31{background-color:}
+span#textcolor31{background-color:rgb(255,255,0)}
+span#textcolor32{background-color:}
+span#textcolor32{background-color:rgb(255,255,0)}
+span#textcolor33{background-color:}
+span#textcolor33{background-color:rgb(255,255,0)}
+span#textcolor34{background-color:}
+span#textcolor34{background-color:rgb(255,255,0)}
+span#textcolor35{background-color:}
+span#textcolor35{background-color:rgb(255,255,0)}
+span#textcolor36{background-color:}
+span#textcolor36{background-color:rgb(255,255,0)}
+span#textcolor37{background-color:}
+span#textcolor37{background-color:rgb(255,255,0)}
+span#textcolor38{background-color:}
+span#textcolor38{background-color:rgb(255,255,0)}
+span#textcolor39{background-color:}
+span#textcolor39{background-color:rgb(255,255,0)}
+span#textcolor40{background-color:}
+span#textcolor40{background-color:rgb(255,255,0)}
+span#textcolor41{background-color:}
+span#textcolor41{background-color:rgb(255,255,0)}
+span#textcolor42{background-color:}
+span#textcolor42{background-color:rgb(255,255,0)}
+span#textcolor43{background-color:}
+span#textcolor43{background-color:rgb(255,255,0)}
+span#textcolor44{background-color:}
+span#textcolor44{background-color:rgb(255,255,0)}
+span#textcolor45{background-color:}
+span#textcolor45{background-color:rgb(255,255,0)}
+span#textcolor46{background-color:}
+span#textcolor46{background-color:rgb(255,255,0)}
+span#textcolor47{background-color:}
+span#textcolor47{background-color:rgb(255,255,0)}
+span#textcolor48{background-color:}
+span#textcolor48{background-color:rgb(255,255,0)}
 /* end css.sty */
 
