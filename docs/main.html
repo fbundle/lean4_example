@@ -424,7 +424,162 @@ logic.
 <h3 class="sectionHead"><span class="titlemark">2.11   </span> <a 
  id="x1-160002.11"></a>AUXILIARY SUBGOALS</h3>
 <!--l. 139--><p class="noindent" >when writing lean proof, one can use <span class="texthl"><span id="textcolor177">have &#x003C;object&#x003E;: &#x003C;type&#x003E; := &#x003C;value&#x003E;</span></span> (same semantic ot <span class="texthl"><span id="textcolor178">let</span></span>) and <span class="texthl"><span id="textcolor179">show &#x003C;proposition&#x003E; from
-&#x003C;proof&#x003E;</span></span> so that the proof is easier to read for human.
+&#x003C;proof&#x003E;</span></span>, so that the proof is easier to read for human.
+<!--l. 141-->
+<pre class="lstlisting" id="listing-1"><span class="label"><a 
+ id="x1-16001r1"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">section</span></span> 
+<span class="label"><a 
+ id="x1-16002r2"></a></span><span style="color:#000000">   </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">subgoal</span></span> 
+<span class="label"><a 
+ id="x1-16003r3"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">example</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">{</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#1A801A"><span 
+class="ec-lmtt-9">Prop</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">}</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">(</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">)</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span> 
+<span class="label"><a 
+ id="x1-16004r4"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">have</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hp</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">left</span></span><span style="color:#000000"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">same</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">as</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">let</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">hp</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">:=</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">And</span></span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">.</span></span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">left</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">h</span></span> 
+<span class="label"><a 
+ id="x1-16005r5"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">have</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">right</span></span> 
+<span class="label"><a 
+ id="x1-16006r6"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">show</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">from</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#001A99"><span 
+class="ec-lmtt-9">intro</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hp</span></span> 
+<span class="label"><a 
+ id="x1-16007r7"></a></span><span style="color:#000000">   </span> 
+<span class="label"><a 
+ id="x1-16008r8"></a></span><span style="color:#000000">   </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">subgoal</span></span> 
+<span class="label"><a 
+ id="x1-16009r9"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">example</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">{</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#1A801A"><span 
+class="ec-lmtt-9">Prop</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">}</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">(</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">)</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span> 
+<span class="label"><a 
+ id="x1-16010r10"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">have</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hp</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">p</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:=</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">left</span></span> 
+<span class="label"><a 
+ id="x1-16011r11"></a></span><span style="color:#000000">   </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">--</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">it</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">suffices</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">to</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">show</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">hq</span></span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">:</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">q</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">because</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">we</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">can</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">show</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">q</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="lmsy9-">&#x2227;</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">p</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">from</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">two</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">certificates</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">hq</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">and</span></span><span style="color:#666666"> </span><span style="color:#666666"><span 
+class="ec-lmtti-10x-x-90">hp</span></span> 
+<span class="label"><a 
+ id="x1-16012r12"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">suffices</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">:</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">from</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#001A99"><span 
+class="ec-lmtt-9">intro</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hq</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">hp</span></span> 
+<span class="label"><a 
+ id="x1-16013r13"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">show</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">q</span></span><span style="color:#000000"> </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">from</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">And</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">.</span></span><span style="color:#000000"><span 
+class="ec-lmtt-9">right</span></span><span style="color:#000000"> </span><span style="color:#000000"><span 
+class="ec-lmtt-9">h</span></span> 
+<span class="label"><a 
+ id="x1-16014r14"></a></span><span style="color:#000000">   </span><span style="color:#B21A1A"><span 
+class="ec-lmtt-9">end</span></span></pre>
                                                                                                
                                                                                                
                                                                                                
