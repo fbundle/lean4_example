@@ -53,9 +53,9 @@ Let \hl{p: Prop} and \hl{q: Prop} be propositions, then \hl{p $\land$ q: Prop} i
 
 \begin{center}
 	\begin{tikzcd}
-		&  &                                                                              &  & p \\
-		p \times q \arrow[rr, "\mathrm{And.intro}"] &  & p \land q \arrow[rru, "\mathrm{And.left}"] \arrow[rrd, "\mathrm{And.right}"] &  &   \\
-		&  &                                                                              &  & q
+		&  &                                                                               &  & p \\
+		p \times q \arrow[rr, "\mathrm{And.intro}"] &  & p \land q \arrow[rru, "\mathrm{And.left}"] \arrow[rrd, "\mathrm{And.right}"'] &  &   \\
+		&  &                                                                               &  & q
 	\end{tikzcd}
 \end{center}
 
@@ -77,7 +77,11 @@ Let \hl{p: Prop} and \hl{q: Prop} be propositions, then \hl{p $\lor$ q: Prop} is
 \end{itemize}
 
 \begin{center}
-	
+	\begin{tikzcd}
+		\mathrm{Prop} \times p \arrow[rrd, "\mathrm{Or.intro\_left}"]   &  &          &                                                                             &  &   \\
+		&  & p \lor q & (p \lor q) \times (p \to r) \times (q \to r) \arrow[rr, "\mathrm{Or.elim}"] &  & r \\
+		\mathrm{Prop} \times q \arrow[rru, "\mathrm{Or.intro\_right}"'] &  &          &                                                                             &  &  
+	\end{tikzcd}
 \end{center}
 
 \section{NEGATION $\lnot$}
@@ -98,6 +102,14 @@ Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{p $\leftrightarrow$ q:
 	
 	Let \hl{h: p $\leftrightarrow$ q} be a proof, then \hl{Iff.mp h: p $\to$ q} and \hl{Iff.mpr h: q $\to$ p} are also proofs
 \end{itemize}
+
+\begin{center}
+	\begin{tikzcd}
+		&  &                                                                                     &  & p \to q \\
+		(p \to q) \times (q \to p) \arrow[rr, "\mathrm{Iff.intro}"] &  & p \leftrightarrow q \arrow[rru, "\mathrm{Iff.mp}"] \arrow[rrd, "\mathrm{Iff.mpr}"'] &  &         \\
+		&  &                                                                                     &  & q \to p
+	\end{tikzcd}
+\end{center}
 
 \section{UNIVERSAL QUANTIFIER $\forall$}
 
