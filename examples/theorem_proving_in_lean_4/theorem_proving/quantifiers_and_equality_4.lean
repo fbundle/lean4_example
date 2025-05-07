@@ -1,26 +1,14 @@
-
 section
+-- subgoal
+example {p q: Prop} (h : p ∧ q) : q ∧ p :=
+  have hp : p := h.left -- same as `let hp := And.left h`
+  have hq : q := h.right
+  show q ∧ p from And.intro hq hp
 
-  -- always true
-  def p : Nat → Prop := λ _ ↦ true
-
-  -- proof for p x for every x
-  def hpx {x: Nat} : Nat → p x :=
-    λ x ↦ (show p x from rfl)
-
-  -- for every x in Nat, p x
-  def q : Prop := ∀ x : Nat, p x
-
-  -- proof for ∀ x : Nat, p x is a function from x to proof of p x
-  theorem hq : q :=
-    λ x ↦ hpx x
+-- subgoal
+example {p q: Prop} (h : p ∧ q) : q ∧ p :=
+  have hp : p := h.left
+  -- it suffices to show hq: q because we can show q ∧ p from two certificates hq and hp
+  suffices hq : q from And.intro hq hp
+  show q from And.right h
 end
-
-section
-
--- proof for 1 = 1
-example: 1 = 1 := Eq.refl 1
-
-end
-
-#check Exists.elim

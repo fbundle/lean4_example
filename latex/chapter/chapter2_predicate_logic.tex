@@ -33,8 +33,6 @@ The type system in lean is powerful enough to model predicate logic, we will des
 	that is, one can prove everything from \hl{False}. Let \hl{q: Prop} be a proposition, then \hl{False.elim q: q} is a proof
 \end{itemize}
 
-
-
 \section{IMPLICATION $\to$}
 
 Let \hl{p: Prop} and \hl{q: Prop} be propositions and \hl{f: p $\to$ q} be a map. If \hl{hp: p} is a proof, then \hl{f hp: q} is also a proof. This is known as \textit{modus ponens} or implication elimination rule. In lean, \hl{p $\to$ q: Prop} is a proposition. The introduction rules and elimination rules are then obvious from the context.
@@ -51,9 +49,15 @@ Let \hl{p: Prop} and \hl{q: Prop} be propositions, then \hl{p $\land$ q: Prop} i
 	\item \hl{And} admits two and-elimination rules: \hl{And.left} and \hl{And.right}
 	
 	Let \hl{h: p $\land$ q} be a proof, then \hl{And.left h: p} and \hl{And.right h: q} are also proofs (also written as \hl{h.left} and \hl{h.right})
-	
-	
 \end{itemize}
+
+\begin{center}
+	\begin{tikzcd}
+		&  &                                                                              &  & p \\
+		p \times q \arrow[rr, "\mathrm{And.intro}"] &  & p \land q \arrow[rru, "\mathrm{And.left}"] \arrow[rrd, "\mathrm{And.right}"] &  &   \\
+		&  &                                                                              &  & q
+	\end{tikzcd}
+\end{center}
 
 
 \section{DISJUNCTION $\lor$}
@@ -72,6 +76,13 @@ Let \hl{p: Prop} and \hl{q: Prop} be propositions, then \hl{p $\lor$ q: Prop} is
 	Let \hl{hpq: p $\lor$ q}, \hl{hpr: p $\to$ r}, and \hl{hqr: q $\to$ r} be proofs, then \hl{Or.elim hpq hpr hqr: r} is also a proof
 \end{itemize}
 
+\begin{center}
+	\begin{tikzcd}
+		\mathrm{Prop} \times p \arrow[rrd, "\mathrm{Or.intro\_left}"]   &  &          \\
+		&  & p \lor q \\
+		\mathrm{Prop} \times q \arrow[rru, "\mathrm{Or.intro\_right}"'] &  &         
+	\end{tikzcd}
+\end{center}
 
 \section{NEGATION $\lnot$}
 
@@ -118,19 +129,3 @@ So far, we introduced constructive logic, that is, if a proposition is true, the
 
 
 when writing lean proof, one can use \hl{have <object>: <type> := <value>} (same semantic ot \hl{let}) and \hl{show <proposition> from <proof>} so that the proof is easier to read for human.
-
-\begin{lstlisting}
-	-- subgoal
-	example (h : p ∧ q) : q ∧ p :=
-	have hp : p := h.left -- same as `let hp := And.left h`
-	have hq : q := h.right
-	show q ∧ p from And.intro hq hp
-	
-	-- subgoal
-	example (h : p ∧ q) : q ∧ p :=
-	have hp : p := h.left
-	-- it suffices to show hq: q because we can show q ∧ p from two certificates hq and hp
-	suffices hq : q from And.intro hq hp
-	show q from And.right h
-\end{lstlisting}
-
