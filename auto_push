@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-# compile docs
-bash build_docs
+set -xe
+
+# compile latex
+bash build_latex
 
 # make chat
 bash export_to_chat > chat.txt
