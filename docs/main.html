@@ -23,7 +23,7 @@ href="#XJeremy">3</a>]  </h2>
  <div class="author" ><span 
 class="ec-lmss-12">Nguyen Ngoc Khanh</span></div><br />
 <div class="date" ><span 
-class="ec-lmss-12">May 7, 2025</span></div>
+class="ec-lmss-12">May 8, 2025</span></div>
                                                                                                
                                                                                                
 </div>
@@ -36,37 +36,39 @@ class="ec-lmss-12">May 7, 2025</span></div>
 href="#x1-20000" id="QQ2-1-2">PREREQUISITES</a></span>
 <br /><span class="chapterToc" >1 <a 
 href="#x1-30001" id="QQ2-1-3">DEPENDENT TYPE THEORY</a></span>
+<br /><span class="sectionToc" >1.1 <a 
+href="#x1-40001.1" id="QQ2-1-4">SUM, PRODUCT, AND HOM</a></span>
 <br /><span class="chapterToc" >2 <a 
-href="#x1-40002" id="QQ2-1-4">PREDICATE LOGIC</a></span>
+href="#x1-50002" id="QQ2-1-5">PREDICATE LOGIC</a></span>
 <br /><span class="sectionToc" >2.1 <a 
-href="#x1-50002.1" id="QQ2-1-5">TRUE</a></span>
+href="#x1-60002.1" id="QQ2-1-6">TRUE</a></span>
 <br /><span class="sectionToc" >2.2 <a 
-href="#x1-60002.2" id="QQ2-1-6">FALSE</a></span>
+href="#x1-70002.2" id="QQ2-1-7">FALSE</a></span>
 <br /><span class="sectionToc" >2.3 <a 
-href="#x1-70002.3" id="QQ2-1-7">IMPLICATION <span 
+href="#x1-80002.3" id="QQ2-1-8">IMPLICATION <span 
 class="lmsy-10">&#x2192;</span></a></span>
 <br /><span class="sectionToc" >2.4 <a 
-href="#x1-80002.4" id="QQ2-1-8">CONJUNCTION <span 
+href="#x1-90002.4" id="QQ2-1-9">CONJUNCTION <span 
 class="lmsy-10">&#x2227;</span></a></span>
 <br /><span class="sectionToc" >2.5 <a 
-href="#x1-90002.5" id="QQ2-1-9">DISJUNCTION <span 
+href="#x1-100002.5" id="QQ2-1-10">DISJUNCTION <span 
 class="lmsy-10">&#x2228;</span></a></span>
 <br /><span class="sectionToc" >2.6 <a 
-href="#x1-100002.6" id="QQ2-1-10">NEGATION <span 
+href="#x1-110002.6" id="QQ2-1-11">NEGATION <span 
 class="lmsy-10">¬</span></a></span>
 <br /><span class="sectionToc" >2.7 <a 
-href="#x1-110002.7" id="QQ2-1-11">LOGICAL EQUIVALENCE <span 
+href="#x1-120002.7" id="QQ2-1-12">LOGICAL EQUIVALENCE <span 
 class="lmsy-10">&#x2194;</span></a></span>
 <br /><span class="sectionToc" >2.8 <a 
-href="#x1-120002.8" id="QQ2-1-12">UNIVERSAL QUANTIFIER <span 
+href="#x1-130002.8" id="QQ2-1-13">UNIVERSAL QUANTIFIER <span 
 class="lmsy-10">&#x2200;</span></a></span>
 <br /><span class="sectionToc" >2.9 <a 
-href="#x1-130002.9" id="QQ2-1-13">EXISTENTIAL QUANTIFIER <span 
+href="#x1-140002.9" id="QQ2-1-14">EXISTENTIAL QUANTIFIER <span 
 class="lmsy-10">&#x2203;</span></a></span>
 <br /><span class="chapterToc" >3 <a 
-href="#x1-140003" id="QQ2-1-14">PROOF BY INDUCTION THE NATURAL NUMBERS</a></span>
+href="#x1-150003" id="QQ2-1-15">PROOF BY INDUCTION THE NATURAL NUMBERS</a></span>
 <br /><span class="chapterToc" >4 <a 
-href="#x1-150004" id="QQ2-1-15">TACTIC LEAN AS A THEOREM PROVER</a></span>
+href="#x1-160004" id="QQ2-1-16">TACTIC LEAN AS A THEOREM PROVER</a></span>
 </div>
                                                                                                
                                                                                                
@@ -130,8 +132,8 @@ class="rm-lmr-10">+ 1</span>. In
 programming, this is called getting type of (<span class="texthl"><span id="textcolor19">type</span></span> in Python, <span class="texthl"><span id="textcolor20">typeof</span></span> in Javascript). For example, <span class="texthl"><span id="textcolor21">t(1) = Nat</span></span>, <span class="texthl"><span id="textcolor22">t(true) = Bool</span></span>, <span class="texthl"><span id="textcolor23">t(<span 
 class="lmmi-10">&#x03BB;</span>
 (x: Nat) =&#x003E; x + 4) = Nat <span 
-class="lmsy-10">&#x2192; </span>Nat</span></span>. Given any object <span class="texthl"><span id="textcolor24"><span 
-class="lmmi-10">&#x03B1;</span></span></span> at level <span 
+class="lmsy-10">&#x2192; </span>Nat</span></span>. Let <span class="texthl"><span id="textcolor24"><span 
+class="lmmi-10">&#x03B1;</span></span></span> be any object at level <span 
 class="lmmi-10">n</span>, the collection of all objects of type <span class="texthl"><span id="textcolor25"><span 
 class="lmmi-10">&#x03B1;</span></span></span> is called the <span 
 class="ec-lmsso-10">universe </span><span class="texthl"><span id="textcolor26"><span 
@@ -143,42 +145,49 @@ class="ec-lmsso-10">element</span>) of <span class="texthl"><span id="textcolor3
 <!--l. 20--><p class="noindent" >In lean, <span 
 class="lmmi-10">t </span>is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using
 <span class="texthl"><span id="textcolor33">#eval</span></span> and <span class="texthl"><span id="textcolor34">#check</span></span>
-<!--l. 22--><p class="noindent" ><span id="textcolor35"><span 
-class="ec-lmsso-10">On the side note, if </span><span class="texthl"><span id="textcolor36"><span 
-class="lmmi-10">&#x03B1;</span></span></span> <span 
-class="ec-lmsso-10">and </span><span class="texthl"><span id="textcolor37"><span 
-class="lmmi-10">&#x03B2;</span></span></span> <span 
-class="ec-lmsso-10">are two objects at level </span><span 
-class="lmmi-10">n </span><span 
-class="ec-lmsso-10">and </span><span 
-class="lmmi-10">m</span><span 
-class="ec-lmsso-10">, then </span><span class="texthl"><span id="textcolor38"><span 
+<h3 class="sectionHead"><span class="titlemark">1.1   </span> <a 
+ id="x1-40001.1"></a>SUM, PRODUCT, AND HOM</h3>
+<!--l. 24--><p class="noindent" >Let <span class="texthl"><span id="textcolor35"><span 
+class="lmmi-10">&#x03B1;</span></span></span> <span class="texthl"><span id="textcolor36"><span 
+class="lmmi-10">&#x03B2;</span></span></span> be objects at level <span 
+class="lmmi-10">n,m </span>respectively. Then <span class="texthl"><span id="textcolor37"><span 
+class="lmmi-10">&#x03B1;</span><span 
+class="lmsy-10">&#x2295;</span><span 
+class="lmmi-10">&#x03B2;</span></span></span>, <span class="texthl"><span id="textcolor38"><span 
+class="lmmi-10">&#x03B1;</span><span 
+class="lmsy-10">&#x00D7;</span><span 
+class="lmmi-10">&#x03B2;</span></span></span>, and <span class="texthl"><span id="textcolor39"><span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span> <span 
-class="ec-lmsso-10">is at level</span> <span 
+class="lmmi-10">&#x03B2;</span></span></span> are objects at level <span 
 class="rm-lmr-10">max</span><span 
 class="rm-lmr-10">(</span><span 
 class="lmmi-10">n,m</span><span 
-class="rm-lmr-10">)</span><span 
-class="ec-lmsso-10">. </span><span class="texthl"><span id="textcolor39"><span 
+class="rm-lmr-10">) </span>which are called sum
+(coproduct, union), product (Cartesian product), and hom.
+<!--l. 26--><p class="noindent" >The universe <span class="texthl"><span id="textcolor40"><span 
+class="lmmi-10">&#x03B1; </span><span 
+class="lmsy-10">&#x2295;</span><span 
+class="lmmi-10">&#x03B2;</span></span></span> consists of all elements from <span class="texthl"><span id="textcolor41"><span 
+class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor42"><span 
+class="lmmi-10">&#x03B2;</span></span></span>
+<!--l. 28--><p class="noindent" >The universe <span class="texthl"><span id="textcolor43"><span 
+class="lmmi-10">&#x03B1; </span><span 
+class="lmsy-10">&#x00D7;</span><span 
+class="lmmi-10">&#x03B2;</span></span></span> consists of all pair <span class="texthl"><span id="textcolor44"><span 
+class="rm-lmr-10">(</span><span 
+class="lmmi-10">a,b</span><span 
+class="rm-lmr-10">)</span></span></span> where <span class="texthl"><span id="textcolor45"><span 
+class="lmmi-10">a</span></span></span> is an element of <span class="texthl"><span id="textcolor46"><span 
+class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor47"><span 
+class="lmmi-10">b</span></span></span> is an element of <span class="texthl"><span id="textcolor48"><span 
+class="lmmi-10">&#x03B2;</span></span></span>
+<!--l. 30--><p class="noindent" >The universe <span class="texthl"><span id="textcolor49"><span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span> <span 
-class="ec-lmsso-10">is analogous to the</span>
-<span 
-class="ec-lmsso-10">hom-set</span> <span 
-class="rm-lmr-10">Hom</span><span 
-class="rm-lmr-10">(</span><span 
-class="lmmi-10">&#x03B1;,&#x03B2;</span><span 
-class="rm-lmr-10">) </span><span 
-class="ec-lmsso-10">in mathematics, which is the collection of all morphisms from object </span><span 
-class="lmmi-10">&#x03B1; </span><span 
-class="ec-lmsso-10">into object </span><span 
-class="lmmi-10">&#x03B2; </span><span 
-class="ec-lmsso-10">in a certain</span>
-<span 
-class="ec-lmsso-10">category.</span></span>
+class="lmmi-10">&#x03B2;</span></span></span> consists of all functions mapping elements of <span class="texthl"><span id="textcolor50"><span 
+class="lmmi-10">&#x03B1;</span></span></span> to elements of <span class="texthl"><span id="textcolor51"><span 
+class="lmmi-10">&#x03B2;</span></span></span>
                                                                                                
                                                                                                
                                                                                                
@@ -188,126 +197,144 @@ class="ec-lmsso-10">category.</span></span>
                                                                                                
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;2</span><br /><a 
- id="x1-40002"></a>PREDICATE LOGIC</h2>
-<!--l. 3--><p class="noindent" >Keywords: <span class="texthl"><span id="textcolor40">Prop</span></span>, CH, <span 
+ id="x1-50002"></a>PREDICATE LOGIC</h2>
+<!--l. 3--><p class="noindent" >Keywords: <span class="texthl"><span id="textcolor52">Prop</span></span>, CH, <span 
 class="ec-lmsso-10">witnessed</span>, <span 
 class="ec-lmsso-10">proof</span>, <span 
 class="ec-lmsso-10">inhabited</span>, <span 
 class="ec-lmsso-10">uninhabited</span>, <span 
 class="ec-lmsso-10">introduction rule</span>, <span 
 class="ec-lmsso-10">elimination rule</span>
-<!--l. 5--><p class="noindent" ><span class="texthl"><span id="textcolor41">Prop</span></span> is an object at level 1 which is the same level with <span class="texthl"><span id="textcolor42">Nat</span></span>. An element (level 0) of universe <span class="texthl"><span id="textcolor43">Prop</span></span> is called a proposition. For
-example, <span class="texthl"><span id="textcolor44">True</span></span>, <span class="texthl"><span id="textcolor45">1 + 1 = 3</span></span>, <span class="texthl"><span id="textcolor46">Fermat&#8217;s last theorem</span></span>.
+<!--l. 5--><p class="noindent" ><span class="texthl"><span id="textcolor53">Prop</span></span> is an object at level 1 which is the same level with <span class="texthl"><span id="textcolor54">Nat</span></span>. An element (level 0) of universe <span class="texthl"><span id="textcolor55">Prop</span></span> is called a proposition. For
+example, <span class="texthl"><span id="textcolor56">True</span></span>, <span class="texthl"><span id="textcolor57">1 + 1 = 3</span></span>, <span class="texthl"><span id="textcolor58">Fermat&#8217;s last theorem</span></span>.
 <!--l. 7--><p class="noindent" >Curry&#8211;Howard (CH) [<a 
-href="#XCH">2</a>] asserts that proving a proposition <span class="texthl"><span id="textcolor47">p: Prop</span></span> is equivalent to constructing an element <span class="texthl"><span id="textcolor48">x: p</span></span> at level -1. Hence,
-a proposition <span class="texthl"><span id="textcolor49">p: Prop</span></span> is said to be true if and only if there exists an element <span class="texthl"><span id="textcolor50">x: p</span></span> at level -1, we say that the truth of <span class="texthl"><span id="textcolor51">p: Prop</span></span> is
+href="#XCH">2</a>] asserts that proving a proposition <span class="texthl"><span id="textcolor59">p: Prop</span></span> is equivalent to constructing an element <span class="texthl"><span id="textcolor60">x: p</span></span> at level -1. Hence,
+a proposition <span class="texthl"><span id="textcolor61">p: Prop</span></span> is said to be true if and only if there exists an element <span class="texthl"><span id="textcolor62">x: p</span></span> at level -1, we say that the truth of <span class="texthl"><span id="textcolor63">p: Prop</span></span> is
 <span 
 class="ec-lmsso-10">witnessed </span>by <span 
-class="ec-lmsso-10">proof  </span><span class="texthl"><span id="textcolor52">x: p</span></span>. We say <span class="texthl"><span id="textcolor53">p: Prop</span></span> is <span 
-class="ec-lmsso-10">inhabited </span>if there is a proof for <span class="texthl"><span id="textcolor54">p: Prop</span></span>, <span class="texthl"><span id="textcolor55">p: Prop</span></span> is <span 
+class="ec-lmsso-10">proof  </span><span class="texthl"><span id="textcolor64">x: p</span></span>. We say <span class="texthl"><span id="textcolor65">p: Prop</span></span> is <span 
+class="ec-lmsso-10">inhabited </span>if there is a proof for <span class="texthl"><span id="textcolor66">p: Prop</span></span>, <span class="texthl"><span id="textcolor67">p: Prop</span></span> is <span 
 class="ec-lmsso-10">uninhabited </span>if there is no proof for
-<span class="texthl"><span id="textcolor56">p: Prop</span></span>
+<span class="texthl"><span id="textcolor68">p: Prop</span></span>
 <!--l. 9--><p class="noindent" >The type system in lean is powerful enough to model predicate logic, we will describe below the builtin logical connectives and
 related <span 
 class="ec-lmsso-10">introduction rules </span>and <span 
-class="ec-lmsso-10">elimination rules</span>. Given a proposition <span class="texthl"><span id="textcolor57">p: Prop</span></span>, an introduction rule is a way to prove <span class="texthl"><span id="textcolor58">p: Prop</span></span> from
-something else, an elimination rule is a way deduce from <span class="texthl"><span id="textcolor59">p: Prop</span></span>
+class="ec-lmsso-10">elimination rules</span>. An introduction rule is a way to prove <span class="texthl"><span id="textcolor69">p: Prop</span></span> from something else, an
+elimination rule is a way deduce something else from <span class="texthl"><span id="textcolor70">p: Prop</span></span>
 <h3 class="sectionHead"><span class="titlemark">2.1   </span> <a 
- id="x1-50002.1"></a>TRUE</h3>
-<!--l. 13--><p class="noindent" ><span class="texthl"><span id="textcolor60">True: Prop</span></span> is a proposition in lean.
-<!--l. 15--><p class="noindent" ><span class="texthl"><span id="textcolor61">True</span></span> admits an introduction rule <span class="texthl"><span id="textcolor62">True.intro: True</span></span> (also written as <span class="texthl"><span id="textcolor63">trivial: True</span></span>)
-<!--l. 17--><p class="noindent" ><span class="texthl"><span id="textcolor64">True</span></span> admits no elimination rule, that is, one cannot use <span class="texthl"><span id="textcolor65">True</span></span> to prove anything
-<!--l. 19--><p class="noindent" >
+ id="x1-60002.1"></a>TRUE</h3>
+<!--l. 13--><p class="noindent" ><span class="texthl"><span id="textcolor71">True: Prop</span></span> is a proposition.
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 16--><p class="noindent" ><span class="texthl"><span id="textcolor72">True</span></span> admits one introduction rule: <span class="texthl"><span id="textcolor73">True.intro: True</span></span> (also written as <span class="texthl"><span id="textcolor74">trivial: True</span></span>)
+     </li>
+     <li class="itemize">
+     <!--l. 18--><p class="noindent" ><span class="texthl"><span id="textcolor75">True</span></span> admits no elimination rule, that is, one cannot use <span class="texthl"><span id="textcolor76">True</span></span> to prove anything</li></ul>
+<!--l. 22--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">2.2   </span> <a 
- id="x1-60002.2"></a>FALSE</h3>
-<!--l. 21--><p class="noindent" ><span class="texthl"><span id="textcolor66">False: Prop</span></span> is a proposition in lean.
-<!--l. 23--><p class="noindent" ><span class="texthl"><span id="textcolor67">False</span></span> admits no introduction rule, that is one cannot prove <span class="texthl"><span id="textcolor68">False</span></span>
-<!--l. 25--><p class="noindent" ><span class="texthl"><span id="textcolor69">False</span></span> admits an elimination rule <span class="texthl"><span id="textcolor70">False.elim: <span 
-class="lmsy-10">&#x2200; </span>(q : Prop), False <span 
-class="lmsy-10">&#x2192; </span>q</span></span>, that is, one can prove everything from <span class="texthl"><span id="textcolor71">False</span></span>, given any
-proposition <span class="texthl"><span id="textcolor72">q: Prop</span></span>, <span class="texthl"><span id="textcolor73">False.elim q</span></span> is a proof for <span class="texthl"><span id="textcolor74">q: Prop</span></span>
-<!--l. 27--><p class="noindent" >
+ id="x1-70002.2"></a>FALSE</h3>
+<!--l. 24--><p class="noindent" ><span class="texthl"><span id="textcolor77">False: Prop</span></span> is a proposition in lean.
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 27--><p class="noindent" ><span class="texthl"><span id="textcolor78">False</span></span> admits no introduction rule, that is one cannot prove <span class="texthl"><span id="textcolor79">False</span></span>
+     </li>
+     <li class="itemize">
+     <!--l. 29--><p class="noindent" ><span class="texthl"><span id="textcolor80">False</span></span> admits one elimination rule: <span class="texthl"><span id="textcolor81">False.elim</span></span>
+     <!--l. 31--><p class="noindent" >that is, one can prove everything from <span class="texthl"><span id="textcolor82">False</span></span>. Let <span class="texthl"><span id="textcolor83">q: Prop</span></span> be a proposition, then <span class="texthl"><span id="textcolor84">False.elim q: q</span></span> is a proof</li></ul>
+<!--l. 36--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">2.3   </span> <a 
- id="x1-70002.3"></a>IMPLICATION <span 
+ id="x1-80002.3"></a>IMPLICATION <span 
 class="lmsy-10">&#x2192;</span></h3>
-<!--l. 29--><p class="noindent" >Given two propositions <span class="texthl"><span id="textcolor75">p: Prop</span></span> and <span class="texthl"><span id="textcolor76">q: Prop</span></span>, <span class="texthl"><span id="textcolor77">f: p <span 
-class="lmsy-10">&#x2192; </span>q</span></span> is a map from type <span class="texthl"><span id="textcolor78">p</span></span> into type <span class="texthl"><span id="textcolor79">q</span></span>. If <span class="texthl"><span id="textcolor80">hp: p</span></span> is a proof for <span class="texthl"><span id="textcolor81">p</span></span>, then one obtain
-a proof for <span class="texthl"><span id="textcolor82">q</span></span> by <span class="texthl"><span id="textcolor83">f hp: q</span></span>. This is known as <span 
-class="ec-lmsso-10">modus ponens </span>or implication elimination rule
-<!--l. 31--><p class="noindent" ><span class="texthl"><span id="textcolor84">p <span 
-class="lmsy-10">&#x2192; </span>q: Prop</span></span> is a proposition in lean.
-<!--l. 33--><p class="noindent" ><span class="texthl"><span id="textcolor85">p <span 
-class="lmsy-10">&#x2192; </span>q</span></span> admits implication elimination rule as described above and it admits introduction rule by declaring function of type <span class="texthl"><span id="textcolor86">p <span 
-class="lmsy-10">&#x2192;</span>
-q</span></span>
-<!--l. 35--><p class="noindent" >
-<h3 class="sectionHead"><span class="titlemark">2.4   </span> <a 
- id="x1-80002.4"></a>CONJUNCTION <span 
-class="lmsy-10">&#x2227;</span></h3>
-<!--l. 37--><p class="noindent" >Given two propositions <span class="texthl"><span id="textcolor87">p: Prop</span></span> and <span class="texthl"><span id="textcolor88">q: Prop</span></span>, <span class="texthl"><span id="textcolor89">p <span 
-class="lmsy-10">&#x2227; </span>q</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor90">And p q</span></span> or <span class="texthl"><span id="textcolor91">p <span 
-class="lmsy-10">&#x00D7; </span>q</span></span>)
-<!--l. 39--><p class="noindent" ><span class="texthl"><span id="textcolor92">And</span></span> admits an and-introduction rule <span class="texthl"><span id="textcolor93">And.intro</span></span> as follows: given a proof <span class="texthl"><span id="textcolor94">hp: p</span></span> for <span class="texthl"><span id="textcolor95">p</span></span> and a proof <span class="texthl"><span id="textcolor96">hq: q</span></span> for <span class="texthl"><span id="textcolor97">q</span></span>, one can obtain a
-proof for <span class="texthl"><span id="textcolor98">p <span 
-class="lmsy-10">&#x2227; </span>q</span></span> by <span class="texthl"><span id="textcolor99">And.intro hp hq: p <span 
-class="lmsy-10">&#x2227; </span>q</span></span>
-<!--l. 41--><p class="noindent" ><span class="texthl"><span id="textcolor100">And</span></span> admits two and-elimination rules as follows: given a proof <span class="texthl"><span id="textcolor101">hpq: p <span 
-class="lmsy-10">&#x2227; </span>q</span></span> for <span class="texthl"><span id="textcolor102">p <span 
-class="lmsy-10">&#x2227; </span>q</span></span>, one can obtain a proof for <span class="texthl"><span id="textcolor103">p</span></span> by <span class="texthl"><span id="textcolor104">And.left hpq:
-p</span></span> and a proof for <span class="texthl"><span id="textcolor105">q</span></span> by <span class="texthl"><span id="textcolor106">And.right hpq: q</span></span> (also written as <span class="texthl"><span id="textcolor107">hpq.left</span></span> and <span class="texthl"><span id="textcolor108">hpq.right</span></span>)
                                                                                                
                                                                                                
-<!--l. 44--><p class="noindent" >
-<h3 class="sectionHead"><span class="titlemark">2.5   </span> <a 
- id="x1-90002.5"></a>DISJUNCTION <span 
-class="lmsy-10">&#x2228;</span></h3>
-<!--l. 46--><p class="noindent" >Given two propositions <span class="texthl"><span id="textcolor109">p: Prop</span></span> and <span class="texthl"><span id="textcolor110">q: Prop</span></span>, <span class="texthl"><span id="textcolor111">p <span 
-class="lmsy-10">&#x2228; </span>q</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor112">Or p q</span></span> or <span class="texthl"><span id="textcolor113">p <span 
-class="lmsy-10">&#x2295; </span>q</span></span>)
-<!--l. 48--><p class="noindent" ><span class="texthl"><span id="textcolor114">Or</span></span> admits two or-introduction rules as follows: given a proof <span class="texthl"><span id="textcolor115">hp: p</span></span> for <span class="texthl"><span id="textcolor116">p</span></span>, one can obtain a proof for <span class="texthl"><span id="textcolor117">p <span 
-class="lmsy-10">&#x2228; </span>q</span></span> by <span class="texthl"><span id="textcolor118">Or.intro_left q hp</span></span>,
-given a proof <span class="texthl"><span id="textcolor119">hq: q</span></span> for <span class="texthl"><span id="textcolor120">q</span></span>, one can obtain a proof for <span class="texthl"><span id="textcolor121">p <span 
-class="lmsy-10">&#x2228; </span>q</span></span> by <span class="texthl"><span id="textcolor122">Or.intro_right p hq</span></span> (also written as <span class="texthl"><span id="textcolor123">Or.inl hp</span></span> and <span class="texthl"><span id="textcolor124">Or.inr
-hq</span></span>)
-<!--l. 50--><p class="noindent" ><span class="texthl"><span id="textcolor125">Or</span></span> admits an or-elimination rule as follows: given a proof <span class="texthl"><span id="textcolor126">hpq: p <span 
-class="lmsy-10">&#x2228; </span>q</span></span> for <span class="texthl"><span id="textcolor127">p <span 
-class="lmsy-10">&#x2228; </span>q</span></span>, a proof <span class="texthl"><span id="textcolor128">hpr: p <span 
-class="lmsy-10">&#x2192; </span>r</span></span> for <span class="texthl"><span id="textcolor129">p <span 
-class="lmsy-10">&#x2192; </span>r</span></span>, and a proof <span class="texthl"><span id="textcolor130">hqr: q
+<!--l. 38--><p class="noindent" >Let <span class="texthl"><span id="textcolor85">p: Prop</span></span> and <span class="texthl"><span id="textcolor86">q: Prop</span></span> be propositions and <span class="texthl"><span id="textcolor87">f: p <span 
+class="lmsy-10">&#x2192; </span>q</span></span> be a map. If <span class="texthl"><span id="textcolor88">hp: p</span></span> is a proof, then <span class="texthl"><span id="textcolor89">f hp: q</span></span> is also a proof. This is known as
 <span 
-class="lmsy-10">&#x2192; </span>r</span></span> for <span class="texthl"><span id="textcolor131">q <span 
-class="lmsy-10">&#x2192; </span>r</span></span>, one can obtain a proof for <span class="texthl"><span id="textcolor132">r</span></span> by <span class="texthl"><span id="textcolor133">Or.elim hpq hpr hqr</span></span>
-<!--l. 52--><p class="noindent" >
+class="ec-lmsso-10">modus ponens </span>or implication elimination rule. In lean, <span class="texthl"><span id="textcolor90">p <span 
+class="lmsy-10">&#x2192; </span>q: Prop</span></span> is a proposition
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 41--><p class="noindent" ><span class="texthl"><span id="textcolor91">Implies</span></span> admits one introduction rule by declaring a function of type <span class="texthl"><span id="textcolor92">p <span 
+class="lmsy-10">&#x2192; </span>q</span></span>
+     </li>
+     <li class="itemize">
+     <!--l. 43--><p class="noindent" ><span class="texthl"><span id="textcolor93">Implies</span></span> admits one implication elimination rule by function application as described above</li></ul>
+<!--l. 46--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">2.4   </span> <a 
+ id="x1-90002.4"></a>CONJUNCTION <span 
+class="lmsy-10">&#x2227;</span></h3>
+<!--l. 48--><p class="noindent" >Let <span class="texthl"><span id="textcolor94">p: Prop</span></span> and <span class="texthl"><span id="textcolor95">q: Prop</span></span> be propositions, then <span class="texthl"><span id="textcolor96">p <span 
+class="lmsy-10">&#x2227; </span>q: Prop</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor97">And p q</span></span> or <span class="texthl"><span id="textcolor98">p <span 
+class="lmsy-10">&#x00D7; </span>q</span></span>)
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 51--><p class="noindent" ><span class="texthl"><span id="textcolor99">And</span></span> admits an and-introduction rule: <span class="texthl"><span id="textcolor100">And.intro</span></span>
+     <!--l. 53--><p class="noindent" >Let <span class="texthl"><span id="textcolor101">hp: p</span></span> and <span class="texthl"><span id="textcolor102">hq: q</span></span> be a proofs, then <span class="texthl"><span id="textcolor103">And.intro hp hq: p <span 
+class="lmsy-10">&#x2227; </span>q</span></span> is also a proof
+     </li>
+     <li class="itemize">
+     <!--l. 55--><p class="noindent" ><span class="texthl"><span id="textcolor104">And</span></span> admits two and-elimination rules: <span class="texthl"><span id="textcolor105">And.left</span></span> and <span class="texthl"><span id="textcolor106">And.right</span></span>
+     <!--l. 57--><p class="noindent" >Let <span class="texthl"><span id="textcolor107">h: p <span 
+class="lmsy-10">&#x2227; </span>q</span></span> be a proof, then <span class="texthl"><span id="textcolor108">And.left h: p</span></span> and <span class="texthl"><span id="textcolor109">And.right h: q</span></span> are also proofs (also written as <span class="texthl"><span id="textcolor110">h.left</span></span> and <span class="texthl"><span id="textcolor111">h.right</span></span>)
+     </li></ul>
+<!--l. 63--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">2.5   </span> <a 
+ id="x1-100002.5"></a>DISJUNCTION <span 
+class="lmsy-10">&#x2228;</span></h3>
+<!--l. 65--><p class="noindent" >Let <span class="texthl"><span id="textcolor112">p: Prop</span></span> and <span class="texthl"><span id="textcolor113">q: Prop</span></span> be propositions, then <span class="texthl"><span id="textcolor114">p <span 
+class="lmsy-10">&#x2228; </span>q: Prop</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor115">Or p q</span></span> or <span class="texthl"><span id="textcolor116">p <span 
+class="lmsy-10">&#x2295; </span>q</span></span>)
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 68--><p class="noindent" ><span class="texthl"><span id="textcolor117">Or</span></span> admits two or-introduction rules: <span class="texthl"><span id="textcolor118">Or.intro_left</span></span>, <span class="texthl"><span id="textcolor119">Or.intro_right</span></span>
+     <!--l. 70--><p class="noindent" >Let <span class="texthl"><span id="textcolor120">hp: p</span></span> be a proof, then <span class="texthl"><span id="textcolor121">Or.intro_left q hp: p <span 
+class="lmsy-10">&#x2228; </span>q</span></span> is also a proof (also written as <span class="texthl"><span id="textcolor122">Or.inl hp</span></span>)
+     <!--l. 72--><p class="noindent" >Let <span class="texthl"><span id="textcolor123">hq: q</span></span> be a proof, then <span class="texthl"><span id="textcolor124">Or.intro_right p hq: p <span 
+class="lmsy-10">&#x2228; </span>q</span></span> is also a proof (also written as <span class="texthl"><span id="textcolor125">Or.inr hq</span></span>)
+     </li>
+     <li class="itemize">
+     <!--l. 74--><p class="noindent" ><span class="texthl"><span id="textcolor126">Or</span></span> admits one or-elimination rule: <span class="texthl"><span id="textcolor127">Or.elim</span></span>
+                                                                                               
+                                                                                               
+     <!--l. 76--><p class="noindent" >Let <span class="texthl"><span id="textcolor128">hpq: p <span 
+class="lmsy-10">&#x2228; </span>q</span></span>, <span class="texthl"><span id="textcolor129">hpr: p <span 
+class="lmsy-10">&#x2192; </span>r</span></span>, and <span class="texthl"><span id="textcolor130">hqr: q <span 
+class="lmsy-10">&#x2192; </span>r</span></span> be proofs, then <span class="texthl"><span id="textcolor131">Or.elim hpq hpr hqr: r</span></span> is also a proof</li></ul>
+<!--l. 80--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">2.6   </span> <a 
- id="x1-100002.6"></a>NEGATION <span 
+ id="x1-110002.6"></a>NEGATION <span 
 class="lmsy-10">¬</span></h3>
-<!--l. 54--><p class="noindent" >Given a proposition <span class="texthl"><span id="textcolor134">p: Prop</span></span>, <span class="texthl"><span id="textcolor135"><span 
-class="lmsy-10">¬ </span>p</span></span> is a propositon (also written as <span class="texthl"><span id="textcolor136">Not p</span></span>). <span class="texthl"><span id="textcolor137"><span 
-class="lmsy-10">¬ </span>p</span></span> is precisely <span class="texthl"><span id="textcolor138">p <span 
+<!--l. 82--><p class="noindent" >Given a proposition <span class="texthl"><span id="textcolor132">p: Prop</span></span>, <span class="texthl"><span id="textcolor133"><span 
+class="lmsy-10">¬ </span>p</span></span> is a propositon (also written as <span class="texthl"><span id="textcolor134">Not p</span></span>). <span class="texthl"><span id="textcolor135"><span 
+class="lmsy-10">¬ </span>p</span></span> is precisely <span class="texthl"><span id="textcolor136">p <span 
 class="lmsy-10">&#x2192; </span>False</span></span>
-<!--l. 56--><p class="noindent" >
+<!--l. 84--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">2.7   </span> <a 
- id="x1-110002.7"></a>LOGICAL EQUIVALENCE <span 
+ id="x1-120002.7"></a>LOGICAL EQUIVALENCE <span 
 class="lmsy-10">&#x2194;</span></h3>
-<!--l. 58--><p class="noindent" >Given two propositions <span class="texthl"><span id="textcolor139">p: Prop</span></span> and <span class="texthl"><span id="textcolor140">q: Prop</span></span>, <span class="texthl"><span id="textcolor141">p <span 
-class="lmsy-10">&#x2194; </span>q</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor142">Iff p q</span></span>)
-<!--l. 60--><p class="noindent" ><span class="texthl"><span id="textcolor143">Iff</span></span> admits an iff-introduction rule as follows: given a proof <span class="texthl"><span id="textcolor144">hpq: p <span 
-class="lmsy-10">&#x2192; </span>q</span></span> and a proof <span class="texthl"><span id="textcolor145">hqp: q <span 
-class="lmsy-10">&#x2192; </span>p</span></span>, one can obtain a proof for <span class="texthl"><span id="textcolor146">p <span 
-class="lmsy-10">&#x2194; </span>q</span></span>
-by <span class="texthl"><span id="textcolor147">Iff.intro hpq hqp</span></span>
-<!--l. 62--><p class="noindent" ><span class="texthl"><span id="textcolor148">Iff</span></span> admits two iff-elimination rules as follows: given a proof <span class="texthl"><span id="textcolor149">h: p <span 
-class="lmsy-10">&#x2194; </span>q</span></span>, one can obtain a proof for <span class="texthl"><span id="textcolor150">p <span 
-class="lmsy-10">&#x2192; </span>q</span></span> by <span class="texthl"><span id="textcolor151">Iff.mp h</span></span> and a proof
-for <span class="texthl"><span id="textcolor152">q <span 
-class="lmsy-10">&#x2192; </span>p</span></span> by <span class="texthl"><span id="textcolor153">Iff.mpr h</span></span>
-<!--l. 65--><p class="noindent" >
+<!--l. 86--><p class="noindent" >Given two propositions <span class="texthl"><span id="textcolor137">p: Prop</span></span> and <span class="texthl"><span id="textcolor138">q: Prop</span></span>, <span class="texthl"><span id="textcolor139">p <span 
+class="lmsy-10">&#x2194; </span>q: Prop</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor140">Iff p q</span></span>)
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 89--><p class="noindent" ><span class="texthl"><span id="textcolor141">Iff</span></span> admits an iff-introduction rule: <span class="texthl"><span id="textcolor142">Iff.intro</span></span>
+     <!--l. 91--><p class="noindent" >Let <span class="texthl"><span id="textcolor143">hpq: p <span 
+class="lmsy-10">&#x2192; </span>q</span></span> and <span class="texthl"><span id="textcolor144">hqp: q <span 
+class="lmsy-10">&#x2192; </span>p</span></span> be proofs, then <span class="texthl"><span id="textcolor145">Iff.intro hpq hqp: p <span 
+class="lmsy-10">&#x2194; </span>q</span></span> is also a proof
+     </li>
+     <li class="itemize">
+     <!--l. 93--><p class="noindent" ><span class="texthl"><span id="textcolor146">Iff</span></span> admits two iff-elimination rules: <span class="texthl"><span id="textcolor147">Iff.mp</span></span>, <span class="texthl"><span id="textcolor148">Iff.mpr</span></span>
+     <!--l. 96--><p class="noindent" >Let <span class="texthl"><span id="textcolor149">h: p <span 
+class="lmsy-10">&#x2194; </span>q</span></span> be a proof, then <span class="texthl"><span id="textcolor150">Iff.mp h: p <span 
+class="lmsy-10">&#x2192; </span>q</span></span> and <span class="texthl"><span id="textcolor151">Iff.mpr h: q <span 
+class="lmsy-10">&#x2192; </span>p</span></span> are also proofs</li></ul>
+<!--l. 104--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">2.8   </span> <a 
- id="x1-120002.8"></a>UNIVERSAL QUANTIFIER <span 
+ id="x1-130002.8"></a>UNIVERSAL QUANTIFIER <span 
 class="lmsy-10">&#x2200;</span></h3>
-<!--l. 67--><p class="noindent" >
+<!--l. 106--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">2.9   </span> <a 
- id="x1-130002.9"></a>EXISTENTIAL QUANTIFIER <span 
+ id="x1-140002.9"></a>EXISTENTIAL QUANTIFIER <span 
 class="lmsy-10">&#x2203;</span></h3>
                                                                                                
                                                                                                
@@ -318,7 +345,7 @@ class="lmsy-10">&#x2203;</span></h3>
                                                                                                
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;3</span><br /><a 
- id="x1-140003"></a>PROOF BY INDUCTION <br 
+ id="x1-150003"></a>PROOF BY INDUCTION <br 
 class="newline" />THE NATURAL NUMBERS</h2>
                                                                                                
                                                                                                
@@ -329,7 +356,7 @@ class="newline" />THE NATURAL NUMBERS</h2>
                                                                                                
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;4</span><br /><a 
- id="x1-150004"></a>TACTIC <br 
+ id="x1-160004"></a>TACTIC <br 
 class="newline" />LEAN AS A THEOREM PROVER</h2>
                                                                                                
                                                                                                
@@ -338,7 +365,7 @@ class="newline" />LEAN AS A THEOREM PROVER</h2>
                                                                                                
                                                                                                
 <h2 class="likechapterHead"><a 
- id="x1-16000"></a>Bibliography</h2>
+ id="x1-17000"></a>Bibliography</h2>
    <div class="thebibliography">
    <p class="bibitem" ><span class="biblabel">
 <a 

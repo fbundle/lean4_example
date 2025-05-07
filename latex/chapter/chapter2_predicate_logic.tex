@@ -6,48 +6,76 @@ Keywords: \hl{Prop}, CH, \textit{witnessed}, \textit{proof}, \textit{inhabited},
 
 Curry–Howard (CH) \cite{CH} asserts that proving a proposition \hl{p: Prop} is equivalent to constructing an element \hl{x: p} at level -1. Hence, a proposition \hl{p: Prop} is said to be true if and only if there exists an element  \hl{x: p} at level -1, we say that the truth of \hl{p: Prop} is \textit{witnessed} by \textit{proof} \hl{x: p}. We say \hl{p: Prop} is \textit{inhabited} if there is a proof for \hl{p: Prop}, \hl{p: Prop} is \textit{uninhabited} if there is no proof for \hl{p: Prop}
 
-The type system in lean is powerful enough to model predicate logic, we will describe below the builtin logical connectives and related \textit{introduction rules} and \textit{elimination rules}. Given a proposition \hl{p: Prop}, an introduction rule is a way to prove \hl{p: Prop} from something else, an elimination rule is a way deduce from \hl{p: Prop}
+The type system in lean is powerful enough to model predicate logic, we will describe below the builtin logical connectives and related \textit{introduction rules} and \textit{elimination rules}. An introduction rule is a way to prove \hl{p: Prop} from something else, an elimination rule is a way deduce something else from \hl{p: Prop}
 
 \section{TRUE}
 
-\hl{True: Prop} is a proposition in lean.
+\hl{True: Prop} is a proposition.
 
-\hl{True} admits an introduction rule \hl{True.intro: True} (also written as \hl{trivial: True})
+\begin{itemize}
+	\item \hl{True} admits one introduction rule: \hl{True.intro: True} (also written as \hl{trivial: True})
+	
+	\item \hl{True} admits no elimination rule, that is, one cannot use \hl{True} to prove anything
+\end{itemize}
 
-\hl{True} admits no elimination rule, that is, one cannot use \hl{True} to prove anything
 
 \section{FALSE}
 
 \hl{False: Prop} is a proposition in lean.
 
-\hl{False} admits no introduction rule, that is one cannot prove \hl{False}
+\begin{itemize}
+	\item \hl{False} admits no introduction rule, that is one cannot prove \hl{False}
+	
+	\item \hl{False} admits one elimination rule: \hl{False.elim}
+	
+	that is, one can prove everything from \hl{False}. Let \hl{q: Prop} be a proposition, then \hl{False.elim q: q} is a proof
+\end{itemize}
 
-\hl{False} admits an elimination rule \hl{False.elim: $\forall$ (q : Prop), False $\to$ q}, that is, one can prove everything from \hl{False}, given any proposition \hl{q: Prop}, \hl{False.elim q} is a proof for \hl{q: Prop}
+
 
 \section{IMPLICATION $\to$}
 
-Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{f: p $\to$ q} is a map from type \hl{p} into type \hl{q}. If \hl{hp: p} is a proof for \hl{p}, then one obtain a proof for \hl{q} by \hl{f hp: q}. This is known as \textit{modus ponens} or implication elimination rule
+Let \hl{p: Prop} and \hl{q: Prop} be propositions and \hl{f: p $\to$ q} be a map. If \hl{hp: p} is a proof, then \hl{f hp: q} is also a proof. This is known as \textit{modus ponens} or implication elimination rule. In lean, \hl{p $\to$ q: Prop} is a proposition
 
-\hl{p $\to$ q: Prop} is a proposition in lean.
-
-\hl{p $\to$ q} admits implication elimination rule as described above and it admits introduction rule by declaring function of type \hl{p $\to$ q}
+\begin{itemize}
+	\item \hl{Implies} admits one introduction rule by declaring a function of type \hl{p $\to$ q}
+	
+	\item \hl{Implies} admits one implication elimination rule by function application as described above
+\end{itemize}
 
 \section{CONJUNCTION $\land$}
 
-Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{p $\land$ q} is a proposition (also written as \hl{And p q} or \hl{p $\times$ q})
+Let \hl{p: Prop} and \hl{q: Prop} be propositions, then \hl{p $\land$ q: Prop} is a proposition (also written as \hl{And p q} or \hl{p $\times$ q})
 
-\hl{And} admits an and-introduction rule \hl{And.intro} as follows: given a proof \hl{hp: p} for \hl{p} and a proof \hl{hq: q} for \hl{q}, one can obtain a proof for \hl{p $\land$ q} by \hl{And.intro hp hq: p $\land$ q}
-
-\hl{And} admits two and-elimination rules as follows: given a proof \hl{hpq: p $\land$ q} for \hl{p $\land$ q}, one can obtain a proof for \hl{p} by \hl{And.left hpq: p} and a proof for \hl{q} by \hl{And.right hpq: q} (also written as \hl{hpq.left} and \hl{hpq.right})
+\begin{itemize}
+	\item \hl{And} admits an and-introduction rule: \hl{And.intro}
+	
+	Let \hl{hp: p} and \hl{hq: q} be a proofs, then \hl{And.intro hp hq: p $\land$ q} is also a proof
+	
+	\item \hl{And} admits two and-elimination rules: \hl{And.left} and \hl{And.right}
+	
+	Let \hl{h: p $\land$ q} be a proof, then \hl{And.left h: p} and \hl{And.right h: q} are also proofs (also written as \hl{h.left} and \hl{h.right})
+	
+	
+\end{itemize}
 
 
 \section{DISJUNCTION $\lor$}
 
-Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{p $\lor$ q} is a proposition (also written as \hl{Or p q} or \hl{p $\oplus$ q})
+Let \hl{p: Prop} and \hl{q: Prop} be propositions, then \hl{p $\lor$ q: Prop} is a proposition (also written as \hl{Or p q} or \hl{p $\oplus$ q})
 
-\hl{Or} admits two or-introduction rules as follows: given a proof \hl{hp: p} for \hl{p}, one can obtain a proof for \hl{p $\lor$ q} by \hl{Or.intro\_left q hp}, given a proof \hl{hq: q} for \hl{q}, one can obtain a proof for \hl{p $\lor$ q} by \hl{Or.intro\_right p hq} (also written as \hl{Or.inl hp} and \hl{Or.inr hq})
+\begin{itemize}
+	\item \hl{Or} admits two or-introduction rules: \hl{Or.intro\_left}, \hl{Or.intro\_right}
+	
+	Let \hl{hp: p} be a proof, then \hl{Or.intro\_left q hp: p $\lor$ q} is also a proof (also written as \hl{Or.inl hp})
+	
+	Let \hl{hq: q} be a proof, then \hl{Or.intro\_right p hq: p $\lor$ q} is also a proof (also written as \hl{Or.inr hq})
+	
+	\item \hl{Or} admits one or-elimination rule: \hl{Or.elim}
+	
+	Let \hl{hpq: p $\lor$ q}, \hl{hpr: p $\to$ r}, and \hl{hqr: q $\to$ r} be proofs, then \hl{Or.elim hpq hpr hqr: r} is also a proof
+\end{itemize}
 
-\hl{Or} admits an or-elimination rule as follows: given a proof \hl{hpq: p $\lor$ q} for \hl{p $\lor$ q}, a proof \hl{hpr: p $\to$ r} for \hl{p $\to$ r}, and a proof \hl{hqr: q $\to$ r} for \hl{q $\to$ r}, one can obtain a proof for \hl{r} by \hl{Or.elim hpq hpr hqr}
 
 \section{NEGATION $\lnot$}
 
@@ -55,11 +83,22 @@ Given a proposition \hl{p: Prop}, \hl{$\lnot$ p} is a propositon (also written a
 
 \section{LOGICAL EQUIVALENCE $\leftrightarrow$}
 
-Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{p $\leftrightarrow$ q} is a proposition (also written as \hl{Iff p q})
+Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{p $\leftrightarrow$ q: Prop} is a proposition (also written as \hl{Iff p q})
 
-\hl{Iff} admits an iff-introduction rule as follows: given a proof \hl{hpq: p $\to$ q} and a proof \hl{hqp: q $\to$ p}, one can obtain a proof for \hl{p $\leftrightarrow$ q} by \hl{Iff.intro hpq hqp}
+\begin{itemize}
+	\item \hl{Iff} admits an iff-introduction rule: \hl{Iff.intro}
+	
+	Let \hl{hpq: p $\to$ q} and \hl{hqp: q $\to$ p} be proofs, then  \hl{Iff.intro hpq hqp: p $\leftrightarrow$ q} is also a proof
+	
+	\item \hl{Iff} admits two iff-elimination rules: \hl{Iff.mp}, \hl{Iff.mpr}
+	
+	
+	Let \hl{h: p $\leftrightarrow$ q} be a proof, then \hl{Iff.mp h: p $\to$ q} and \hl{Iff.mpr h: q $\to$ p} are also proofs
+\end{itemize}
 
-\hl{Iff} admits two iff-elimination rules as follows: given a proof \hl{h: p $\leftrightarrow$ q}, one can obtain a proof for \hl{p $\to$ q} by \hl{Iff.mp h} and a proof for \hl{q $\to$ p} by \hl{Iff.mpr h}
+
+
+
 
 
 \section{UNIVERSAL QUANTIFIER $\forall$}
