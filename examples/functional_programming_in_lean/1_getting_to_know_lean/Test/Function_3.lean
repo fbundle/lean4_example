@@ -20,6 +20,7 @@ def add3: Nat → Nat := fun n => n + 3
 
 def add4: Nat → Nat := λ n => n + 4
 def add5: Nat → Nat := ( · + 5 )
+def add6: Nat → Nat := λ n ↦ n + 6
 
 #eval [(add2 3), (add3 3), (add4 3), (add5 3)] -- will be list [5, 6, 7, 8]
 

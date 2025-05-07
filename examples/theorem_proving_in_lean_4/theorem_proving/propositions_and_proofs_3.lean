@@ -4,28 +4,28 @@ section
 
 -- commutativity of ∧
 def and_comm1: (p ∧ q) → (q ∧ p) :=
-  λ (hpq: p ∧ q) =>
+  λ (hpq: p ∧ q) ↦
     let hp := And.left hpq
     let hq := And.right hpq
     And.intro hq hp
 
 -- commutativity of ∨
 def or_comm1: (p ∨ q) → (q ∨ p) :=
-  λ (hpq: p ∨ q) =>
+  λ (hpq: p ∨ q) ↦
     Or.elim hpq -- proof for p ∨ q
-      (λ hp => Or.intro_right q hp) -- proof for p → (q ∨ p)
-      (λ hq => Or.intro_left p hq) -- proof for q → (p ∨ q)
+      (λ hp ↦ Or.intro_right q hp) -- proof for p → (q ∨ p)
+      (λ hq ↦ Or.intro_left p hq) -- proof for q → (p ∨ q)
 
 -- negation of p and p is a contradiction
 def contr_implies_false: ¬(¬p ∧ p) :=
-  λ (h: ¬p ∧ p) =>
+  λ (h: ¬p ∧ p) ↦
     let hnp := And.left h
     let hp := And.right h
     hnp hp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
 
 -- implies anything from a contradiction
 def contr_implies_anything : (¬ p ∧ p) → q :=
-  λ (h: ¬p ∧ p) =>
+  λ (h: ¬p ∧ p) ↦
     let hnp := And.left h
     let hp := And.right h
     absurd hp hnp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
@@ -105,4 +105,3 @@ section
 end
 
 -/
-
