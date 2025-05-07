@@ -1,6 +1,6 @@
 \chapter{DEPENDENT TYPE THEORY}
 
-Some words on dependent type theory:
+Some words on dependent type theory: \textit{object}, \textit{universe level}, \textit{universe}, \textit{term}, \textit{element}
 
 Consider the set of all formal strings $S$ and the semantic equivalence relation $\sim$ on $S$. For example, \hl{$\lambda$ (x: Nat) => x + 4} and \hl{fun (y: Nat) => y+4} are two different strings but have the same meaning/semantic. We will use the same word \textit{object} for both syntactic string and its meaning without confusion.
 
@@ -15,11 +15,11 @@ In lean, every object belongs to a \textit{universe level}, below are some examp
 	\item universe level 4: ...
 \end{itemize}
 
-Moreover, every object has a type, that is a function \hl{t} that maps object from universe level $n$ to universe level $n+1$. In programming, this is called getting type of (\hl{type} in Python, \hl{typeof} in Javascript). For example, \hl{t(1) = Nat}, \hl{t(true) = Bool}, \hl{t($\lambda$ (x: Nat) => x + 4) = Nat $\to$ Nat}. Given any object \hl{$\alpha$} at level $n$, the collection of all objects of type \hl{$\alpha$} is called the universe \hl{$\alpha$}. For example, universe \hl{Nat} consists of of all natural numbers. We write \hl{x: Nat} to denote \hl{x} is of type \hl{Nat}
+Moreover, every object has a type, that is a function \hl{t} that maps object from universe level $n$ to universe level $n+1$. In programming, this is called getting type of (\hl{type} in Python, \hl{typeof} in Javascript). For example, \hl{t(1) = Nat}, \hl{t(true) = Bool}, \hl{t($\lambda$ (x: Nat) => x + 4) = Nat $\to$ Nat}. Given any object \hl{$\alpha$} at level $n$, the collection of all objects of type \hl{$\alpha$} is called the \textit{universe} \hl{$\alpha$}. For example, universe \hl{Nat} consists of of all natural numbers. We write \hl{x: Nat} to denote \hl{x} is of type \hl{Nat} and \hl{x} is called a \textit{term} (or \textit{element}) of \hl{Nat}
 
 In lean, $t$ is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using \hl{\#eval} and \hl{\#check}
 
-On the side note, if \hl{$\alpha$} and \hl{$\beta$} are two objects at level $n$ and $m$, then \hl{$\alpha \to \beta$} is at level $\max(n, m)$. \hl{$\alpha \to \beta$} is analogous to the hom-set $\Hom(\alpha, \beta)$ in mathematics, which is the collection of all morphisms from object $\alpha$ into object $\beta$ in a certain category.
+\note{On the side note, if \hl{$\alpha$} and \hl{$\beta$} are two objects at level $n$ and $m$, then \hl{$\alpha \to \beta$} is at level $\max(n, m)$. \hl{$\alpha \to \beta$} is analogous to the hom-set $\Hom(\alpha, \beta)$ in mathematics, which is the collection of all morphisms from object $\alpha$ into object $\beta$ in a certain category.}
 
 
 

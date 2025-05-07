@@ -58,7 +58,12 @@ class="ec-lmsso-10">Getting to Know Lean</span>
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;2</span><br /><a 
  id="x1-30002"></a>DEPENDENT TYPE THEORY</h2>
-<!--l. 3--><p class="noindent" >Some words on dependent type theory:
+<!--l. 3--><p class="noindent" >Some words on dependent type theory: <span 
+class="ec-lmsso-10">object</span>, <span 
+class="ec-lmsso-10">universe level</span>, <span 
+class="ec-lmsso-10">universe</span>, <span 
+class="ec-lmsso-10">term</span>, <span 
+class="ec-lmsso-10">element</span>
 <!--l. 5--><p class="noindent" >Consider the set of all formal strings <span 
 class="lmmi-10">S </span>and the semantic equivalence relation <span 
 class="lmsy-10">~ </span>on <span 
@@ -99,36 +104,52 @@ class="lmmi-10">&#x03BB;</span>
 class="lmsy-10">&#x2192; </span>Nat</span></span>. Given any object <span class="texthl"><span id="textcolor24"><span 
 class="lmmi-10">&#x03B1;</span></span></span> at level <span 
 class="lmmi-10">n</span>, the collection of all objects of type <span class="texthl"><span id="textcolor25"><span 
-class="lmmi-10">&#x03B1;</span></span></span> is called the
-universe <span class="texthl"><span id="textcolor26"><span 
-class="lmmi-10">&#x03B1;</span></span></span>. For example, universe <span class="texthl"><span id="textcolor27">Nat</span></span> consists of of all natural numbers. We write <span class="texthl"><span id="textcolor28">x: Nat</span></span> to denote <span class="texthl"><span id="textcolor29">x</span></span> is of type
-<span class="texthl"><span id="textcolor30">Nat</span></span>
+class="lmmi-10">&#x03B1;</span></span></span> is called the <span 
+class="ec-lmsso-10">universe </span><span class="texthl"><span id="textcolor26"><span 
+class="lmmi-10">&#x03B1;</span></span></span>.
+For example, universe <span class="texthl"><span id="textcolor27">Nat</span></span> consists of of all natural numbers. We write <span class="texthl"><span id="textcolor28">x: Nat</span></span> to denote <span class="texthl"><span id="textcolor29">x</span></span> is of type <span class="texthl"><span id="textcolor30">Nat</span></span> and <span class="texthl"><span id="textcolor31">x</span></span> is called a <span 
+class="ec-lmsso-10">term </span>(or
+<span 
+class="ec-lmsso-10">element</span>) of <span class="texthl"><span id="textcolor32">Nat</span></span>
 <!--l. 20--><p class="noindent" >In lean, <span 
 class="lmmi-10">t </span>is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using
-<span class="texthl"><span id="textcolor31">#eval</span></span> and <span class="texthl"><span id="textcolor32">#check</span></span>
-<!--l. 22--><p class="noindent" >On the side note, if <span class="texthl"><span id="textcolor33"><span 
-class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor34"><span 
-class="lmmi-10">&#x03B2;</span></span></span> are two objects at level <span 
-class="lmmi-10">n </span>and <span 
-class="lmmi-10">m</span>, then <span class="texthl"><span id="textcolor35"><span 
+<span class="texthl"><span id="textcolor33">#eval</span></span> and <span class="texthl"><span id="textcolor34">#check</span></span>
+<!--l. 22--><p class="noindent" ><span id="textcolor35"><span 
+class="ec-lmsso-10">On the side note, if </span><span class="texthl"><span id="textcolor36"><span 
+class="lmmi-10">&#x03B1;</span></span></span> <span 
+class="ec-lmsso-10">and </span><span class="texthl"><span id="textcolor37"><span 
+class="lmmi-10">&#x03B2;</span></span></span> <span 
+class="ec-lmsso-10">are two objects at level </span><span 
+class="lmmi-10">n </span><span 
+class="ec-lmsso-10">and </span><span 
+class="lmmi-10">m</span><span 
+class="ec-lmsso-10">, then </span><span class="texthl"><span id="textcolor38"><span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span> is at level <span 
+class="lmmi-10">&#x03B2;</span></span></span> <span 
+class="ec-lmsso-10">is at level</span> <span 
 class="rm-lmr-10">max</span><span 
 class="rm-lmr-10">(</span><span 
 class="lmmi-10">n,m</span><span 
-class="rm-lmr-10">)</span>. <span class="texthl"><span id="textcolor36"><span 
+class="rm-lmr-10">)</span><span 
+class="ec-lmsso-10">. </span><span class="texthl"><span id="textcolor39"><span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span> is analogous to the
-hom-set <span 
+class="lmmi-10">&#x03B2;</span></span></span> <span 
+class="ec-lmsso-10">is analogous to the</span>
+<span 
+class="ec-lmsso-10">hom-set</span> <span 
 class="rm-lmr-10">Hom</span><span 
 class="rm-lmr-10">(</span><span 
 class="lmmi-10">&#x03B1;,&#x03B2;</span><span 
-class="rm-lmr-10">) </span>in mathematics, which is the collection of all morphisms from object <span 
-class="lmmi-10">&#x03B1; </span>into object <span 
-class="lmmi-10">&#x03B2; </span>in a certain
-category.
+class="rm-lmr-10">) </span><span 
+class="ec-lmsso-10">in mathematics, which is the collection of all morphisms from object </span><span 
+class="lmmi-10">&#x03B1; </span><span 
+class="ec-lmsso-10">into object </span><span 
+class="lmmi-10">&#x03B2; </span><span 
+class="ec-lmsso-10">in a certain</span>
+<span 
+class="ec-lmsso-10">category.</span></span>
                                                                                                
                                                                                                
                                                                                                
@@ -139,11 +160,11 @@ category.
                                                                                                
 <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;3</span><br /><a 
  id="x1-40003"></a>PROPOSITIONAL LOGIC</h2>
-<!--l. 3--><p class="noindent" ><span class="texthl"><span id="textcolor37">Prop</span></span> is an object at level 1 which is the same level with <span class="texthl"><span id="textcolor38">Nat</span></span>. An element (level 0) of universe <span class="texthl"><span id="textcolor39">Prop</span></span> is called a
-proposition. For example, <span class="texthl"><span id="textcolor40">True</span></span>, <span class="texthl"><span id="textcolor41">1 + 1 = 3</span></span>, <span class="texthl"><span id="textcolor42">Fermat&#8217;s last theorem</span></span>. <a 
+<!--l. 3--><p class="noindent" ><span class="texthl"><span id="textcolor40">Prop</span></span> is an object at level 1 which is the same level with <span class="texthl"><span id="textcolor41">Nat</span></span>. An element (level 0) of universe <span class="texthl"><span id="textcolor42">Prop</span></span> is called a
+proposition. For example, <span class="texthl"><span id="textcolor43">True</span></span>, <span class="texthl"><span id="textcolor44">1 + 1 = 3</span></span>, <span class="texthl"><span id="textcolor45">Fermat&#8217;s last theorem</span></span>. <a 
 href="https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence" >Curry&#8211;Howard correspondence</a> asserts that proving a
-proposition <span class="texthl"><span id="textcolor43">p: Prop</span></span> is equivalent to constructing an element <span class="texthl"><span id="textcolor44">x: p</span></span> at level -1. Hence, a proposition <span class="texthl"><span id="textcolor45">p: Prop</span></span> is said
-to be true if and only if there exists an element <span class="texthl"><span id="textcolor46">x: p</span></span> at level -1, we say the truth of <span class="texthl"><span id="textcolor47">p: Prop</span></span> is witnessed by <span class="texthl"><span id="textcolor48">x:
+proposition <span class="texthl"><span id="textcolor46">p: Prop</span></span> is equivalent to constructing an element <span class="texthl"><span id="textcolor47">x: p</span></span> at level -1. Hence, a proposition <span class="texthl"><span id="textcolor48">p: Prop</span></span> is said
+to be true if and only if there exists an element <span class="texthl"><span id="textcolor49">x: p</span></span> at level -1, we say the truth of <span class="texthl"><span id="textcolor50">p: Prop</span></span> is witnessed by <span class="texthl"><span id="textcolor51">x:
 p</span></span>
                                                                                                
                                                                                                
