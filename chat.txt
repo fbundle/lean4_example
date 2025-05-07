@@ -1,0 +1,667 @@
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Test/Other_7.lean
+namespace Other_7
+
+-- (x+1) × 2 + (x+1) × 3
+def f(x: Nat) : Nat :=
+  let y := x + 1; -- use semicolon to separate
+  y * 2 + y * 3
+
+#eval f 1 -- 10
+
+-- list of pairs to pair of lists
+def myUnzip : List (α × β) → List α × List β
+  | [] => ([], [])
+  | (x, y) :: xys =>
+    let (xs, ys) : List α × List β := myUnzip xys ; -- recursive call
+    (x :: xs, y :: ys)
+
+-- let rec : for recursive function
+def myReverse (xs : List α) : List α :=
+  let rec helper : List α → List α → List α
+    | [], soFar => soFar
+    | y :: ys, soFar => helper ys (y :: soFar)
+  helper xs []
+
+-- if let - another way to pattern matching
+inductive Animal
+  | cat : String → Animal
+  | dog : String → Animal
+  | fish : String → Animal
+  deriving Repr
+
+def catName : Animal → Option String := λ a =>
+  if let Animal.cat name := a then
+    Option.some name
+  else
+    Option.none
+
+#eval catName (Animal.cat "Mittens") -- some "Mittens"
+#eval catName (Animal.dog "Fido") -- none
+
+
+
+
+end Other_7
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Test/Recursion_5.lean
+
+namespace Recursion_5
+
+/-
+Datatypes that allow choices are called sum types
+and datatypes that can include instances of themselves are called recursive datatypes.
+Recursive sum types are called inductive datatypes,
+because mathematical induction may be used to prove statements about them.
+When programming, inductive datatypes are consumed through pattern matching and recursive functions.
+-/
+
+-- builtin Nat
+-- Natural is a recursive datatype
+-- zero is a constructor
+-- succ is a constructor that takes a Natural and returns a Natural
+-- succ is a recursive constructor
+inductive Natural where
+  | zero: Natural
+  | succ: Natural → Natural
+  deriving Repr
+
+def zero := Natural.zero
+def one := Natural.succ zero
+def two := Natural.succ one
+def three := Natural.succ two
+def four := Natural.succ three
+def five := Natural.succ four
+
+#eval two
+
+-- pattern matching
+def isZero (n: Natural): Bool :=
+  match n with
+  | Natural.zero => true
+  | Natural.succ _ => false -- _ wildcard pattern
+
+#eval isZero zero -- true
+#eval isZero one -- false
+
+-- another example - pred : predecessor
+def pred (n: Natural): Natural :=
+  match n with
+  | Natural.zero => Natural.zero
+  | Natural.succ m => m
+
+#eval pred two
+
+structure Point2 where make_point::
+  x: Int
+  y: Int
+  deriving Repr
+
+-- pattern matching on structure
+def getX (p: Point2): Int :=
+  match p with
+  | {x := xx, y := _} => xx
+
+def onAxes (p: Point2): Bool :=
+  match p with
+  | {x := 0, y := _} => True
+  | {x := _, y := 0} => True
+  | _ => False
+
+#eval getX {x := 1, y := 2} -- 1
+#eval onAxes {x := 0, y := 2} -- true
+#eval onAxes {x := 1, y := 0} -- true
+#eval onAxes {x := 1, y := 2} -- false
+#eval onAxes {x := 0, y := 0} -- true
+
+-- recursive function
+def isEven (n: Natural): Bool :=
+  match n with
+  | Natural.zero => true
+  | Natural.succ m => not (isEven m)
+
+#eval isEven zero -- true
+#eval isEven one -- false
+#eval isEven two -- true
+#eval isEven three -- false
+
+-- another example
+def add (a: Natural) (b: Natural): Natural :=
+  match a with
+  | Natural.zero => b
+  | Natural.succ m => add m (Natural.succ b)
+
+def equal (a: Natural) (b: Natural): Bool :=
+  match a, b with
+  | Natural.zero, Natural.zero => true
+  | Natural.succ m, Natural.succ n => equal m n
+  | _, _ => false
+
+#eval equal five (add two three)
+
+
+-- this example does not work since `div` requires a manual proof of termination
+/-
+g parameter k of Recursion_5.div:
+  it is unchanged in the recursive calls
+Cannot use parameter k:
+  failed to eliminate recursive application
+    div (n - k) k
+
+
+failed to prove termination, possible solutions:
+  - Use `have`-expressions to prove the remaining goals
+  - Use `termination_by` to specify a different well-founded relation
+  - Use `decreasing_by` to specify your own tactic for discharging this kind of goal
+k n : Nat
+h✝ : ¬n < k
+⊢ n - k < n
+error: Lean exited with code 1
+Some required builds logged failures:
+- Test.Recursion_5
+error: build failed
+
+def div (n : Nat) (k : Nat) : Nat :=
+  if n < k then
+    0
+  else Nat.succ (div (n - k) k)
+
+-/
+
+end Recursion_5
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Test/Type_2.lean
+namespace Type_2
+
+
+#eval 1 - 2
+
+#eval (1 - 2: Nat) -- set type after operation -- will be zero
+
+#eval (1 - 2: Int) -- set type after operation
+
+#check (1 - 2: Int) -- check type -- will be calculate
+
+#eval ((1: Nat) + (2: Nat)) -- set type before operation
+
+end Type_2
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Test/Basic_1.lean
+-- basic examples
+
+namespace Basic_1 -- namespace
+
+def add1 (n : Nat) : Nat := n + 1
+
+#eval add1 7 -- #eval will appear as info and calculated at compile time
+
+#eval 1 + 2
+
+#eval (String.append "great " (String.append "oak " "tree"))
+
+#eval (String.append "it is " (if 1 > 2 then "yes" else "no"))
+
+end Basic_1 -- end namespace
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Test/Polymorphism_6.lean
+namespace Polymorphism_6
+
+
+-- type as parameter
+structure Point (α: Type) where
+  x: α
+  y: α
+  deriving Repr
+
+
+def p1 : Point Int := { x := 1, y := 2 }
+def p2 : Point Float := { x := 1.0, y := 2.0 }
+
+#eval p1 -- Point Int
+#eval p2 -- Point Float
+
+def updateX {α: Type} (p: Point α) (xx: α): Point α :=
+  { p with x := xx }
+
+#check updateX
+
+#eval updateX p1 3 -- update x to 3
+#eval updateX p2 3.0 -- update x to 3.0
+
+-- implicit {α : Type}
+def updateXX (p: Point α) (xx: α): Point α :=
+  { p with x := xx }
+
+-- implicit (α: Type)
+def updateY: Point α → α → Point α
+  | p,yy => { p with y := yy } -- update y to y
+
+
+
+
+inductive Sign where
+  | pos
+  | neg
+
+-- return (3 : Nat) if is positive, (-3 : Int) if negative
+-- return type is determined by the value of s
+def posOrNegThree (s : Sign) : (match s with
+  | Sign.pos => Nat
+  | Sign.neg => Int
+) := (match s with
+    | Sign.pos => (3 : Nat)
+    | Sign.neg => (-3 : Int)
+)
+
+#check posOrNegThree
+
+-- builtin List
+inductive MyList (α: Type) where
+  | nil : MyList α
+  | cons : α → MyList α → MyList α
+
+-- three ways to define bultin List
+def ll1 := [1, 2, 3]
+def ll2 := List.cons 1 (List.cons 2 (List.cons 3 List.nil))
+def ll3 := [1::[2, 3]] -- :: is like cons
+
+#eval [ll1, ll2]
+
+
+
+
+def MyList.append (l: MyList α) (e: α) :=
+  MyList.cons e l
+
+def l1 := MyList.nil.append  1
+def l2 := l1.append  2
+def l3 := l2.append  3
+
+#eval l3
+
+def MyList.len (l : MyList α): Nat :=
+  match l with
+  | MyList.nil => 0
+  | MyList.cons _ l => 1 + l.len
+
+#eval l3.len
+
+
+-- builtin Option
+inductive MyOption (α : Type) : Type where
+  | none : MyOption α
+  | some: (val : α) → MyOption α
+  deriving Repr
+
+
+def x := MyOption.some 1
+def y : MyOption Nat := MyOption.none
+
+#eval [x, y]
+
+
+def MyList.head (l: MyList α) : MyOption α :=
+  match l with
+  | MyList.nil => MyOption.none
+  | MyList.cons e _ => MyOption.some e
+
+#eval l3.head
+
+#eval (MyList.nil : MyList Int).head
+
+-- builtin Prod - Product
+structure MyProd (α : Type) (β : Type) : Type where
+  fst : α
+  snd : β
+  deriving Repr
+
+-- three ways to define builtin Product
+def fives1 : Prod String Int := {fst:= "five", snd := 5}
+
+def fives2 : String × Int := { fst := "five", snd := 5 }
+
+def fives3 : String × Int := ("five", 5)
+
+-- builtin Sum - Coproduct
+inductive MySum (α : Type) (β : Type) : Type where
+  | inl : α → MySum α β
+  | inr : β → MySum α β
+  deriving Repr
+
+-- two ways to define builtin Sum
+def z1: Sum Nat Float := Sum.inl 1
+def z2: Nat ⊕ Float := Sum.inr 2.0
+
+-- builtin Unit, Empty
+
+
+end Polymorphism_6
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Test/Structure_4.lean
+namespace Structure_4
+
+-- some float example
+
+#check (1.2: Float)
+
+#check -454.2123215
+
+#check 0.0
+
+#check 0 -- Nat not Float
+
+
+-- cartesian coordinates
+structure Point3 where
+  x: Float
+  y: Float
+  z: Int := 0 -- default value
+  deriving Repr -- deriving Repr to print the structure
+
+#eval ({x := 1.0, y := 2.0}: Point3) -- create a Point3
+
+def p : Point3 := { x := 2.0, y := -1.0 }
+
+#eval p
+
+#eval p.x -- get field x
+
+-- add two Point3s
+def addPoint3s (p1: Point3) (p2: Point3) : Point3 :=
+  { x := p1.x + p2.x, y := p1.y + p2.y }
+
+-- distance between two Point3s
+def distance (p1 : Point3) (p2 : Point3) : Float :=
+  Float.sqrt (((p2.x - p1.x) ^ 2.0) + ((p2.y - p1.y) ^ 2.0))
+
+#eval distance p {x := 5.0, y := -1.0}
+
+#eval {x := 1.0, y := 2.0: Point3} -- syntactic sugar to create a Point3
+
+
+-- set field x to zero
+def setXzero (p: Point3) : Point3 :=
+  { x := 0.0, y := p.y, z := p.z }
+
+-- a better way to set field x to one
+def setXoneZtwo (p: Point3) : Point3 :=
+  { p with x := 1.0, z := 2 }
+
+#eval setXzero p -- set field x to zero
+#eval setXoneZtwo p -- set field x to one and z to two
+
+
+-- default constructor
+#check Point3.mk 1.0 2.0 3 -- create a Point3
+
+-- overwrite default constructor name
+structure Point2 where make_point::
+  x: Float
+  y: Float
+  deriving Repr
+
+#check Point2.make_point 1.0 2.0 -- create a Point2
+
+#check Point2.x -- Point2.x is a function
+
+-- method for p1
+def Point2.sub (p1: Point2) (p2: Point2) : Point2 :=
+  { x := p1.x - p2.x, y := p1.y - p2.y }
+
+#eval Point2.sub {x := 3.0, y := 4.0} {x := 1.0, y := 2.0}
+
+#eval ({x := 3.0, y := 4.0}: Point2).sub {x := 1.0, y := 2.0} -- syntactic sugar to call a method
+
+end Structure_4
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Test/Function_3.lean
+
+namespace Function_3
+
+-- function (or variable - anything is a function) without arguments
+def hello: String := "world"
+
+#eval hello
+
+def lean: String := "Lean" -- with type
+
+#eval lean
+
+-- two ways to define a function
+-- 1. using def
+-- 2. using fun - lambda expression
+
+def add2 (n: Nat): Nat := n + 2
+
+def add3: Nat → Nat := fun n => n + 3
+
+def add4: Nat → Nat := λ n => n + 4
+def add5: Nat → Nat := ( · + 5 )
+
+#eval [(add2 3), (add3 3), (add4 3), (add5 3)] -- will be list [5, 6, 7, 8]
+
+-- two ways to define a function with two arguments
+-- 1. using def
+-- 2. using fun - lambda expression (curried function)
+
+def mysum1 (a: Nat) (b: Nat): Nat := a + b
+def mysum2: Nat → Nat → Nat := fun a b => a + b
+def mysum3: Nat → Nat → Nat := fun a => fun b => a + b
+def mysum4: Nat → Nat → Nat
+  | a, b => a + b -- using pattern matching
+
+#eval [(mysum1 3 4), (mysum2 3 4), (mysum3 3 4), (mysum4 3 4)] -- will be list [7, 7, 7, 7]
+
+#check [mysum1, mysum2, mysum3, mysum4] -- check type
+
+#check [mysum1 3, mysum2 3, mysum3 3, mysum4 3] -- check type
+
+
+
+
+def Str1: Type := String -- type as first class citizen
+def Str2: Type := String → String
+
+def aStr: Str1 := "hello"
+def aStr2: Str2 := fun (s : String) => (s ++ " world": String)
+def aStr3: Str2 := λ (s : String) => (s ++ " world": String)
+
+#eval aStr3 aStr -- will be "hello world"
+
+abbrev N: Type := Nat -- type alias - recommended way
+
+end Function_3
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Main.lean
+import Test
+
+
+def main : IO Unit :=
+  IO.println s!"Hello, world!"
+./examples/functional_programming_in_lean/1_getting_to_know_lean/Test.lean
+-- This module serves as the root of the `Test` library.
+-- Import modules here that should be built as part of the library.
+import Test.Basic_1
+import Test.Type_2
+import Test.Function_3
+import Test.Structure_4
+import Test.Recursion_5
+import Test.Polymorphism_6
+import Test.Other_7
+./examples/theorem_proving_in_lean_4/theorem_proving/propositions_and_proofs_3.lean
+
+
+section
+
+-- commutativity of ∧
+def and_comm1: (p ∧ q) → (q ∧ p) :=
+  λ (hpq: p ∧ q) =>
+    let hp := And.left hpq
+    let hq := And.right hpq
+    And.intro hq hp
+
+-- commutativity of ∨
+def or_comm1: (p ∨ q) → (q ∨ p) :=
+  λ (hpq: p ∨ q) =>
+    Or.elim hpq -- proof for p ∨ q
+      (λ hp => Or.intro_right q hp) -- proof for p → (q ∨ p)
+      (λ hq => Or.intro_left p hq) -- proof for q → (p ∨ q)
+
+-- negation of p and p is a contradiction
+def contr_implies_false: ¬(¬p ∧ p) :=
+  λ (h: ¬p ∧ p) =>
+    let hnp := And.left h
+    let hp := And.right h
+    hnp hp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
+
+-- implies anything from a contradiction
+def contr_implies_anything : (¬ p ∧ p) → q :=
+  λ (h: ¬p ∧ p) =>
+    let hnp := And.left h
+    let hp := And.right h
+    absurd hp hnp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
+
+
+-- logical equivalence
+example : (p ∧ q) ↔ (q ∧ p) :=
+  Iff.intro and_comm1 and_comm1
+end
+
+-- subgoal
+example (h : p ∧ q) : q ∧ p :=
+  have hp : p := h.left -- same as `let hp := And.left h`
+  have hq : q := h.right
+  show q ∧ p from And.intro hq hp
+
+-- subgoal
+example (h : p ∧ q) : q ∧ p :=
+  -- we already show p here by certificate hp
+  have hp : p := h.left
+  -- it suffices to show q because we can show q ∧ p from two certificates hq and hp
+  suffices hq : q from And.intro hq hp
+  show q from And.right h
+
+/-
+
+
+
+
+-- TODO : finish all sorry proofs in this file
+
+section
+  variable (p q r : Prop)
+
+  -- commutativity of ∧ and ∨
+  example : p ∧ q ↔ q ∧ p := sorry
+  example : p ∨ q ↔ q ∨ p := sorry
+
+  -- associativity of ∧ and ∨
+  example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := sorry
+  example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
+
+  -- distributivity
+  example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
+  example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := sorry
+
+  -- other properties
+  example : (p → (q → r)) ↔ (p ∧ q → r) := sorry
+  example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := sorry
+  example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
+  example : ¬p ∨ ¬q → ¬(p ∧ q) := sorry
+  example : ¬(p ∧ ¬p) := sorry
+  example : p ∧ ¬q → ¬(p → q) := sorry
+  example : ¬p → (p → q) := sorry
+  example : (¬p ∨ q) → (p → q) := sorry
+  example : p ∨ False ↔ p := sorry
+  example : p ∧ False ↔ False := sorry
+  example : (p → q) → (¬q → ¬p) := sorry
+
+end
+
+section
+
+  open Classical
+
+  variable (p q r : Prop)
+
+  example : (p → q ∨ r) → ((p → q) ∨ (p → r)) := sorry
+  example : ¬(p ∧ q) → ¬p ∨ ¬q := sorry
+  example : ¬(p → q) → p ∧ ¬q := sorry
+  example : (p → q) → (¬p ∨ q) := sorry
+  example : (¬q → ¬p) → (p → q) := sorry
+  example : p ∨ ¬p := sorry
+  example : (((p → q) → p) → p) := sorry
+
+
+end
+
+-/
+
+./examples/theorem_proving_in_lean_4/theorem_proving/quantifiers_and_equality_4.lean
+
+section
+
+  -- always true
+  def p : Nat → Prop := λ _ => true
+
+  -- proof for p x for every x
+  def hpx : Nat → p x :=
+    λ x => (show p x from rfl)
+
+  -- for every x in Nat, p x
+  def q : Prop := ∀ x : Nat, p x
+
+  -- proof for ∀ x : Nat, p x is a function from x to proof of p x
+  theorem hq : q :=
+    λ x => hpx x
+end
+
+section
+
+-- proof for 1 = 1
+example: 1 = 1 := Eq.refl 1
+
+end./examples/theorem_proving_in_lean_4/Main.lean
+import theorem_proving.propositions_and_proofs_3
+import theorem_proving.quantifiers_and_equality_4
+
+
+def main : IO Unit :=
+  IO.println s!"Hello, world!"
+./examples/echo_line_app/echo_line/EchoLine.lean
+
+namespace EchoLine
+
+-- I don't care what it does - I just know that
+-- read stdin line by line
+-- pass the line to apply
+-- print the result to stdout
+-- repeat until EOF
+
+partial def loop : α  →  (α × String → α × String) → IO Unit := λ state => λ apply => do
+  let stdin ← IO.getStdin
+  let stdout ← IO.getStdout
+  let buf ← stdin.getLine
+  if buf.isEmpty then
+    pure ()
+  else
+    let input := buf.trim
+    let (new_state, output) := apply (state, input)
+    stdout.putStrLn output
+    loop new_state apply
+
+end EchoLine
+./examples/echo_line_app/Main.lean
+import echo_line.EchoLine
+
+
+-- State : the structure that holds the state of the application
+structure State where
+  count : Nat
+
+-- default : starting state
+def default_state : State := { count := 0 }
+
+-- apply : transform state by receiving input
+def apply : State × String → State × String := λ (state, input) =>
+  let new_state := { state with count := state.count + 1 }
+  let output := s!"Hello, \"{input}\" {new_state.count}th times!"
+  (new_state, output)
+
+def main : IO Unit := do
+  IO.println "Enter your name:"
+  EchoLine.loop default_state apply
+  IO.println "Goodbye!"
+do you have any comment on this?

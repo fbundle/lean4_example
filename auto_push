@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# compile docs
+./build_docs
+
 # make chat
 ./export_to_chat > chat.txt
 
