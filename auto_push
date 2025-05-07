@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 # compile docs
-./build_docs
+bash build_docs
 
 # make chat
-./export_to_chat > chat.txt
+bash export_to_chat > chat.txt
 
+# push to git
 git add .
 git commit -m "auto_push"
 git push
