@@ -5,7 +5,7 @@ section
   def p : Nat → Prop := λ _ ↦ true
 
   -- proof for p x for every x
-  def hpx : Nat → p x :=
+  def hpx {x: Nat} : Nat → p x :=
     λ x ↦ (show p x from rfl)
 
   -- for every x in Nat, p x
@@ -23,4 +23,4 @@ example: 1 = 1 := Eq.refl 1
 
 end
 
-#check Or.intro_left
+#check Exists.intro

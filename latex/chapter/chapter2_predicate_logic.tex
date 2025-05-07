@@ -35,13 +35,7 @@ The type system in lean is powerful enough to model predicate logic, we will des
 
 \section{IMPLICATION $\to$}
 
-Let \hl{p: Prop} and \hl{q: Prop} be propositions and \hl{f: p $\to$ q} be a map. If \hl{hp: p} is a proof, then \hl{f hp: q} is also a proof. This is known as \textit{modus ponens} or implication elimination rule. In lean, \hl{p $\to$ q: Prop} is a proposition
-
-\begin{itemize}
-	\item \hl{Implies} admits one introduction rule by declaring a function of type \hl{p $\to$ q}
-	
-	\item \hl{Implies} admits one implication elimination rule by function application as described above
-\end{itemize}
+Let \hl{p: Prop} and \hl{q: Prop} be propositions and \hl{f: p $\to$ q} be a map. If \hl{hp: p} is a proof, then \hl{f hp: q} is also a proof. This is known as \textit{modus ponens} or implication elimination rule. In lean, \hl{p $\to$ q: Prop} is a proposition. The introduction rules and elimination rules are then obvious from the context.
 
 \section{CONJUNCTION $\land$}
 
@@ -96,12 +90,11 @@ Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{p $\leftrightarrow$ q:
 	Let \hl{h: p $\leftrightarrow$ q} be a proof, then \hl{Iff.mp h: p $\to$ q} and \hl{Iff.mpr h: q $\to$ p} are also proofs
 \end{itemize}
 
-
-
-
-
-
 \section{UNIVERSAL QUANTIFIER $\forall$}
 
+Let \hl{$\alpha$} be any object and \hl{p: $\alpha \to$ Prop} be a map, then \hl{$\forall$ x: $\alpha$, p x} is a proposition. An element of \hl{$\forall$ x: $\alpha$, p x} is of the form \hl{hpx \{x : $\alpha$\} : $\alpha$ → p x}, that is a function mapping \hl{x: $\alpha$} into a proof for \hl{p x}. The introduction rules and elimination rules are then obvious from the context.
+
 \section{EXISTENTIAL QUANTIFIER $\exists$}
+
+Let \hl{$\alpha$} be any object and \hl{p: $\alpha \to$ Prop} be a map, then \hl{$\exists$ x: $\alpha$, p x} is a proposition.
 
