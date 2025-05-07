@@ -615,7 +615,7 @@ example: 1 = 1 := Eq.refl 1
 
 end
 
-#check Exists.intro
+#check Exists.elim
 ./examples/theorem_proving_in_lean_4/Main.lean
 import theorem_proving.propositions_and_proofs_3
 import theorem_proving.quantifiers_and_equality_4

@@ -1,0 +1,18 @@
+\chapter{EQUALITY: PROOF BY CALCULATION}
+
+Let \hl{a} and \hl{b} be any objects, then \hl{a = b} is a proposition (also written as \hl{Eq a b}). \hl{Eq} admits several properties
+
+\begin{itemize}
+	\item (reflexive): \hl{Eq.refl}
+	
+	Let \hl{a} be any object, then \hl{Eq.refl a: a = a} is a proof
+	
+	\item (symmetric): \hl{Eq.symm}
+	
+	Let \hl{hab: a = b} be a proof, then \hl{Eq.symm hab: b = a} is also a proof
+	
+	\item (transitive): \hl{Eq.trans}
+	
+	Let \hl{hab: a = b}, \hl{hbc: b = c} be proofs, then \hl{Eq.trans hab hbc: a = c} is also a proof
+\end{itemize}
+

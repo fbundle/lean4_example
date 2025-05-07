@@ -23,4 +23,4 @@ example: 1 = 1 := Eq.refl 1
 
 end
 
-#check Exists.intro
+#check Exists.elim
