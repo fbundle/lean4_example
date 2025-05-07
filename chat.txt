@@ -617,7 +617,8 @@ end
 
 
 
-#check Prop
+
+#check Implies.elim
 ./examples/theorem_proving_in_lean_4/Main.lean
 import theorem_proving.propositions_and_proofs_3
 import theorem_proving.quantifiers_and_equality_4

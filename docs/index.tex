@@ -1,23 +1,27 @@
 \documentclass{report}
 
+
+
 \usepackage{color_template}
 \usepackage{symbol_def}
 
 \usepackage{hyperref} % for link
-
+\setcounter{chapter}{-1} % start from chapter 0
 
 \usepackage{soul} % for highlighting using \hl
 \sethlcolor{yellow!30}
 
 \title{
-	Lean 4 \\
+	Theorem Proving in Lean 4 \\
 	\large \textit{
-		this document contains my notes when learning lean 4
+		this document contains my notes when learning lean 4. the main references for this are \cite{LuisWirth}, and \cite{Jeremy}
 	}
 }
 \author{Nguyen Ngoc Khanh}
 
-	
+
+
+
 \begin{document}
 	\maketitle
 	
@@ -26,10 +30,10 @@
 	
 	\include{chapter/chapter0_prerequisites}
 	\include{chapter/chapter1_dependent_type_theory}
-	\include{chapter/chapter2_propositional_logic}
-	\include{chapter/chapterlast_references}
+	\include{chapter/chapter2_predicate_logic}
+	\include{chapter/chapter3_induction}
 	
-	
-	
+	\bibliographystyle{plain}
+	\bibliography{references}
 	
 \end{document}

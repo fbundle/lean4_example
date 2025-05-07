@@ -1,0 +1,40 @@
+\chapter{PREDICATE LOGIC}
+
+Keywords: \hl{Prop}, CH, \textit{witnessed}, \textit{proof}, \textit{inhabited}, \textit{uninhabited}, \textit{introduction rule}, \textit{elimination rule}
+
+\hl{Prop} is an object at level 1 which is the same level with \hl{Nat}. An element (level 0) of universe \hl{Prop} is called a proposition. For example, \hl{True}, \hl{1 + 1 = 3}, \hl{Fermat's last theorem}.
+
+\href{https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence}{Curry–Howard correspondence} (CH) asserts that proving a proposition \hl{p: Prop} is equivalent to constructing an element \hl{x: p} at level -1. Hence, a proposition \hl{p: Prop} is said to be true if and only if there exists an element  \hl{x: p} at level -1, we say that the truth of \hl{p: Prop} is \textit{witnessed} by \textit{proof} \hl{x: p}. We say \hl{p: Prop} is \textit{inhabited} if there is a proof for \hl{p: Prop}, \hl{p: Prop} is \textit{uninhabited} if there is no proof for \hl{p: Prop}
+
+The type system in lean is powerful enough to model predicate logic, we will describe below the builtin logical connectives and related \textit{introduction rules} and \textit{elimination rules}. Given a proposition \hl{p: Prop}, an introduction rule is a way to prove \hl{p: Prop} from something else, an elimination rule is a way deduce from \hl{p: Prop}
+
+\section{TRUE}
+
+\hl{True: Prop} is a proposition in lean.
+
+\hl{True} admits an introduction rule \hl{True.intro: True} or sometimes written as \hl{trivial: True}. \hl{True} admits no elimination rule, that is, one cannot use \hl{True} to prove anything.
+
+\section{FALSE}
+
+\hl{False: Prop} is a proposition in lean.
+
+\hl{False} admits no introduction rule, that is one cannot prove \hl{False}. \hl{False} admits an elimination rule \hl{False.elim: $\forall$ (q : Prop), False $\to$ q}, that is, one can prove everything from \hl{False}, given any proposition \hl{q: Prop}, \hl{False.elim q} is a proof for \hl{q: Prop}
+
+\section{IMPLICATION $\to$}
+
+Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{f: p $\to$ q} is a map from type \hl{p} into type \hl{q}. Given a proof \hl{hp: p} for \hl{p}, then one can obtain the proof for \hl{q} by \hl{hq: q := f hp}. This is known as \textit{modus ponens} or implication elimination rule
+
+\hl{p $\to$ q: Prop} is a proposition in lean.
+
+\hl{p $\to$ q} admits implication elimination rule as described above and it admits introduction rule by declaring function of type \hl{p $\to$ q}
+
+\section{CONJUNCTION $\land$}
+
+\section{DISJUNCTION $\lor$}
+
+\section{NEGATION $\lnot$}
+
+\section{UNIVERSAL QUANTIFIER $\forall$}
+
+\section{EXISTENTIAL QUANTIFIER $\exists$}
+

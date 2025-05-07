@@ -25,4 +25,5 @@ end
 
 
 
-#check Prop
+
+#check Implies.elim
