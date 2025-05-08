@@ -74,7 +74,7 @@ href="#x1-170003" id="QQ2-1-17">EQUALITY: CALCULATION PROOF</a></span>
 <br /><span class="sectionToc" >3.1 <a 
 href="#x1-180003.1" id="QQ2-1-18">EQUALITY</a></span>
 <br /><span class="sectionToc" >3.2 <a 
-href="#x1-190003.2" id="QQ2-1-19">CALCULATION PROOF</a></span>
+href="#x1-190003.2" id="QQ2-1-19">CALCULATION PROOF - REWRITE TACTIC</a></span>
 <br /><span class="sectionToc" >3.3 <a 
 href="#x1-200003.3" id="QQ2-1-20">TRANSITIVITY AND CALCULATION PROOF</a></span>
 <br /><span class="chapterToc" >4 <a 
@@ -426,8 +426,8 @@ logic.
 <!--l. 113--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">2.11   </span> <a 
  id="x1-160002.11"></a>AUXILIARY SUBGOALS</h3>
-<!--l. 116--><p class="noindent" ><span id="textcolor186"><span 
-class="ec-lmsso-10">SEE EXAMPLES</span></span>
+<!--l. 115--><p class="noindent" >See examples in <a 
+href="theorem_proving_in_lean_4/theorem_proving/auxiliary_subgoals.lean" >auxiliary_subgoals.lean</a>
                                                                                                
                                                                                                
                                                                                                
@@ -440,83 +440,77 @@ class="ec-lmsso-10">SEE EXAMPLES</span></span>
  id="x1-170003"></a>EQUALITY: CALCULATION PROOF</h2>
 <h3 class="sectionHead"><span class="titlemark">3.1   </span> <a 
  id="x1-180003.1"></a>EQUALITY</h3>
-<!--l. 7--><p class="noindent" >Let <span class="texthl"><span id="textcolor187">a</span></span> and <span class="texthl"><span id="textcolor188">b</span></span> be any objects, then <span class="texthl"><span id="textcolor189">a = b</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor190">Eq a b</span></span>). <span class="texthl"><span id="textcolor191">Eq</span></span> admits several properties
+<!--l. 7--><p class="noindent" >Let <span class="texthl"><span id="textcolor186">a</span></span> and <span class="texthl"><span id="textcolor187">b</span></span> be any objects, then <span class="texthl"><span id="textcolor188">a = b</span></span> is a proposition (also written as <span class="texthl"><span id="textcolor189">Eq a b</span></span>). <span class="texthl"><span id="textcolor190">Eq</span></span> admits several properties
      <ul class="itemize1">
      <li class="itemize">
-     <!--l. 10--><p class="noindent" >(reflexive): <span class="texthl"><span id="textcolor192">Eq.refl</span></span>
-     <!--l. 12--><p class="noindent" >Let <span class="texthl"><span id="textcolor193">a</span></span> be any object, then <span class="texthl"><span id="textcolor194">Eq.refl a: a = a</span></span> is a proof
+     <!--l. 10--><p class="noindent" >(reflexive): <span class="texthl"><span id="textcolor191">Eq.refl</span></span>
+     <!--l. 12--><p class="noindent" >Let <span class="texthl"><span id="textcolor192">a</span></span> be any object, then <span class="texthl"><span id="textcolor193">Eq.refl a: a = a</span></span> is a proof
      </li>
      <li class="itemize">
-     <!--l. 14--><p class="noindent" >(symmetric): <span class="texthl"><span id="textcolor195">Eq.symm</span></span>
-     <!--l. 16--><p class="noindent" >Let <span class="texthl"><span id="textcolor196">hab: a = b</span></span> be a proof, then <span class="texthl"><span id="textcolor197">Eq.symm hab: b = a</span></span> is also a proof
+     <!--l. 14--><p class="noindent" >(symmetric): <span class="texthl"><span id="textcolor194">Eq.symm</span></span>
+     <!--l. 16--><p class="noindent" >Let <span class="texthl"><span id="textcolor195">hab: a = b</span></span> be a proof, then <span class="texthl"><span id="textcolor196">Eq.symm hab: b = a</span></span> is also a proof
      </li>
      <li class="itemize">
-     <!--l. 18--><p class="noindent" >(transitive): <span class="texthl"><span id="textcolor198">Eq.trans</span></span>
-     <!--l. 20--><p class="noindent" >Let <span class="texthl"><span id="textcolor199">hab: a = b</span></span>, <span class="texthl"><span id="textcolor200">hbc: b = c</span></span> be proofs, then <span class="texthl"><span id="textcolor201">Eq.trans hab hbc: a = c</span></span> is also a proof</li></ul>
+     <!--l. 18--><p class="noindent" >(transitive): <span class="texthl"><span id="textcolor197">Eq.trans</span></span>
+     <!--l. 20--><p class="noindent" >Let <span class="texthl"><span id="textcolor198">hab: a = b</span></span>, <span class="texthl"><span id="textcolor199">hbc: b = c</span></span> be proofs, then <span class="texthl"><span id="textcolor200">Eq.trans hab hbc: a = c</span></span> is also a proof</li></ul>
 <!--l. 23--><p class="noindent" >In proving equality, lean provides several substitution rules
      <ul class="itemize1">
      <li class="itemize">
-     <!--l. 26--><p class="noindent" ><span class="texthl"><span id="textcolor202">Eq.subst</span></span>
-     <!--l. 28--><p class="noindent" >Let <span class="texthl"><span id="textcolor203">x: <span 
-class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor204">y: <span 
-class="lmmi-10">&#x03B1;</span></span></span>. Let <span class="texthl"><span id="textcolor205">h: a = b</span></span> be a proof and <span class="texthl"><span id="textcolor206">p: <span 
+     <!--l. 26--><p class="noindent" ><span class="texthl"><span id="textcolor201">Eq.subst</span></span>
+     <!--l. 28--><p class="noindent" >Let <span class="texthl"><span id="textcolor202">x: <span 
+class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor203">y: <span 
+class="lmmi-10">&#x03B1;</span></span></span>. Let <span class="texthl"><span id="textcolor204">h: a = b</span></span> be a proof and <span class="texthl"><span id="textcolor205">p: <span 
 class="lmmi-10">&#x03B1; </span><span 
-class="lmsy-10">&#x2192; </span>Prop</span></span>, then if <span class="texthl"><span id="textcolor207">hx: p x</span></span> is a proof, then <span class="texthl"><span id="textcolor208">Eq:subst: p y</span></span> is also
+class="lmsy-10">&#x2192; </span>Prop</span></span>, then if <span class="texthl"><span id="textcolor206">hx: p x</span></span> is a proof, then <span class="texthl"><span id="textcolor207">Eq:subst: p y</span></span> is also
      a proof
      </li>
      <li class="itemize">
-     <!--l. 30--><p class="noindent" ><span class="texthl"><span id="textcolor209">congrArg</span></span>
-     <!--l. 32--><p class="noindent" >Let <span class="texthl"><span id="textcolor210">x: <span 
-class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor211">y: <span 
-class="lmmi-10">&#x03B1;</span></span></span>. Let <span class="texthl"><span id="textcolor212">h: a = b</span></span> be a proof and <span class="texthl"><span id="textcolor213">f: <span 
+     <!--l. 30--><p class="noindent" ><span class="texthl"><span id="textcolor208">congrArg</span></span>
+     <!--l. 32--><p class="noindent" >Let <span class="texthl"><span id="textcolor209">x: <span 
+class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor210">y: <span 
+class="lmmi-10">&#x03B1;</span></span></span>. Let <span class="texthl"><span id="textcolor211">h: a = b</span></span> be a proof and <span class="texthl"><span id="textcolor212">f: <span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span>, then <span class="texthl"><span id="textcolor214">congrArg f h: f x = f y</span></span> is a proof
+class="lmmi-10">&#x03B2;</span></span></span>, then <span class="texthl"><span id="textcolor213">congrArg f h: f x = f y</span></span> is a proof
      </li>
      <li class="itemize">
-     <!--l. 34--><p class="noindent" ><span class="texthl"><span id="textcolor215">congrFun</span></span>
-     <!--l. 36--><p class="noindent" >Let <span class="texthl"><span id="textcolor216">f: <span 
+     <!--l. 34--><p class="noindent" ><span class="texthl"><span id="textcolor214">congrFun</span></span>
+     <!--l. 36--><p class="noindent" >Let <span class="texthl"><span id="textcolor215">f: <span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span> and <span class="texthl"><span id="textcolor217">g: <span 
+class="lmmi-10">&#x03B2;</span></span></span> and <span class="texthl"><span id="textcolor216">g: <span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span>. Let <span class="texthl"><span id="textcolor218">h: f = g</span></span> and <span class="texthl"><span id="textcolor219">x: <span 
-class="lmmi-10">&#x03B1;</span></span></span>, then <span class="texthl"><span id="textcolor220">congrFun h x: f x = g x</span></span> is a proof
+class="lmmi-10">&#x03B2;</span></span></span>. Let <span class="texthl"><span id="textcolor217">h: f = g</span></span> and <span class="texthl"><span id="textcolor218">x: <span 
+class="lmmi-10">&#x03B1;</span></span></span>, then <span class="texthl"><span id="textcolor219">congrFun h x: f x = g x</span></span> is a proof
      </li>
      <li class="itemize">
-     <!--l. 38--><p class="noindent" ><span class="texthl"><span id="textcolor221">congr</span></span>
-     <!--l. 40--><p class="noindent" >Let <span class="texthl"><span id="textcolor222">x: <span 
-class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor223">y: <span 
-class="lmmi-10">&#x03B1;</span></span></span>. Let <span class="texthl"><span id="textcolor224">f: <span 
+     <!--l. 38--><p class="noindent" ><span class="texthl"><span id="textcolor220">congr</span></span>
+     <!--l. 40--><p class="noindent" >Let <span class="texthl"><span id="textcolor221">x: <span 
+class="lmmi-10">&#x03B1;</span></span></span> and <span class="texthl"><span id="textcolor222">y: <span 
+class="lmmi-10">&#x03B1;</span></span></span>. Let <span class="texthl"><span id="textcolor223">f: <span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span> and <span class="texthl"><span id="textcolor225">g: <span 
+class="lmmi-10">&#x03B2;</span></span></span> and <span class="texthl"><span id="textcolor224">g: <span 
 class="lmmi-10">&#x03B1; </span><span 
 class="lmsy-10">&#x2192;</span><span 
-class="lmmi-10">&#x03B2;</span></span></span>. Let <span class="texthl"><span id="textcolor226">h_1: x = y</span></span> and <span class="texthl"><span id="textcolor227">h_2: f = g</span></span>, then <span class="texthl"><span id="textcolor228">congr h_2 h_1: f x = g y</span></span> is
+class="lmmi-10">&#x03B2;</span></span></span>. Let <span class="texthl"><span id="textcolor225">h_1: x = y</span></span> and <span class="texthl"><span id="textcolor226">h_2: f = g</span></span>, then <span class="texthl"><span id="textcolor227">congr h_2 h_1: f x = g y</span></span> is
      a proof</li></ul>
                                                                                                
                                                                                                
 <!--l. 43--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">3.2   </span> <a 
- id="x1-190003.2"></a>CALCULATION PROOF</h3>
-<!--l. 45--><p class="noindent" ><span id="textcolor229"><span 
-class="ec-lmsso-10">SEE EXAMPLES</span></span>
-<!--l. 47--><p class="noindent" ><span id="textcolor230"><span 
-class="ec-lmsso-10">TODO - github </span><a 
-href="https://github.com/leanprover/theorem_proving_in_lean4/issues/156" class="url" ><span 
-class="ec-lmsso-10">https://github.com/leanprover/theorem_proving_in_lean4/issues/156</span></a></span>
-<!--l. 50--><p class="noindent" >
+ id="x1-190003.2"></a>CALCULATION PROOF - REWRITE TACTIC</h3>
+<!--l. 45--><p class="noindent" >See examples for <span class="texthl"><span id="textcolor228">calc</span></span> and <span class="texthl"><span id="textcolor229">rewrite</span></span>, <span class="texthl"><span id="textcolor230">simp</span></span> tactics in <a 
+href="theorem_proving_in_lean_4/theorem_proving/calculation_proof.lean" >calculation_proof.lean</a>
+<!--l. 47--><p class="noindent" >
 <h3 class="sectionHead"><span class="titlemark">3.3   </span> <a 
  id="x1-200003.3"></a>TRANSITIVITY AND CALCULATION PROOF</h3>
-<!--l. 52--><p class="noindent" ><span id="textcolor231"><span 
-class="ec-lmsso-10">SEE EXAMPLES</span></span>
-<!--l. 54--><p class="noindent" ><span id="textcolor232"><span 
-class="ec-lmsso-10">TODO - proof relation with transitivity using </span><span class="texthl"><span id="textcolor233"><span 
-class="ec-lmsso-10">calc</span></span></span></span>
-<!--l. 56--><p class="noindent" ><span id="textcolor234"><span 
-class="ec-lmsso-10">TODO - rewrite tactic</span></span>
+<!--l. 49--><p class="noindent" >Calculation proof also works for inequalities or more generally any transitive binary relation
+<!--l. 51--><p class="noindent" >See examples in <a 
+href="theorem_proving_in_lean_4/theorem_proving/calculation_proof_for_transitivity.lean" >calculation_proof_for_transitivity.lean</a>
+<!--l. 53--><p class="noindent" ><span id="textcolor231"><span 
+class="ec-lmsso-10">NOTE: we might not understand everything at the moment - bare with me, accept it exists and move on first</span></span>
                                                                                                
                                                                                                
                                                                                                

@@ -40,17 +40,14 @@ In proving equality, lean provides several substitution rules
 	Let \hl{x: $\alpha$} and \hl{y: $\alpha$}. Let \hl{f: $\alpha \to \beta$} and \hl{g: $\alpha \to \beta$}. Let \hl{h\_1: x = y} and \hl{h\_2: f = g}, then \hl{congr h\_2 h\_1: f x = g y} is a proof
 \end{itemize}
 
-\section{CALCULATION PROOF}
+\section{CALCULATION PROOF - REWRITE TACTIC}
 
-\note{SEE EXAMPLES}
-
-\note{TODO - github \url{https://github.com/leanprover/theorem_proving_in_lean4/issues/156}}
-
+See examples for \hl{calc} and \hl{rewrite}, \hl{simp} tactics in \href{theorem_proving_in_lean_4/theorem_proving/calculation_proof.lean}{calculation\_proof.lean}
 
 \section{TRANSITIVITY AND CALCULATION PROOF}
 
-\note{SEE EXAMPLES}
+Calculation proof also works for inequalities or more generally any transitive binary relation
 
-\note{TODO - proof relation with transitivity using \hl{calc}}
+See examples in \href{theorem_proving_in_lean_4/theorem_proving/calculation_proof_for_transitivity.lean}{calculation\_proof\_for\_transitivity.lean}
 
-\note{TODO - rewrite tactic}
+\note{NOTE: we might not understand everything at the moment - bare with me, accept it exists and move on first}
