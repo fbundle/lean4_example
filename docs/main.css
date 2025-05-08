@@ -5,11 +5,7 @@
 .ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-10{ font-family: sans-serif;}
-.ec-lmss-10{ font-family: sans-serif;}
-.ec-lmss-10{ font-family: sans-serif;}
 .ec-lmss-12{font-size:120%; font-family: sans-serif;}
-.ec-lmss-12{ font-family: sans-serif;}
-.ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
 .ec-lmss-12{ font-family: sans-serif;}
@@ -19,39 +15,16 @@
 .ec-lmss-17{ font-family: sans-serif;}
 .ec-lmss-17{ font-family: sans-serif;}
 .ec-lmss-17{ font-family: sans-serif;}
-.ec-lmss-17{ font-family: sans-serif;}
-.ec-lmss-17{ font-family: sans-serif;}
 .ec-lmsso-12{font-size:120%; font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
-.ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
-.ec-lmsso-12{ font-family: sans-serif; font-style: oblique;}
-.rm-lmr-7{font-size:70%;}
-.lmmi-7{font-size:70%;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
 .ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
-.ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
-.ec-lmsso-10{ font-family: sans-serif; font-style: oblique;}
-.ec-lmtt-9{font-size:90%; font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtt-9{ font-family: monospace,monospace;}
-.ec-lmtti-10x-x-90{font-size:90%; font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.ec-lmtti-10x-x-90{ font-family: monospace,monospace; font-style:italic;}
-.lmsy9-{font-size:90%;}
 p{margin-top:0;margin-bottom:0}
 p.indent{text-indent:0;}
 p + p{margin-top:1em;}
@@ -599,8 +572,7 @@ span#textcolor184{background-color:}
 span#textcolor184{background-color:rgb(255,255,0)}
 span#textcolor185{background-color:}
 span#textcolor185{background-color:rgb(255,255,0)}
-span#textcolor186{background-color:}
-span#textcolor186{background-color:rgb(255,255,0)}
+span#textcolor186{color:#FF0000}
 span#textcolor187{background-color:}
 span#textcolor187{background-color:rgb(255,255,0)}
 span#textcolor188{background-color:}
@@ -633,5 +605,59 @@ span#textcolor201{background-color:}
 span#textcolor201{background-color:rgb(255,255,0)}
 span#textcolor202{background-color:}
 span#textcolor202{background-color:rgb(255,255,0)}
+span#textcolor203{background-color:}
+span#textcolor203{background-color:rgb(255,255,0)}
+span#textcolor204{background-color:}
+span#textcolor204{background-color:rgb(255,255,0)}
+span#textcolor205{background-color:}
+span#textcolor205{background-color:rgb(255,255,0)}
+span#textcolor206{background-color:}
+span#textcolor206{background-color:rgb(255,255,0)}
+span#textcolor207{background-color:}
+span#textcolor207{background-color:rgb(255,255,0)}
+span#textcolor208{background-color:}
+span#textcolor208{background-color:rgb(255,255,0)}
+span#textcolor209{background-color:}
+span#textcolor209{background-color:rgb(255,255,0)}
+span#textcolor210{background-color:}
+span#textcolor210{background-color:rgb(255,255,0)}
+span#textcolor211{background-color:}
+span#textcolor211{background-color:rgb(255,255,0)}
+span#textcolor212{background-color:}
+span#textcolor212{background-color:rgb(255,255,0)}
+span#textcolor213{background-color:}
+span#textcolor213{background-color:rgb(255,255,0)}
+span#textcolor214{background-color:}
+span#textcolor214{background-color:rgb(255,255,0)}
+span#textcolor215{background-color:}
+span#textcolor215{background-color:rgb(255,255,0)}
+span#textcolor216{background-color:}
+span#textcolor216{background-color:rgb(255,255,0)}
+span#textcolor217{background-color:}
+span#textcolor217{background-color:rgb(255,255,0)}
+span#textcolor218{background-color:}
+span#textcolor218{background-color:rgb(255,255,0)}
+span#textcolor219{background-color:}
+span#textcolor219{background-color:rgb(255,255,0)}
+span#textcolor220{background-color:}
+span#textcolor220{background-color:rgb(255,255,0)}
+span#textcolor221{background-color:}
+span#textcolor221{background-color:rgb(255,255,0)}
+span#textcolor222{background-color:}
+span#textcolor222{background-color:rgb(255,255,0)}
+span#textcolor223{background-color:}
+span#textcolor223{background-color:rgb(255,255,0)}
+span#textcolor224{background-color:}
+span#textcolor224{background-color:rgb(255,255,0)}
+span#textcolor225{background-color:}
+span#textcolor225{background-color:rgb(255,255,0)}
+span#textcolor226{background-color:}
+span#textcolor226{background-color:rgb(255,255,0)}
+span#textcolor227{background-color:}
+span#textcolor227{background-color:rgb(255,255,0)}
+span#textcolor228{background-color:}
+span#textcolor228{background-color:rgb(255,255,0)}
+span#textcolor229{color:#FF0000}
+span#textcolor230{color:#FF0000}
 /* end css.sty */
 

@@ -51,14 +51,6 @@ Let \hl{p: Prop} and \hl{q: Prop} be propositions, then \hl{p $\land$ q: Prop} i
 	Let \hl{h: p $\land$ q} be a proof, then \hl{And.left h: p} and \hl{And.right h: q} are also proofs (also written as \hl{h.left} and \hl{h.right})
 \end{itemize}
 
-\begin{center}
-	\begin{tikzcd}
-		&  &                                                                               &  & p \\
-		p \times q \arrow[rr, "\mathrm{And.intro}"] &  & p \land q \arrow[rru, "\mathrm{And.left}"] \arrow[rrd, "\mathrm{And.right}"'] &  &   \\
-		&  &                                                                               &  & q
-	\end{tikzcd}
-\end{center}
-
 
 \section{DISJUNCTION $\lor$}
 
@@ -76,13 +68,6 @@ Let \hl{p: Prop} and \hl{q: Prop} be propositions, then \hl{p $\lor$ q: Prop} is
 	Let \hl{hpq: p $\lor$ q}, \hl{hpr: p $\to$ r}, and \hl{hqr: q $\to$ r} be proofs, then \hl{Or.elim hpq hpr hqr: r} is also a proof
 \end{itemize}
 
-\begin{center}
-	\begin{tikzcd}
-		\mathrm{Prop} \times p \arrow[rrd, "\mathrm{Or.intro\_left}"]   &  &          &                                                                             &  &   \\
-		&  & p \lor q & (p \lor q) \times (p \to r) \times (q \to r) \arrow[rr, "\mathrm{Or.elim}"] &  & r \\
-		\mathrm{Prop} \times q \arrow[rru, "\mathrm{Or.intro\_right}"'] &  &          &                                                                             &  &  
-	\end{tikzcd}
-\end{center}
 
 \section{NEGATION $\lnot$}
 
@@ -102,14 +87,6 @@ Given two propositions \hl{p: Prop} and \hl{q: Prop}, \hl{p $\leftrightarrow$ q:
 	
 	Let \hl{h: p $\leftrightarrow$ q} be a proof, then \hl{Iff.mp h: p $\to$ q} and \hl{Iff.mpr h: q $\to$ p} are also proofs
 \end{itemize}
-
-\begin{center}
-	\begin{tikzcd}
-		&  &                                                                                     &  & p \to q \\
-		(p \to q) \times (q \to p) \arrow[rr, "\mathrm{Iff.intro}"] &  & p \leftrightarrow q \arrow[rru, "\mathrm{Iff.mp}"] \arrow[rrd, "\mathrm{Iff.mpr}"'] &  &         \\
-		&  &                                                                                     &  & q \to p
-	\end{tikzcd}
-\end{center}
 
 \section{UNIVERSAL QUANTIFIER $\forall$}
 
@@ -136,24 +113,7 @@ So far, we introduced constructive logic, that is, if a proposition is true, the
 \section{AUXILIARY SUBGOALS}
 
 
-when writing lean proof, one can use \hl{have <object>: <type> := <value>} (same semantic ot \hl{let}) and \hl{show <proposition> from <proof>}, so that the proof is easier to read for human.
-
-\begin{lstlisting}
-	section
-	-- subgoal
-	example {p q: Prop} (h : p ∧ q) : q ∧ p :=
-	have hp : p := h.left -- same as let hp := And.left h
-	have hq : q := h.right
-	show q ∧ p from And.intro hq hp
-	
-	-- subgoal
-	example {p q: Prop} (h : p ∧ q) : q ∧ p :=
-	have hp : p := h.left
-	-- it suffices to show hq: q because we can show q ∧ p from two certificates hq and hp
-	suffices hq : q from And.intro hq hp
-	show q from And.right h
-	end
-\end{lstlisting}
+\note{SEE EXAMPLES}
 
 
 

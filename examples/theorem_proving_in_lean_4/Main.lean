@@ -1,5 +1,5 @@
-import theorem_proving.propositions_and_proofs_3
-import theorem_proving.quantifiers_and_equality_4
+import theorem_proving.auxiliary_subgoals
+import theorem_proving.proof_by_calculation
 
 
 def main : IO Unit :=

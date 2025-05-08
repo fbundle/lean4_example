@@ -481,132 +481,40 @@ import Test.Structure_4
 import Test.Recursion_5
 import Test.Polymorphism_6
 import Test.Other_7
-./examples/theorem_proving_in_lean_4/theorem_proving/propositions_and_proofs_3.lean
-
-
+./examples/theorem_proving_in_lean_4/theorem_proving/proof_by_calculation.lean
 section
+  variable (a b c d e : Nat)
+  variable (h1 : a = b)
+  variable (h2 : b = c + 1)
+  variable (h3 : c = d)
+  variable (h4 : e = 1 + d)
 
--- commutativity of ∧
-def and_comm1: (p ∧ q) → (q ∧ p) :=
-  λ (hpq: p ∧ q) ↦
-    let hp := And.left hpq
-    let hq := And.right hpq
-    And.intro hq hp
-
--- commutativity of ∨
-def or_comm1: (p ∨ q) → (q ∨ p) :=
-  λ (hpq: p ∨ q) ↦
-    Or.elim hpq -- proof for p ∨ q
-      (λ hp ↦ Or.intro_right q hp) -- proof for p → (q ∨ p)
-      (λ hq ↦ Or.intro_left p hq) -- proof for q → (p ∨ q)
-
--- negation of p and p is a contradiction
-def contr_implies_false: ¬(¬p ∧ p) :=
-  λ (h: ¬p ∧ p) ↦
-    let hnp := And.left h
-    let hp := And.right h
-    hnp hp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
-
--- implies anything from a contradiction
-def contr_implies_anything : (¬ p ∧ p) → q :=
-  λ (h: ¬p ∧ p) ↦
-    let hnp := And.left h
-    let hp := And.right h
-    absurd hp hnp -- or write `absurd hp hnp` or `False.elim (hnp hp)`
-
-
--- logical equivalence
-example : (p ∧ q) ↔ (q ∧ p) :=
-  Iff.intro and_comm1 and_comm1
+  theorem T : a = e :=
+    calc
+      a = b      := h1
+      _ = c + 1  := h2
+      _ = d + 1  := congrArg Nat.succ h3
+      _ = 1 + d  := Nat.add_comm d 1
+      _ = e      := Eq.symm h4
 end
-
--- subgoal
-example (h : p ∧ q) : q ∧ p :=
-  have hp : p := h.left -- same as `let hp := And.left h`
+./examples/theorem_proving_in_lean_4/theorem_proving/auxiliary_subgoals.lean
+section
+  -- subgoal
+  example {p q: Prop} (h : p ∧ q) : q ∧ p :=
+  have hp : p := h.left -- same as let hp := And.left h
   have hq : q := h.right
   show q ∧ p from And.intro hq hp
 
--- subgoal
-example (h : p ∧ q) : q ∧ p :=
-  -- we already show p here by certificate hp
-  have hp : p := h.left
-  -- it suffices to show q because we can show q ∧ p from two certificates hq and hp
-  suffices hq : q from And.intro hq hp
-  show q from And.right h
-
-/-
-
-
-
-
--- TODO : finish all sorry proofs in this file
-
-section
-  variable (p q r : Prop)
-
-  -- commutativity of ∧ and ∨
-  example : p ∧ q ↔ q ∧ p := sorry
-  example : p ∨ q ↔ q ∨ p := sorry
-
-  -- associativity of ∧ and ∨
-  example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := sorry
-  example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
-
-  -- distributivity
-  example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
-  example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := sorry
-
-  -- other properties
-  example : (p → (q → r)) ↔ (p ∧ q → r) := sorry
-  example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := sorry
-  example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
-  example : ¬p ∨ ¬q → ¬(p ∧ q) := sorry
-  example : ¬(p ∧ ¬p) := sorry
-  example : p ∧ ¬q → ¬(p → q) := sorry
-  example : ¬p → (p → q) := sorry
-  example : (¬p ∨ q) → (p → q) := sorry
-  example : p ∨ False ↔ p := sorry
-  example : p ∧ False ↔ False := sorry
-  example : (p → q) → (¬q → ¬p) := sorry
-
-end
-
-section
-
-  open Classical
-
-  variable (p q r : Prop)
-
-  example : (p → q ∨ r) → ((p → q) ∨ (p → r)) := sorry
-  example : ¬(p ∧ q) → ¬p ∨ ¬q := sorry
-  example : ¬(p → q) → p ∧ ¬q := sorry
-  example : (p → q) → (¬p ∨ q) := sorry
-  example : (¬q → ¬p) → (p → q) := sorry
-  example : p ∨ ¬p := sorry
-  example : (((p → q) → p) → p) := sorry
-
-
-end
-
--/
-./examples/theorem_proving_in_lean_4/theorem_proving/quantifiers_and_equality_4.lean
-section
--- subgoal
-example {p q: Prop} (h : p ∧ q) : q ∧ p :=
-  have hp : p := h.left -- same as `let hp := And.left h`
-  have hq : q := h.right
-  show q ∧ p from And.intro hq hp
-
--- subgoal
-example {p q: Prop} (h : p ∧ q) : q ∧ p :=
+  -- subgoal
+  example {p q: Prop} (h : p ∧ q) : q ∧ p :=
   have hp : p := h.left
   -- it suffices to show hq: q because we can show q ∧ p from two certificates hq and hp
   suffices hq : q from And.intro hq hp
   show q from And.right h
 end
 ./examples/theorem_proving_in_lean_4/Main.lean
-import theorem_proving.propositions_and_proofs_3
-import theorem_proving.quantifiers_and_equality_4
+import theorem_proving.auxiliary_subgoals
+import theorem_proving.proof_by_calculation
 
 
 def main : IO Unit :=
