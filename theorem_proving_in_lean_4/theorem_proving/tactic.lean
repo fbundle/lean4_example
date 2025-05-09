@@ -72,11 +72,34 @@ example : ∀ a b c : Nat, a = b → a = c → c = b := by
   apply Eq.symm
   repeat assumption -- repeat assumption until goal is fulfilled
 
--- example for `revert`
+-- example for `revert` and `rfl`
 example (x : Nat) : x = x := by
   -- current goal: `x : Nat ⊢ x = x`
   revert x
   -- current goal: `⊢ ∀ (x : Nat), x = x`
   intro y
   -- current goal: `y : Nat ⊢ y = y`
+  exact rfl -- `rfl` proves all `x ∼ x` for every reflexive relation `∼`
+
+
+-- example for `generalize`
+example : 3 = 3 := by
+  generalize 3 = x
+  -- current goal: `x : Nat ⊢ x = x`
+  revert x
+  -- current goal: `⊢ ∀ (x : Nat), x = x`
+  intro y
+  -- current goal: `y : Nat ⊢ y = y`
   rfl
+
+-- decompose a disjunction with `cases`
+example (p q : Prop) : p ∨ q → q ∨ p := by
+  intro h
+  -- current goal : `p q : Prop ;h : p ∨ q ⊢ q ∨ p`
+  cases h with
+  | inl hp =>
+    -- current goal : `p q : Prop ; hp : p ⊢ q ∨ p`
+    apply Or.inr; exact hp
+  | inr hq =>
+    -- current goal : `p q : Prop ; hq : q ⊢ q ∨ p`
+    apply Or.inl; exact hq
