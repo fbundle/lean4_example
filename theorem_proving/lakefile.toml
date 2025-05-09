@@ -2,8 +2,12 @@ name = "test"
 version = "0.1.0"
 defaultTargets = ["test"]
 
+
 [[lean_lib]]
-name = "theorem_proving"
+name = "type_theory_1"
+
+[[lean_lib]]
+name = "tactic_2"
 
 [[lean_exe]]
 name = "test"

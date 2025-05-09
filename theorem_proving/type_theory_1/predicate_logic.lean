@@ -1,0 +1,3 @@
+namespace PredicateLogic
+
+end PredicateLogic

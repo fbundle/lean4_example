@@ -481,7 +481,7 @@ import Test.Structure_4
 import Test.Recursion_5
 import Test.Polymorphism_6
 import Test.Other_7
-./theorem_proving/theorem_proving/inductive_type.lean
+./theorem_proving/type_theory_1/inductive_type.lean
 namespace InductiveType
 
 /-
@@ -588,34 +588,11 @@ theorem add_zero: (y: Nat) → add Nat.zero y = y := by
         _ = Nat.succ z := by rw [ih]
 
 end InductiveType
-./theorem_proving/theorem_proving/predicate_logic.lean
+./theorem_proving/type_theory_1/predicate_logic.lean
 namespace PredicateLogic
 
-/-
-`Prop` is an object at `universe level 1` which is the same level with `Nat`. An element (in `universe level 0`) of `universe Prop` is called a proposition. For example, `True`, `1 + 1 = 3`, `Fermat's last theorem`.
-
-Curry–Howard (CH) asserts that proving a proposition `p: Prop` is equivalent to constructing a term `x: p` at `universe level -1`. Hence, a proposition `p: Prop` is said to be true if and only if there exists an element  `x: p`, we say that the truth of `p: Prop` is `witnessed` by the proof `x: p` or `x: p` is a `certificate` for the truth of `p: Prop`.
-
-We say `p: Prop` is `inhabited` if there is a proof for `p: Prop`, `p: Prop` is `uninhabited` if there is no proof for `p: Prop`
-
-The type system in lean is powerful enough to model predicate logic, we will describe below the builtin logical connectives and related `introduction rules` and `elimination rules`. An `introduction rule` is a way to prove `p: Prop` from something else, an `elimination rule` is a way deduce something else from `p: Prop`
-
--/
-
--- `False` : type with no
-inductive False
-
-inductive True where
-  | intro: True
-
-
-
-
-
-
-
 end PredicateLogic
-./theorem_proving/theorem_proving/dependent_type_theory.lean
+./theorem_proving/type_theory_1/dependent_type_theory.lean
 namespace DependentTypeTheory
 
 /-
@@ -660,8 +637,309 @@ def make_vector (α: Type) [s: Inhabited α] (n: Nat): Vector α n :=
 
 end DependentTypeTheory
 ./theorem_proving/Main.lean
-import theorem_proving.dependent_type_theory
+import type_theory_1.dependent_type_theory
+import type_theory_1.inductive_type
+import type_theory_1.predicate_logic
+
+
+import tactic_2.tactic
+import tactic_2.calculation_proof
+import tactic_2.calculation_proof_for_transitivity
+import tactic_2.auxiliary_subgoals
+
 
 def main : IO Unit :=
   IO.println s!"Hello, World!"
+./theorem_proving/tactic_2/calculation_proof_for_transitivity.lean
+section
+  variable (a b c d : Nat)
+  variable (h1 : a = b)
+  variable (h2 : b ≤ c)
+  variable (h3 : c + 1 < d)
+
+  -- example using `calc` to show inequality
+  example  : a < d :=
+    calc
+      a = b     := h1
+      _ < b + 1 := Nat.lt_succ_self b -- `Nat.lt_succ_self a` gives a proof for `a < a + 1`
+      _ ≤ c + 1 := Nat.succ_le_succ h2 -- `Nat.succ_le_succ` gives a proof for `n.succ ≤ m.succ` from `n ≤ m`
+      _ < d     := h3
+
+end
+
+section
+  -- `x` divides `y` as natural numbers
+  def divides (x y : Nat) : Prop := ∃ k: Nat, k*x = y
+
+  -- transitivity of `divides` - I don't understand this at the moment
+  def divides_trans (h₁ : divides x y) (h₂ : divides y z) : divides x z :=
+    have ⟨k₁, d₁⟩ := h₁ -- `k₁: Nat` and `d₁: k₁ * x = y` is a proof for `k₁ * x = y`
+    have ⟨k₂, d₂⟩ := h₂ -- `k₂: Nat` and `d₂: k₂ * y = z` is a proof for `k₂ * y = z`
+    ⟨k₁ * k₂, by rw [Nat.mul_comm k₁ k₂, Nat.mul_assoc, d₁, d₂]⟩
+
+  -- `x` divides `k * x`
+  def divides_mul (x : Nat) (k : Nat) : divides x (k*x) :=
+    ⟨k, rfl⟩
+
+  -- declaring `divides` as a transitive relation
+  instance : Trans divides divides divides where
+    trans := divides_trans
+
+  -- example using `calc`
+  example (h₁ : divides x y) (h₂ : y = z) : divides x (2*z) :=
+    calc
+      divides x y     := h₁
+      _ = z           := h₂
+      divides _ (2*z) := divides_mul ..
+end
+./theorem_proving/tactic_2/calculation_proof.lean
+section
+  variable (a b c d e: Nat)
+  variable (h1: a = b)
+  variable (h2: b = c + 1)
+  variable (h3: c = d)
+  variable (h4: e = 1 + d)
+
+  -- example using `calc` to show equality
+  example : a = e := by
+  calc
+    a = b := h1
+    _ = c + 1 := h2
+    _ = d + 1 := congrArg (λ x => x + 1) h3   -- `congrArg` is used to apply a function to both sides of an equation
+    _ = 1 + d := Nat.add_comm d 1             -- `Nat.add_comm a b` gives a proof for `a + b = b + a`
+    _ = e := Eq.symm h4
+
+  -- example using `calc` to show equality with `rewrite` tactic
+  example : a = e := by
+  calc
+    a = b := by rw [h1]
+    _ = c + 1 := by rw [h2]
+    _ = d + 1 := by rw [h3]
+    _ = 1 + d := by rw [Nat.add_comm]
+    _ = e := by rw [h4]
+
+  -- example using `simp` tactic to simplify `calc` proof with `rewrite`
+  example : a = e := by
+    simp [h1, h2, h3, Nat.add_comm, h4]
+end
+./theorem_proving/tactic_2/tactic.lean
+-- `Control-Shift-Enter` or `Command-Shift-Enter` to show `Lean InfoView`
+
+
+-- easy example with `intro`
+theorem t {p q: Prop} : p ∧ q → p ∨ q := by
+  -- current goal: `p q : Prop ⊢ p ∧ q → p ∨ q`
+  intro h
+  -- current goal: `p q : Prop ; h: p ∧ q ⊢ p ∨ q`
+  apply Or.intro_left
+  -- current goal: `case h ; p q : Prop ; h : p ∧ q ⊢ p`
+  exact h.left
+  -- current goal: no more goal - proof is complete
+
+-- #print t -- print the proof generated by lean
+
+-- a more complicated example
+example {p q: Prop} : p ∧ q → p ∧ q ∧ p := by
+  -- current goal: `p q : Prop ⊢ p ∧ q → p ∧ q ∧ p`
+  intro h
+  -- current goal: `p q : Prop ; h: p ∧ q ⊢ p ∧ q ∧ p`
+  apply And.intro
+  -- current goal 1: `case left ; p q : Prop ; h : p ∧ q ⊢ p`
+  -- current goal 2: `case right ; p q : Prop ; h : p ∧ q ⊢ q ∧ p`
+  case left => -- do `case left` first
+    -- current goal: `p q : Prop ; h : p ∧ q ⊢ p`
+    exact h.left
+  case right =>
+    -- current goal: `p q : Prop ; h : p ∧ q ⊢ q ∧ p`
+    apply And.intro
+    -- current goal 1: `case left ; p q : Prop ; h : p ∧ q ⊢ q`
+    -- current goal 2: `case right ; p q : Prop ; h: p ∧ q ⊢ p`
+    case right => -- do `case right` first
+      -- current goal: `p q : Prop ; h: p ∧ q ⊢ p`
+      exact h.left
+    case left =>
+      -- current goal: `p q : Prop ; h : p ∧ q ⊢ q`
+      exact h.right
+
+-- introduce variables
+example : ∀ a b c : Nat, a = b ∧ a = c → c = b := by
+  intro a b c h -- `a b c : Nat ; h : a = b ∧ a = c`
+  have h₁ := h.left
+  have h₂ := h.right
+  exact Eq.trans (Eq.symm h₂) h₁
+
+example : ∀ a b c : Nat, a = b → a = c → c = b := by
+  intro a b c h₁ h₂ -- `a b c : Nat ; h₁ : a = b ; h₂ : a = c`
+  exact Eq.trans (Eq.symm h₂) h₁
+
+-- example for `intro` using `⟨ ... ⟩` constructor
+example (α : Type) (p q : α → Prop) : (∃ x, p x ∧ q x) → ∃ x, q x ∧ p x := by
+  intro ⟨w, hpw, hqw⟩ -- `w` is a term that witnesses `p w ∧ q w`
+  exact ⟨w, hqw, hpw⟩
+
+-- example for `assumption`
+example (x y z w : Nat) (h₁ : x = y) (h₂ : y = z) (h₃ : z = w) : x = w := by
+  apply Eq.trans h₁
+  apply Eq.trans h₂
+  -- current goal: `x y z w : Nat ;  h₁ : x = y ; h₂ : y = z ; h₃ : z = w`
+  -- `assumption` automatically find the assumption to fulfill the goal
+  assumption -- here it uses `h₃`
+
+-- example for `intros` and `assumption`
+example : ∀ a b c : Nat, a = b → a = c → c = b := by
+  intros -- intro all variables but the names are hidden by default
+  apply Eq.trans
+  apply Eq.symm
+  assumption
+  assumption
+
+-- example for `intros`, `assumption`, and `repeat`
+example : ∀ a b c : Nat, a = b → a = c → c = b := by
+  intros -- intro all variables but the names are hidden by default
+  apply Eq.trans
+  apply Eq.symm
+  repeat assumption -- repeat assumption until goal is fulfilled
+
+-- example for `revert` and `rfl`
+example (x : Nat) : x = x := by
+  -- current goal: `x : Nat ⊢ x = x`
+  revert x
+  -- current goal: `⊢ ∀ (x : Nat), x = x`
+  intro y
+  -- current goal: `y : Nat ⊢ y = y`
+  exact rfl -- `rfl` proves all `x ∼ x` for every reflexive relation `∼`
+
+
+-- example for `generalize`
+example : 3 = 3 := by
+  generalize 3 = x
+  -- current goal: `x : Nat ⊢ x = x`
+  revert x
+  -- current goal: `⊢ ∀ (x : Nat), x = x`
+  intro y
+  -- current goal: `y : Nat ⊢ y = y`
+  rfl
+
+
+-- decompose a disjunction with `cases` (it is just `match`)
+-- or more generally any inductive type
+example (p q : Prop) : p ∨ q → q ∨ p := by
+  intro h -- `h : p ∨ q`
+  -- current goal : `p q : Prop ; h : p ∨ q ⊢ q ∨ p`
+  cases h with
+  | inl hp =>
+    -- current goal : `p q : Prop ; hp : p ⊢ q ∨ p`
+    apply Or.inr; exact hp
+  | inr hq =>
+    -- current goal : `p q : Prop ; hq : q ⊢ q ∨ p`
+    apply Or.inl; exact hq
+
+-- decompose an existence by `cases`
+-- prove for existence by `exists`
+example (p q : Nat → Prop) : (∃ x, p x) → ∃ x, p x ∨ q x := by
+  intro h
+  -- current goal: `p q : Nat → Prop ; h : ∃ x, p x ⊢ ∃ x, p x ∨ q x`
+  cases h with
+  | intro w pw =>
+    -- current goal: `p q : Nat → Prop ; w : Nat ; pw : p ; w ⊢ ∃ x, p x ∨ q x`
+    exists w -- tell `lean` that `w` is the chosen point to satisfy existential goal
+    -- current goal: `p q : Nat → Prop ; w : Nat ; pw : p w ⊢ p w ∨ q w`
+    apply Or.inl
+    exact pw
+
+
+-- proof by contradiction
+example (p q : Prop) : p ∧ ¬p → q := by
+  intro h
+  have h₁ := h.left
+  have h₂ := h.right
+  contradiction -- search for contradiction
+
+-- proof by contradiction
+example (p q : Prop) : p ∧ ¬p → q := by
+  intro h
+  cases h -- created `left: p` and `right: p` automatically
+  contradiction
+
+-- mixed term-mode and tactic-mode
+example (p q r : Prop) : p ∧ (q ∨ r) → (p ∧ q) ∨ (p ∧ r) :=
+  by -- start tactic mode by `by`
+  intro h
+  exact -- start term mode by `exact`
+    have hp : p := h.left
+    have hqr : q ∨ r := h.right
+    show (p ∧ q) ∨ (p ∧ r) by -- start tactic mode by `by`, `show (p ∧ q) ∨ (p ∧ r)` is optional
+      cases hqr with
+      | inl hq => exact Or.inl ⟨hp, hq⟩
+      | inr hr => exact Or.inr ⟨hp, hr⟩
+
+-- optional `show`
+example {p q: Prop} : p ∧ q → q ∧ p := by
+  intro h
+  apply And.intro
+  case left =>
+    show q -- use show to specify which goal we are resolving
+    exact h.right
+  case right =>
+    show p -- use show to specify which goal we are resolving
+    exact h.left
+
+
+-- alternative to proving multiple goals
+/-
+  apply foo
+  . <proof of first goal>
+  . <proof of second goal>
+  . <proof of third goal>
+  . <proof of final goal>
+
+  apply foo
+  case <tag of first goal>  => <proof of first goal>
+  case <tag of second goal> => <proof of second goal>
+  case <tag of third goal>  => <proof of third goal>
+  case <tag of final goal>  => <proof of final goal>
+
+  apply foo
+  { <proof of first goal>  }
+  { <proof of second goal> }
+  { <proof of third goal>  }
+  { <proof of final goal>  }
+-/
+
+-- anther example
+-- this is my favorite way to prove: mixed tactic mode term mode
+-- just make a sequence of true statments
+-- a → b → c → d
+-- occasionally I use calc proof
+example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
+  intro h₀
+  have h₁ : a = 0 := by
+    calc
+      a = a + 0 := by rw [Nat.add_zero]
+      _ = 0 := by rw [h₀]
+  have h₂ : f a = f 0 := congrArg f h₁
+  exact h₂
+
+-- `rw [...] at ...` - rewrite in hypothesis instead of goal
+example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
+  intro h
+  rw [Nat.add_zero] at h
+  rw [h]
+
+-- the rest will do later - TODO
+./theorem_proving/tactic_2/auxiliary_subgoals.lean
+section
+  -- subgoal example 1
+  example {p q: Prop} (h : p ∧ q) : q ∧ p :=
+  have hp : p := h.left           -- same as let `hp := And.left h`
+  have hq : q := h.right          -- same as let `hq := And.right h`
+  show q ∧ p from And.intro hq hp -- same as `And.intro hq hp`
+
+  -- subgoal example 2
+  example {p q: Prop} (h : p ∧ q) : q ∧ p :=
+  have hp : p := h.left           -- same as let `hp := And.left h`
+  -- instead of showing `hq: q`, we assume `hq: q` and show `And.intro hq hp: q ∧ p` first
+  suffices hq : q from And.intro hq hp
+  show q from And.right h         -- now we show `hq: q`
+end
 do you have any comment on this?
