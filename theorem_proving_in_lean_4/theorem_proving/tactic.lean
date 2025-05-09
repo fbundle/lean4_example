@@ -1,3 +1,5 @@
+-- `Control-Shift-Enter` or `Command-Shift-Enter` to show `Lean InfoView`
+
 theorem t {p q: Prop} : p ∧ q → p ∨ q := by
   -- current goal: `p q : Prop ⊢ p ∧ q → p ∨ q`
   intro h
