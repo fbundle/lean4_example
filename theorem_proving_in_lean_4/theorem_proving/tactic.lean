@@ -190,7 +190,8 @@ example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
     calc
       a = a + 0 := by rw [Nat.add_zero]
       _ = 0 := by rw [h]
-  exact congrArg f h₁
+  have h₂ : f a = f 0 := congrArg f h₁
+  exact h₂
 
 -- `rw [...] at ...` - rewrite in hypothesis instead of goal
 example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
