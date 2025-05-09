@@ -59,8 +59,24 @@ example (x y z w : Nat) (h₁ : x = y) (h₂ : y = z) (h₃ : z = w) : x = w := 
 
 -- example for `intros` and `assumption`
 example : ∀ a b c : Nat, a = b → a = c → c = b := by
-  intros -- intro all variables but the names are hidden
+  intros -- intro all variables but the names are hidden by default
   apply Eq.trans
   apply Eq.symm
   assumption
   assumption
+
+-- example for `intros`, `assumption`, and `repeat
+example : ∀ a b c : Nat, a = b → a = c → c = b := by
+  intros -- intro all variables but the names are hidden by default
+  apply Eq.trans
+  apply Eq.symm
+  repeat assumption -- repeat assumption until goal is fulfilled
+
+-- example for `revert`
+example (x : Nat) : x = x := by
+  -- current goal: `x : Nat ⊢ x = x`
+  revert x
+  -- current goal: `⊢ ∀ (x : Nat), x = x`
+  intro y
+  -- current goal: `y : Nat ⊢ y = y`
+  rfl
