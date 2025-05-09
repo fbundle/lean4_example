@@ -45,6 +45,18 @@ inductive Sum (α : Type u) (β : Type v) where
   | inl : α → Sum α β
   | inr : β → Sum α β
 
+
+-- `And` and `Or` are actually `Prod` and `Sum`
+-- `And a b ≡ a ∧ b`, `Or a b ≡ a ∨ b`
+
+-- proof by `cases`
+example: (a ∨ b) → (b ∨ a) := by
+  intro h
+  cases h with
+    | inl ha => exact Or.inr ha
+    | inr hb => exact Or.inl hb
+
+
 -- `structure` is actually product type
 -- `Color1 ≡ Color2`
 inductive Color1 where
@@ -54,6 +66,8 @@ structure Color2 where
   red: Nat
   green: Nat
   blue: Nat
+
+
 
 -- more complex examples with type dependent
 inductive Option (α : Type u) where
@@ -77,10 +91,12 @@ def add (x : Nat) (y: Nat) : Nat :=
   | Nat.zero   => x
   | Nat.succ z => Nat.succ (add x z)
 
--- proving `0 + y = y`
+-- proof by `induction` for `0 + y = y`
 theorem add_zero: (y: Nat) → add Nat.zero y = y := by
   intro y
-  induction y with -- use induction to get `ih: add Nat.zero z = z`
+  -- similar to `cases `
+  -- but `induction` gives `ih: add Nat.zero z = z`
+  induction y with
     | zero => rfl
     | succ z ih =>
       calc
