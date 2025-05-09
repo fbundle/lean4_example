@@ -33,9 +33,34 @@ example {p q: Prop} : p ∧ q → p ∧ q ∧ p := by
       -- current goal: `p q : Prop ; h : p ∧ q ⊢ q`
       exact h.right
 
--- another example for `intro`
+-- example for `intro` that can be used to intro several variables
 example : ∀ a b c : Nat, a = b ∧ a = c → c = b := by
-  intro a b c h
+  intro a b c h -- `a b c : Nat ; h : a = b ∧ a = c`
   have h₁ := h.left
   have h₂ := h.right
   exact Eq.trans (Eq.symm h₂) h₁
+
+example : ∀ a b c : Nat, a = b → a = c → c = b := by
+  intro a b c h₁ h₂ -- `a b c : Nat ; h₁ : a = b ; h₂ : a = c`
+  exact Eq.trans (Eq.symm h₂) h₁
+
+-- example for `intro` using `⟨ ... ⟩` constructor
+example (α : Type) (p q : α → Prop) : (∃ x, p x ∧ q x) → ∃ x, q x ∧ p x := by
+  intro ⟨w, hpw, hqw⟩ -- `w` is a term that witnesses `p w ∧ q w`
+  exact ⟨w, hqw, hpw⟩
+
+-- example for `assumption`
+example (x y z w : Nat) (h₁ : x = y) (h₂ : y = z) (h₃ : z = w) : x = w := by
+  apply Eq.trans h₁
+  apply Eq.trans h₂
+  -- current goal: `x y z w : Nat ;  h₁ : x = y ; h₂ : y = z ; h₃ : z = w`
+  -- `assumption` automatically find the assumption to fulfill the goal
+  assumption -- here it uses `h₃`
+
+-- example for `intros` and `assumption`
+example : ∀ a b c : Nat, a = b → a = c → c = b := by
+  intros -- intro all variables but the names are hidden
+  apply Eq.trans
+  apply Eq.symm
+  assumption
+  assumption
