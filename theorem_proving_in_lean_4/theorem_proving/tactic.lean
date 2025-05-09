@@ -185,11 +185,11 @@ example {p q: Prop} : p ∧ q → q ∧ p := by
 -- just make a sequence of true statments
 -- a → b → c → d
 example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
-  intro h
+  intro h₀
   have h₁ : a = 0 := by
     calc
       a = a + 0 := by rw [Nat.add_zero]
-      _ = 0 := by rw [h]
+      _ = 0 := by rw [h₀]
   have h₂ : f a = f 0 := congrArg f h₁
   exact h₂
 
