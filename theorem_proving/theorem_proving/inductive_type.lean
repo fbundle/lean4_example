@@ -78,8 +78,8 @@ def add (x : Nat) (y: Nat) : Nat :=
   | Nat.succ z => Nat.succ (add x z)
 
 -- proving `0 + y = y`
-theorem add_zero (y: Nat): add Nat.zero y = y :=
-  by
+theorem add_zero: (y: Nat) → add Nat.zero y = y := by
+  intro y
   induction y with -- use induction to get `ih: add Nat.zero z = z`
     | zero => rfl
     | succ z ih =>
