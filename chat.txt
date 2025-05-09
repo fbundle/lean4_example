@@ -572,6 +572,7 @@ theorem add_zero (y: Nat): add Nat.zero y = y :=
         _ = Nat.succ z := by rw [ih]
 
 end InductiveType
+./theorem_proving/theorem_proving/predicate_logic.lean
 ./theorem_proving/theorem_proving/dependent_type_theory.lean
 namespace DependentTypeTheory
 
