@@ -146,3 +146,38 @@ example (p q r : Prop) : p ∧ (q ∨ r) → (p ∧ q) ∨ (p ∧ r) :=
       cases hqr with
       | inl hq => exact Or.inl ⟨hp, hq⟩
       | inr hr => exact Or.inr ⟨hp, hr⟩
+
+-- optional `show`
+example {p q: Prop} : p ∧ q → q ∧ p := by
+  intro h
+  apply And.intro
+  case left =>
+    show q -- use show to specify which goal we are resolving
+    exact h.right
+  case right =>
+    show p -- use show to specify which goal we are resolving
+    exact h.left
+
+
+-- alternative to proving multiple goals
+/-
+  apply foo
+  . <proof of first goal>
+  . <proof of second goal>
+  . <proof of third goal>
+  . <proof of final goal>
+
+  apply foo
+  case <tag of first goal>  => <proof of first goal>
+  case <tag of second goal> => <proof of second goal>
+  case <tag of third goal>  => <proof of third goal>
+  case <tag of final goal>  => <proof of final goal>
+
+  apply foo
+  { <proof of first goal>  }
+  { <proof of second goal> }
+  { <proof of third goal>  }
+  { <proof of final goal>  }
+
+
+-/
