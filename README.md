@@ -24,7 +24,7 @@ execute `lake build` to build. execute `lake exe test` to build and run
 
 Basic of `lean4` should by sufficient from the first chapter of [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/). except proving termination of a function (`TODO`)
 
-Examples in `functional_programming` 
+Examples in `functional_programming`, `echo_line_app`
 
 # FOR MATHEMATICIANS
 
