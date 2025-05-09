@@ -571,10 +571,6 @@ theorem add_zero (y: Nat): add Nat.zero y = y :=
         add Nat.zero (Nat.succ z) = Nat.succ (add Nat.zero z) := by rfl
         _ = Nat.succ z := by rw [ih]
 
-
-
-
-
 end InductiveType
 ./theorem_proving/theorem_proving/dependent_type_theory.lean
 namespace DependentTypeTheory
@@ -598,8 +594,8 @@ Moreover, every object has a type, that is a function `t` that maps object from 
 In lean, `t` is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using `#eval` and `#check`
 -/
 
-#eval 20
-#check 20
+-- #eval 20
+-- #check 20
 
 /-
 ARROW TYPE

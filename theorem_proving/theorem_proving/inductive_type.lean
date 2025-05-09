@@ -87,8 +87,4 @@ theorem add_zero (y: Nat): add Nat.zero y = y :=
         add Nat.zero (Nat.succ z) = Nat.succ (add Nat.zero z) := by rfl
         _ = Nat.succ z := by rw [ih]
 
-
-
-
-
 end InductiveType

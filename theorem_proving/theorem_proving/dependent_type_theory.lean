@@ -19,8 +19,8 @@ Moreover, every object has a type, that is a function `t` that maps object from 
 In lean, `t` is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using `#eval` and `#check`
 -/
 
-#eval 20
-#check 20
+-- #eval 20
+-- #check 20
 
 /-
 ARROW TYPE
