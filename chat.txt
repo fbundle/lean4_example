@@ -1,1 +1,8 @@
+./theorem_proving/theorem_proving/basic.lean
+def hello := "world"
+./theorem_proving/Main.lean
+import theorem_proving.basic
+
+def main : IO Unit :=
+  IO.println s!"Hello, {hello}!"
 do you have any comment on this?

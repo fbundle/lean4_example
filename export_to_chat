@@ -1,4 +1,5 @@
 #/!usr/bin/env bash
 
-find ./examples/ -name "*.lean" -type f -print -exec cat {} \;
+find ./functional_programming -name "*.lean" -type f -print -exec cat {} \;
+find ./theorem_proving -name "*.lean" -type f -print -exec cat {} \;
 echo "do you have any comment on this?"
