@@ -180,8 +180,17 @@ example {p q: Prop} : p ∧ q → q ∧ p := by
   { <proof of final goal>  }
 -/
 
+-- anther example
+example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
+  intro h
+  have h₁ : a = 0 := by
+    calc
+      a = a + 0 := by rw [Nat.add_zero]
+      _ = 0 := by rw [h]
+  exact congrArg f h₁
 
-example (f : Nat → Nat) (k : Nat) (h₁ : f 0 = 0) (h₂ : k = 0) : f k = 0 := by
-calc
-  f k = f 0 := by rw [h₂]
-  _   = 0 := by rw [h₁]
+-- `rw [...] at ...` - rewrite in hypothesis instead of goal
+example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
+  intro h
+  rw [Nat.add_zero] at h
+  rw [h]
