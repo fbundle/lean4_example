@@ -590,7 +590,7 @@ theorem add_zero: (y: Nat) → add Nat.zero y = y := by
 end InductiveType
 ./theorem_proving/type_theory_1/predicate_logic.lean
 namespace PredicateLogic
-
+  -- TODO
 end PredicateLogic
 ./theorem_proving/type_theory_1/dependent_type_theory.lean
 namespace DependentTypeTheory
