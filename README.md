@@ -34,4 +34,5 @@ After reading the official book [Theorem Proving in Lean 4](https://lean-lang.or
 |---------------------------|-----------------------------------------------------------|
 | Dependent Type Theory     | universe level, arrow type, proof as construction of term |
 | Inductive Type            | a framework to construct type                             |
-| Tactic Mode               | an alternative way to write proof                         |
+| Tactic Mode               | goal oriented proof writing                               |
+
