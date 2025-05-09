@@ -24,11 +24,11 @@ execute `lake build` to build. execute `lake exe test` to build and run
 
 Basic of `lean4` should by sufficient from the first chapter of [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/). except proving termination of a function (`TODO`)
 
-Examples in `./functional_programming_in_lean` 
+Examples in `functional_programming_in_lean` 
 
 # FOR MATHEMATICIANS
 
-After reading the official book [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/title_page.html), I realized that it's mostly junk. One can learn proving in `lean` by reading three main topics:
+After reading the official book [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/title_page.html), I realized that it's mostly junk. One can learn proving in `lean` by reading the chapter 1 of [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/getting-to-know.html) and specifically three topics:
 
 | Topic                     | Remarks                                                   |
 |---------------------------|-----------------------------------------------------------|
