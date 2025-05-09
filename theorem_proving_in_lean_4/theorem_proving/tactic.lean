@@ -26,12 +26,12 @@ example {p q: Prop} : p ∧ q → p ∧ q ∧ p := by
     apply And.intro
     -- current goal 1: `case left ; p q : Prop ; h : p ∧ q ⊢ q`
     -- current goal 2: `case right ; p q : Prop ; h: p ∧ q ⊢ p`
+    case right => -- do `case right` first
+      -- current goal: `p q : Prop ; h: p ∧ q ⊢ p`
+      exact h.left
     case left =>
       -- current goal: `p q : Prop ; h : p ∧ q ⊢ q`
       exact h.right
-    case right =>
-      -- current goal: `p q : Prop ; h: p ∧ q ⊢ p`
-      exact h.left
 
 -- another example for `intro`
 example : ∀ a b c : Nat, a = b ∧ a = c → c = b := by
