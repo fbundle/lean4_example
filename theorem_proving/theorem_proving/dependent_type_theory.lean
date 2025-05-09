@@ -25,19 +25,19 @@ In lean, `t` is not exposed to user. However, during compilation process, lean a
 /-
 ARROW TYPE
 
-If `α` and `β` are two objects at `universe level n` and `universe level m` respectively, then `α → β` is an object at `universe level max(n, m)`. We will call it `arrow type`. when `f` is of arrow type `α → β`, we write `f : α → β` (or `f (a: α) : β` like function in programming)
+If `α` and `β` are two objects at `universe level n` and `universe level m` respectively, then `α → β` is an object at `universe level max(n, m)`. We will call it `arrow type`. when `f` is of arrow type `α → β`, we write `f : α → β` (or `(a: α) → β` like function in programming)
 
-Moreover, lean allows user to define dependent type, for example `g (α: Type) (b: β): γ α b` where `γ α b` is another object. A more concrete example is `make_vector (α: Type) (n: Nat): Vector α n` which is a function creating a vector of dimension `n` of type `α`
+Moreover, lean allows user to define dependent type, for example `g: (α: Type) → (b: β) → γ α b` where `γ α b` is another object. A more concrete example is `make_vector (α: Type) (n: Nat): Vector α n` which is a function creating a vector of dimension `n` of type `α`
 -/
 
 inductive Vector (α : Type u) : Nat → Type u
 | nil  : Vector α 0
 | cons {n: Nat} : α → Vector α n → Vector α (n + 1)
 
-
-def make_vector (α: Type) (n: Nat) [Inhabited α]: Vector α n :=
+-- let α be Inhabited, i.e. there is at least 1 term, namely default
+def make_vector (α: Type) [s: Inhabited α] (n: Nat): Vector α n :=
   match n with
   | 0 => Vector.nil
-  | m+1 => Vector.cons default (make_vector α m)
+  | m+1 => Vector.cons s.default (make_vector α m)
 
 end DependentTypeTheory
