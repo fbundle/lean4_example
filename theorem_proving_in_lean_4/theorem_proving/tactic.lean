@@ -181,6 +181,9 @@ example {p q: Prop} : p ∧ q → q ∧ p := by
 -/
 
 -- anther example
+-- this is my favorite way to prove
+-- just make a sequence of true statments
+-- a → b → c → d
 example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
   intro h
   have h₁ : a = 0 := by
