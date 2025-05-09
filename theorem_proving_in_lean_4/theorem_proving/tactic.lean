@@ -96,7 +96,8 @@ example : 3 = 3 := by
   rfl
 
 
--- decompose a disjunction with `cases`
+-- decompose a disjunction with `cases` (it is just `match`)
+-- or more generally any inductive type
 example (p q : Prop) : p ∨ q → q ∨ p := by
   intro h -- `h : p ∨ q`
   -- current goal : `p q : Prop ; h : p ∨ q ⊢ q ∨ p`

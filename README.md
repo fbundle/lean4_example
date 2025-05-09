@@ -28,5 +28,10 @@ Examples in `./functional_programming_in_lean`
 
 # FOR MATHEMATICIANS
 
-See [docs](https://khanh101.github.io/lean4_example/docs/main.html)
+After reading the official book [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/title_page.html), I realized that it's mostly junk. One can learn proving in `lean` by reading three main topics:
 
+| Topic                     | Remarks                                                   |
+|---------------------------|-----------------------------------------------------------|
+| Dependent Type Theory     | universe level, arrow type, proof as construction of term |
+| Inductive Type            | a framework to construct type                             |
+| Tactic Mode               | an alternative way to write proof                         |
