@@ -178,6 +178,10 @@ example {p q: Prop} : p ∧ q → q ∧ p := by
   { <proof of second goal> }
   { <proof of third goal>  }
   { <proof of final goal>  }
-
-
 -/
+
+
+example (f : Nat → Nat) (k : Nat) (h₁ : f 0 = 0) (h₂ : k = 0) : f k = 0 := by
+calc
+  f k = f 0 := by rw [h₂]
+  _   = 0 := by rw [h₁]
