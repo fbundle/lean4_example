@@ -4,10 +4,10 @@ defaultTargets = ["test"]
 
 
 [[lean_lib]]
-name = "type_theory_1"
+name = "type_theory"
 
 [[lean_lib]]
-name = "tactic_2"
+name = "tactic"
 
 [[lean_exe]]
 name = "test"

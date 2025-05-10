@@ -481,298 +481,7 @@ import Test.Structure_4
 import Test.Recursion_5
 import Test.Polymorphism_6
 import Test.Other_7
-./theorem_proving/type_theory_1/inductive_type.lean
-namespace InductiveType
-
-/-
-Inductive type is a very powerful notion that can be generalize greatly. Any inductive type is constructed as follows:
-
-inductive Foo where
-  | constructor₁ : ... → Foo
-  | constructor₂ : ... → Foo
-  ...
-  | constructorₙ : ... → Foo
-
-Below are some examples of inductive types
--/
-
-
--- finite list of terms
-inductive Weekday where
-  | sunday : Weekday
-  | monday : Weekday
-  | tuesday : Weekday
-  | wednesday : Weekday
-  | thursday : Weekday
-  | friday : Weekday
-  | saturday : Weekday
-
-
--- `Bool` is defined by
-inductive Bool where
-  | false : Bool
-  | true  : Bool
-
--- use match to process each constructor separately
-def and (a b: Bool): Bool :=
-  match a with
-    | Bool.true => b
-    | Bool.false => Bool.false
-
--- type can have arguments
--- `Prod α β ≡ α × β`, `Prod.mk a b ≡ (a, b)`
-inductive Prod (α : Type u) (β : Type v) where
-  | mk : α → β → Prod α β
-
--- `Sum α β ≡ α ⊕ β`
-inductive Sum (α : Type u) (β : Type v) where
-  | inl : α → Sum α β
-  | inr : β → Sum α β
-
-
--- `And` and `Or` are actually `Prod` and `Sum`
--- `And a b ≡ a ∧ b`, `Or a b ≡ a ∨ b`
-
--- proof by `cases`
-example: (a ∨ b) → (b ∨ a) := by
-  intro h
-  cases h with
-    | inl ha => exact Or.inr ha
-    | inr hb => exact Or.inl hb
-
-
--- `structure` is actually product type
--- `Color1 ≡ Color2`
-inductive Color1 where
-  | mk (red: Nat) (green: Nat) (blue: Nat): Color1
-
-structure Color2 where
-  red: Nat
-  green: Nat
-  blue: Nat
-
-
-
--- more complex examples with type dependent
-inductive Option (α : Type u) where
-  | none : Option α
-  | some : α → Option α
-
-inductive Inhabited (α : Type u) where
-  | mk : α → Inhabited α
-
-def option_nat_none : Option Nat := Option.none
-def inhatbited_nat_2 : Inhabited Nat := Inhabited.mk 2
-
--- natural numbers
-inductive Nat where
-  | zero : Nat
-  | succ : Nat → Nat
-
--- `add` inductively
-def add (x : Nat) (y: Nat) : Nat :=
-  match y with
-  | Nat.zero   => x
-  | Nat.succ z => Nat.succ (add x z)
-
--- proof by `induction` for `0 + y = y`
-theorem add_zero: (y: Nat) → add Nat.zero y = y := by
-  intro y
-  -- similar to `cases `
-  -- but `induction` gives `ih: add Nat.zero z = z`
-  induction y with
-    | zero => rfl
-    | succ z ih =>
-      calc
-        add Nat.zero (Nat.succ z) = Nat.succ (add Nat.zero z) := by rfl
-        _ = Nat.succ z := by rw [ih]
-
-end InductiveType
-./theorem_proving/type_theory_1/predicate_logic.lean
-/-
-`Prop` is an object at `universe level 1` which is at the same level with `Nat` or `String`. A term of `universe Prop` is called a `proposition`, e.g. `1 + 1 = 3`, `True`, `Fermat's last theorem`
-
-Curry-Howard (CH) asserts that there is an correspondence between mathematical proofs and computer programs. In that correspondence, a mathematical statement is a `proposition` and proving for a mathematical statement is constructing a term for the corresponding `proposition`.
-
-If `hp: p` is a term of proposition `p: Prop`, then we say the truth of `p` is witnessed by `hp` or `hp` is a proof/certificate for the truth of `p`
-
-A proposition `p: Prop` is `inhabited` if and only if it is true.
--/
-
--- some basic propositions
-
-
-
-
-namespace PredicateLogic
-
--- `False` is an uninhabited type i.e. there is no proof for `False`
--- `False` implies everything
-inductive False
-def False.elim {q: Sort u} : (h : False) → q :=
-  λ h ↦ nomatch h
-example: False → 2 + 2 = 5 := by
-  intro h
-  exact False.elim h
-
--- `True` is an inhabited type with a single constructor
--- `trivial` is short for `True.intro`
-inductive True where
-  | intro : True
-
-
--- `Implies p q` is actually `p → q` by `CH`
--- `Implies.elim` proves `q` from `hpq: Implies p q` and `hp: p`
-inductive Implies (p: Sort u) (q: Sort v) where
-  | intro : (p → q) → Implies p q
-
-def Implies.elim {p: Sort u} {q: Sort v}: Implies p q → p → q := by
-  intro hpq hp
-  match hpq with
-    | intro hpq => exact hpq hp
-
--- `And p q` also written as `p ∧ q`
--- `And` takes in a pair of proofs for `p` and `q`
--- `And.left` `And.right` extract the proof for `p` and `q`
-inductive And (p: Sort u) (q: Sort v) where
-  | intro : p → q → And p q
-
-def And.left: And p q → p := by
-  intro h
-  cases h with
-  | intro hp _ => exact hp
-
-def And.right:  And p q → q := by
-  intro h
-  cases h with
-  | intro _ hq => exact hq
-
--- `Or p q` also written as `p ∨ q`
--- `Or` takes in either proof for `p` or `q`
--- `Or.elim` proves `r` from `p ∨ q`, `p → r` and `q → r`
-inductive Or (p: Sort u) (q: Sort v) where
-  | inl : p → Or p q
-  | inr : q → Or p q
-
-def Or.elim: Or p q → (p → r) → (q → r) → r := by
-  intro h hpr hqr
-  cases h with
-  | inl hp => exact hpr hp
-  | inr hq => exact hqr hq
-
--- `Not p` is actually `p → False`
--- `Not.elim` proves `False` from `hp: p`
-inductive Not (p: Sort u) where
-  | intro: (p → False) → Not p
-
-def Not.elim: Not p → p → False := by
-  intro h hp
-  cases h with
-  | intro hnp => exact hnp hp
-
--- `Iff p q` also written as `p ↔ q`
--- `Iff` takes in `p → q` and `q → p`
--- `Iff.mp` and `Iff.mpr` extract the proof for `p → q` and `q → p`
-inductive Iff (p: Sort u) (q: Sort v) where
-  | intro: (p → q) → (q → p) → Iff p q
-
-def Iff.mp: Iff p q → Implies p q := by
-  intro h
-  cases h with
-    | intro hpq _ => exact Implies.intro hpq
-
-def Iff.mpr: Iff p q → Implies q p := by
-  intro h
-  cases h with
-    | intro _ hqp => exact Implies.intro hqp
-
--- `Forall` also written as `∀ (a: α), p a`
--- `Forall.elim h a` proves `p a` from `h: Forall α p` and `a: α`
-inductive Forall (α: Sort u) (p: α → Sort v) where
-  | intro : ((a: α) → p a) → Forall α p
-
-def Forall.elim: Forall α p → (a: α) → p a := by
-  intro h a
-  match h with
-  | intro hap => exact hap a
-
--- `Exists` also written as `∃ (a: α), p a`
--- `Exists` is constructed from `a: α` and `p a: Prop`
-inductive Exists (α: Sort u) (p: α → Sort v)  where
-  | intro : (a: α) → (ha: p a) → Exists α p
-
-def Exists.elim: Exists α p → Forall α (λ a => p a → q) → q := by
-  intro h hpq
-  match h with
-  | Exists.intro a ha => exact (Forall.elim hpq a) ha
-
--- Law of excluded middle
-axiom EM : Forall (Sort u) (λ (p: Sort u) ↦ (Or p (Not p)))
-
-end PredicateLogic
-./theorem_proving/type_theory_1/dependent_type_theory.lean
-namespace DependentTypeTheory
-
-/-
-BASIC DEPENDENT TYPE THEORY
-
-Consider the set of all formal strings `S` and the sematic equivalence relation `∼` on `S`. For example, `λ (x: Nat) → x + 4` and `fun (y: Nat) => y + 4` are two different strings but have the same semantic. We will use the same word `object` for both syntactic string and its meaning without confusion
-
-In lean, every object longs to a `universe level`, below are some examples
-
-- `universe level -1`: proofs
-- `universe level 0`: `1`, `-2`, `1.4`, `"hello word"`, `λ (x: Nat) → x + 4`
-- `universe level 1`: `Nat`, `Int`, `Float`, `String`, `Nat → Nat`
-- `universe level 2`: `Type` (aka `Type 0` or `Sort 1`)
-- `universe level 3`: `Type 1` (aka `Sort 2`)
-- ...
-
-Moreover, every object has a type, that is a function `t` that maps object from `universe level n` to `universe level n+1`. In programming, this is called getting type of (`type` in Python, `typeof` in Javascript). For example, `t(1) = Nat`, `t(true) = Bool`, `t(λ (x: Nat) => x + 4) = Nat → Nat`.
-
-Let `α` be any object at `universe level n+1`, the collection of all objects in `universe level n` of type `α` is called the `universe α`. For example, `universe Nat` consists of of all natural numbers. We write `x : Nat` to denote `x` is of type `Nat` and `x` is called a `term` (or `element` of `Nat`).
-
-A type is said to be `inhabited` if it has at least one term and `uninhabited` if it has no term.
-
-In lean, `t` is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using `#eval` and `#check`
--/
-
--- #eval 20
--- #check 20
-
-/-
-ARROW TYPE
-
-If `α` and `β` are two objects at `universe level n` and `universe level m` respectively, then `α → β` is an object at `universe level max(n, m)`. We will call it `arrow type`. when `f` is of arrow type `α → β`, we write `f : α → β` (or `(a: α) → β` like function in programming)
-
-Moreover, lean allows user to define dependent type, for example `g: (α: Type) → (b: β) → γ α b` where `γ α b` is another object. A more concrete example is `make_vector (α: Type) (n: Nat): Vector α n` which is a function creating a vector of dimension `n` of type `α`
--/
-
-inductive Vector (α : Type u) : Nat → Type u
-| nil  : Vector α 0
-| cons {n: Nat} : α → Vector α n → Vector α (n + 1)
-
--- let α be Inhabited, i.e. there is at least 1 term, namely default
-def make_vector (α: Type) [s: Inhabited α] (n: Nat): Vector α n :=
-  match n with
-  | 0 => Vector.nil
-  | m+1 => Vector.cons s.default (make_vector α m)
-
-end DependentTypeTheory
-./theorem_proving/Main.lean
--- the import order is also the reading order
-import type_theory_1.dependent_type_theory
-import type_theory_1.inductive_type
-import type_theory_1.predicate_logic
-
-import tactic_2.calculation_proof
-import tactic_2.calculation_proof_for_transitivity
-import tactic_2.auxiliary_subgoals
-import tactic_2.tactic
-
-
-def main : IO Unit :=
-  IO.println s!"Hello, World!"
-./theorem_proving/tactic_2/calculation_proof_for_transitivity.lean
+./theorem_proving/tactic/calculation_proof_for_transitivity.lean
 -- calculation proof also works for inequalities or any transitive relation
 
 section CalculationProofTransitive
@@ -814,7 +523,7 @@ section CalculationProofTransitive
       _ = z           := h₂
       divides _ (2*z) := divides_mul ..
 end CalculationProofTransitive
-./theorem_proving/tactic_2/calculation_proof.lean
+./theorem_proving/tactic/calculation_proof.lean
 
 
 /-
@@ -872,7 +581,7 @@ section CalculationProof
 
 
 end CalculationProof
-./theorem_proving/tactic_2/tactic.lean
+./theorem_proving/tactic/tactic.lean
 -- `Control-Shift-Enter` or `Command-Shift-Enter` to show `Lean InfoView`
 
 
@@ -1077,7 +786,7 @@ example (f : Nat → Nat) (a : Nat) : a + 0 = 0 → f a = f 0 := by
   rw [h]
 
 -- the rest will do later - TODO
-./theorem_proving/tactic_2/auxiliary_subgoals.lean
+./theorem_proving/tactic/auxiliary_subgoals.lean
 section
   -- subgoal example 1
   example {p q: Prop} (h : p ∧ q) : q ∧ p :=
@@ -1092,4 +801,297 @@ section
   suffices hq : q from And.intro hq hp
   show q from And.right h         -- now we show `hq: q`
 end
+./theorem_proving/type_theory/inductive_type.lean
+namespace InductiveType
+
+/-
+Inductive type is a very powerful notion that can be generalize greatly. Any inductive type is constructed as follows:
+
+inductive Foo where
+  | constructor₁ : ... → Foo
+  | constructor₂ : ... → Foo
+  ...
+  | constructorₙ : ... → Foo
+
+Below are some examples of inductive types
+-/
+
+
+-- finite list of terms
+inductive Weekday where
+  | sunday : Weekday
+  | monday : Weekday
+  | tuesday : Weekday
+  | wednesday : Weekday
+  | thursday : Weekday
+  | friday : Weekday
+  | saturday : Weekday
+
+
+-- `Bool` is defined by
+inductive Bool where
+  | false : Bool
+  | true  : Bool
+
+-- use match to process each constructor separately
+def and (a b: Bool): Bool :=
+  match a with
+    | Bool.true => b
+    | Bool.false => Bool.false
+
+-- type can have arguments
+-- `Prod α β ≡ α × β`, `Prod.mk a b ≡ (a, b)`
+inductive Prod (α : Type u) (β : Type v) where
+  | mk : α → β → Prod α β
+
+-- `Sum α β ≡ α ⊕ β`
+inductive Sum (α : Type u) (β : Type v) where
+  | inl : α → Sum α β
+  | inr : β → Sum α β
+
+
+-- `And` and `Or` are actually `Prod` and `Sum`
+-- `And a b ≡ a ∧ b`, `Or a b ≡ a ∨ b`
+
+-- proof by `cases`
+example: (a ∨ b) → (b ∨ a) := by
+  intro h
+  cases h with
+    | inl ha => exact Or.inr ha
+    | inr hb => exact Or.inl hb
+
+
+-- `structure` is actually product type
+-- `Color1 ≡ Color2`
+inductive Color1 where
+  | mk (red: Nat) (green: Nat) (blue: Nat): Color1
+
+structure Color2 where
+  red: Nat
+  green: Nat
+  blue: Nat
+
+
+
+-- more complex examples with type dependent
+inductive Option (α : Type u) where
+  | none : Option α
+  | some : α → Option α
+
+inductive Inhabited (α : Type u) where
+  | mk : α → Inhabited α
+
+def option_nat_none : Option Nat := Option.none
+def inhatbited_nat_2 : Inhabited Nat := Inhabited.mk 2
+
+-- natural numbers
+inductive Nat where
+  | zero : Nat
+  | succ : Nat → Nat
+
+-- `add` inductively
+def add (x : Nat) (y: Nat) : Nat :=
+  match y with
+  | Nat.zero   => x
+  | Nat.succ z => Nat.succ (add x z)
+
+-- proof by `induction` for `0 + y = y`
+theorem add_zero: (y: Nat) → add Nat.zero y = y := by
+  intro y
+  -- similar to `cases `
+  -- but `induction` gives `ih: add Nat.zero z = z`
+  induction y with
+    | zero => rfl
+    | succ z ih =>
+      calc
+        add Nat.zero (Nat.succ z) = Nat.succ (add Nat.zero z) := by rfl
+        _ = Nat.succ z := by rw [ih]
+
+end InductiveType
+./theorem_proving/type_theory/predicate_logic.lean
+/-
+`Prop` is an object at `universe level 1` which is at the same level with `Nat` or `String`. A term of `universe Prop` is called a `proposition`, e.g. `1 + 1 = 3`, `True`, `Fermat's last theorem`
+
+Curry-Howard (CH) asserts that there is an correspondence between mathematical proofs and computer programs. In that correspondence, a mathematical statement is a `proposition` and proving for a mathematical statement is constructing a term for the corresponding `proposition`.
+
+If `hp: p` is a term of proposition `p: Prop`, then we say the truth of `p` is witnessed by `hp` or `hp` is a proof/certificate for the truth of `p`
+
+A proposition `p: Prop` is `inhabited` if and only if it is true.
+-/
+
+-- some basic propositions
+
+
+
+
+namespace PredicateLogic
+
+-- `False` is an uninhabited type i.e. there is no proof for `False`
+-- `False` implies everything
+inductive False
+def False.elim {q: Sort u} : (h : False) → q :=
+  λ h ↦ nomatch h
+example: False → 2 + 2 = 5 := by
+  intro h
+  exact False.elim h
+
+-- `True` is an inhabited type with a single constructor
+-- `trivial` is short for `True.intro`
+inductive True where
+  | intro : True
+
+
+-- `Implies p q` is actually `p → q` by `CH`
+-- `Implies.elim` proves `q` from `hpq: Implies p q` and `hp: p`
+inductive Implies (p: Sort u) (q: Sort v) where
+  | intro : (p → q) → Implies p q
+
+def Implies.elim {p: Sort u} {q: Sort v}: Implies p q → p → q := by
+  intro hpq hp
+  match hpq with
+    | intro hpq => exact hpq hp
+
+-- `And p q` also written as `p ∧ q`
+-- `And` takes in a pair of proofs for `p` and `q`
+-- `And.left` `And.right` extract the proof for `p` and `q`
+inductive And (p: Sort u) (q: Sort v) where
+  | intro : p → q → And p q
+
+def And.left: And p q → p := by
+  intro h
+  cases h with
+  | intro hp _ => exact hp
+
+def And.right:  And p q → q := by
+  intro h
+  cases h with
+  | intro _ hq => exact hq
+
+-- `Or p q` also written as `p ∨ q`
+-- `Or` takes in either proof for `p` or `q`
+-- `Or.elim` proves `r` from `p ∨ q`, `p → r` and `q → r`
+inductive Or (p: Sort u) (q: Sort v) where
+  | inl : p → Or p q
+  | inr : q → Or p q
+
+def Or.elim: Or p q → (p → r) → (q → r) → r := by
+  intro h hpr hqr
+  cases h with
+  | inl hp => exact hpr hp
+  | inr hq => exact hqr hq
+
+-- `Not p` is actually `p → False`
+-- `Not.elim` proves `False` from `hp: p`
+inductive Not (p: Sort u) where
+  | intro: (p → False) → Not p
+
+def Not.elim: Not p → p → False := by
+  intro h hp
+  cases h with
+  | intro hnp => exact hnp hp
+
+-- `Iff p q` also written as `p ↔ q`
+-- `Iff` takes in `p → q` and `q → p`
+-- `Iff.mp` and `Iff.mpr` extract the proof for `p → q` and `q → p`
+inductive Iff (p: Sort u) (q: Sort v) where
+  | intro: (p → q) → (q → p) → Iff p q
+
+def Iff.mp: Iff p q → Implies p q := by
+  intro h
+  cases h with
+    | intro hpq _ => exact Implies.intro hpq
+
+def Iff.mpr: Iff p q → Implies q p := by
+  intro h
+  cases h with
+    | intro _ hqp => exact Implies.intro hqp
+
+-- `Forall` also written as `∀ (a: α), p a`
+-- `Forall.elim h a` proves `p a` from `h: Forall α p` and `a: α`
+inductive Forall (α: Sort u) (p: α → Sort v) where
+  | intro : ((a: α) → p a) → Forall α p
+
+def Forall.elim: Forall α p → (a: α) → p a := by
+  intro h a
+  match h with
+  | intro hap => exact hap a
+
+-- `Exists` also written as `∃ (a: α), p a`
+-- `Exists` is constructed from `a: α` and `p a: Prop`
+inductive Exists (α: Sort u) (p: α → Sort v)  where
+  | intro : (a: α) → (ha: p a) → Exists α p
+
+def Exists.elim: Exists α p → Forall α (λ a => p a → q) → q := by
+  intro h hpq
+  match h with
+  | Exists.intro a ha => exact (Forall.elim hpq a) ha
+
+-- Law of excluded middle
+axiom EM : Forall (Sort u) (λ (p: Sort u) ↦ (Or p (Not p)))
+
+end PredicateLogic
+./theorem_proving/type_theory/proof_by_induction.lean
+./theorem_proving/type_theory/dependent_type_theory.lean
+namespace DependentTypeTheory
+
+/-
+BASIC DEPENDENT TYPE THEORY
+
+Consider the set of all formal strings `S` and the sematic equivalence relation `∼` on `S`. For example, `λ (x: Nat) → x + 4` and `fun (y: Nat) => y + 4` are two different strings but have the same semantic. We will use the same word `object` for both syntactic string and its meaning without confusion
+
+In lean, every object longs to a `universe level`, below are some examples
+
+- `universe level -1`: proofs
+- `universe level 0`: `1`, `-2`, `1.4`, `"hello word"`, `λ (x: Nat) → x + 4`
+- `universe level 1`: `Nat`, `Int`, `Float`, `String`, `Nat → Nat`
+- `universe level 2`: `Type` (aka `Type 0` or `Sort 1`)
+- `universe level 3`: `Type 1` (aka `Sort 2`)
+- ...
+
+Moreover, every object has a type, that is a function `t` that maps object from `universe level n` to `universe level n+1`. In programming, this is called getting type of (`type` in Python, `typeof` in Javascript). For example, `t(1) = Nat`, `t(true) = Bool`, `t(λ (x: Nat) => x + 4) = Nat → Nat`.
+
+Let `α` be any object at `universe level n+1`, the collection of all objects in `universe level n` of type `α` is called the `universe α`. For example, `universe Nat` consists of of all natural numbers. We write `x : Nat` to denote `x` is of type `Nat` and `x` is called a `term` (or `element` of `Nat`).
+
+A type is said to be `inhabited` if it has at least one term and `uninhabited` if it has no term.
+
+In lean, `t` is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using `#eval` and `#check`
+-/
+
+-- #eval 20
+-- #check 20
+
+/-
+ARROW TYPE
+
+If `α` and `β` are two objects at `universe level n` and `universe level m` respectively, then `α → β` is an object at `universe level max(n, m)`. We will call it `arrow type`. when `f` is of arrow type `α → β`, we write `f : α → β` (or `(a: α) → β` like function in programming)
+
+Moreover, lean allows user to define dependent type, for example `g: (α: Type) → (b: β) → γ α b` where `γ α b` is another object. A more concrete example is `make_vector (α: Type) (n: Nat): Vector α n` which is a function creating a vector of dimension `n` of type `α`
+-/
+
+inductive Vector (α : Type u) : Nat → Type u
+| nil  : Vector α 0
+| cons {n: Nat} : α → Vector α n → Vector α (n + 1)
+
+-- let α be Inhabited, i.e. there is at least 1 term, namely default
+def make_vector (α: Type) [s: Inhabited α] (n: Nat): Vector α n :=
+  match n with
+  | 0 => Vector.nil
+  | m+1 => Vector.cons s.default (make_vector α m)
+
+end DependentTypeTheory
+./theorem_proving/Main.lean
+-- the import order is also the reading order
+import type_theory_1.dependent_type_theory
+import type_theory_1.inductive_type
+import type_theory_1.predicate_logic
+import type_theory_1.induction
+
+import tactic_2.calculation_proof
+import tactic_2.calculation_proof_for_transitivity
+import tactic_2.auxiliary_subgoals
+import tactic_2.tactic
+
+
+def main : IO Unit :=
+  IO.println s!"Hello, World!"
 do you have any comment on this?
