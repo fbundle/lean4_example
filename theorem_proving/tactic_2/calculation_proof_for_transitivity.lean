@@ -1,4 +1,6 @@
-section
+-- calculation proof also works for inequalities or any transitive relation
+
+section CalculationProofTransitive
   variable (a b c d : Nat)
   variable (h1 : a = b)
   variable (h2 : b ≤ c)
@@ -12,9 +14,7 @@ section
       _ ≤ c + 1 := Nat.succ_le_succ h2 -- `Nat.succ_le_succ` gives a proof for `n.succ ≤ m.succ` from `n ≤ m`
       _ < d     := h3
 
-end
 
-section
   -- `x` divides `y` as natural numbers
   def divides (x y : Nat) : Prop := ∃ k: Nat, k*x = y
 
@@ -38,4 +38,4 @@ section
       divides x y     := h₁
       _ = z           := h₂
       divides _ (2*z) := divides_mul ..
-end
+end CalculationProofTransitive
