@@ -601,14 +601,15 @@ A proposition `p: Prop` is `inhabited` if and only if it is true.
 
 -- some basic propositions
 
--- `False` is an uninhabited type i.e. there is no proof for `False`
--- `False` implies everything
 
 
 
 namespace PredicateLogic
+
+-- `False` is an uninhabited type i.e. there is no proof for `False`
+-- `False` implies everything
 inductive False
-def False.elim : {q : Sort u} → (h : False) → q :=
+def False.elim {q: Sort u} : (h : False) → q :=
   λ h ↦ nomatch h
 example: False → 2 + 2 = 5 := by
   intro h
@@ -618,17 +619,17 @@ example: False → 2 + 2 = 5 := by
 -- `trivial` is short for `True.intro`
 inductive True where
   | intro : True
-def trivial := True.intro
 
 
--- `Implies p q` is actually `p → q` by CH
+-- `Implies p q` is actually `p → q` by `CH`
 -- `Implies.elim` proves `q` from `hpq: Implies p q` and `hp: p`
 inductive Implies (p: Sort u) (q: Sort v) where
   | intro : (p → q) → Implies p q
 
-def Implies.elim (hpq: Implies p q) (hp: p) : q :=
+def Implies.elim {p: Sort u} {q: Sort v}: Implies p q → p → q := by
+  intro hpq hp
   match hpq with
-    | intro hpq => hpq hp
+    | intro hpq => exact hpq hp
 
 -- `And p q` also written as `p ∧ q`
 -- `And` takes in a pair of proofs for `p` and `q`
@@ -636,13 +637,15 @@ def Implies.elim (hpq: Implies p q) (hp: p) : q :=
 inductive And (p: Sort u) (q: Sort v) where
   | intro : p → q → And p q
 
-def And.left (h: And p q): p :=
-  match h with
-  | intro hp _ => hp
+def And.left: And p q → p := by
+  intro h
+  cases h with
+  | intro hp _ => exact hp
 
-def And.right (h: And p q): q :=
-  match h with
-  | intro _ hq => hq
+def And.right:  And p q → q := by
+  intro h
+  cases h with
+  | intro _ hq => exact hq
 
 -- `Or p q` also written as `p ∨ q`
 -- `Or` takes in either proof for `p` or `q`
@@ -651,19 +654,21 @@ inductive Or (p: Sort u) (q: Sort v) where
   | inl : p → Or p q
   | inr : q → Or p q
 
-def Or.elim (h: Or p q) (hpr: p → r) (hqr: q → r) : r :=
-  match h with
-  | inl hp => hpr hp
-  | inr hq => hqr hq
+def Or.elim: Or p q → (p → r) → (q → r) → r := by
+  intro h hpr hqr
+  cases h with
+  | inl hp => exact hpr hp
+  | inr hq => exact hqr hq
 
 -- `Not p` is actually `p → False`
 -- `Not.elim` proves `False` from `hp: p`
 inductive Not (p: Sort u) where
   | intro: (p → False) → Not p
 
-def Not.elim (h: Not p) (hp: p): False :=
-  match h with
-  | intro hnp => hnp hp
+def Not.elim: Not p → p → False := by
+  intro h hp
+  cases h with
+  | intro hnp => exact hnp hp
 
 -- `Iff p q` also written as `p ↔ q`
 -- `Iff` takes in `p → q` and `q → p`
@@ -671,35 +676,38 @@ def Not.elim (h: Not p) (hp: p): False :=
 inductive Iff (p: Sort u) (q: Sort v) where
   | intro: (p → q) → (q → p) → Iff p q
 
-def Iff.mp (h : Iff p q): p → q :=
-  match h with
-    | intro hpq _ => hpq
+def Iff.mp: Iff p q → Implies p q := by
+  intro h
+  cases h with
+    | intro hpq _ => exact Implies.intro hpq
 
-def Iff.mpr (h : Iff p q): q → p :=
-  match h with
-    | intro _ hqp => hqp
+def Iff.mpr: Iff p q → Implies q p := by
+  intro h
+  cases h with
+    | intro _ hqp => exact Implies.intro hqp
 
 -- `Forall` also written as `∀ (a: α), p a`
 -- `Forall.elim h a` proves `p a` from `h: Forall α p` and `a: α`
 inductive Forall (α: Sort u) (p: α → Sort v) where
   | intro : ((a: α) → p a) → Forall α p
 
-def Forall.elim (h: Forall α p) (a: α): p a :=
+def Forall.elim: Forall α p → (a: α) → p a := by
+  intro h a
   match h with
-  | intro hap => hap a
+  | intro hap => exact hap a
 
 -- `Exists` also written as `∃ (a: α), p a`
 -- `Exists` is constructed from `a: α` and `p a: Prop`
 inductive Exists (α: Sort u) (p: α → Sort v)  where
   | intro : (a: α) → (ha: p a) → Exists α p
 
-def Exists.elim (h : Exists α p) (hpq : Forall α (λ a => p a → q)) : q :=
+def Exists.elim: Exists α p → Forall α (λ a => p a → q) → q := by
+  intro h hpq
   match h with
-  | Exists.intro a ha => (Forall.elim hpq a) ha
+  | Exists.intro a ha => exact (Forall.elim hpq a) ha
 
 
 axiom EM : Forall (Sort u) (λ (p: Sort u) ↦ (Or p (Not p)))
-
 
 end PredicateLogic
 ./theorem_proving/type_theory_1/dependent_type_theory.lean
