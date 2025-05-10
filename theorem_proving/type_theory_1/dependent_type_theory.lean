@@ -14,7 +14,7 @@ In lean, every object longs to a `universe level`, below are some examples
 - `universe level 3`: `Type 1` (aka `Sort 2`)
 - ...
 
-Moreover, every object has a type, that is a function `t` that maps object from `universe level n` to `universe level n+1`. In programming, this is called getting type of (`type` in Python, `typeof` in Javascript). For example, `t(1) = Nat`, `t(true) = Bool`, `t(λ (x: Nat) => x + 4) = Nat → Nat`. Let `α` be any object at `universe level n+1`, the collection of all objects in `universe level n` of type `α` is called the `universe α`. For example, `universe Nat` consists of of all natural numbers. We write `x : Nat` to denote `x` is of type `Nat` and `x` is called a `term` (or `element` of `Nat`)
+Moreover, every object has a type, that is a function `t` that maps object from `universe level n` to `universe level n+1`. In programming, this is called getting type of (`type` in Python, `typeof` in Javascript). For example, `t(1) = Nat`, `t(true) = Bool`, `t(λ (x: Nat) => x + 4) = Nat → Nat`. Let `α` be any object at `universe level n+1`, the collection of all objects in `universe level n` of type `α` is called the `universe α`. For example, `universe Nat` consists of of all natural numbers. We write `x : Nat` to denote `x` is of type `Nat` and `x` is called a `term` (or `element` of `Nat`). A type is said to be `inhabited` if it has at least one term and `uninhabited` if it has no term.
 
 In lean, `t` is not exposed to user. However, during compilation process, lean allows user to print value and type of an object using `#eval` and `#check`
 -/
