@@ -706,7 +706,7 @@ def Exists.elim: Exists α p → Forall α (λ a => p a → q) → q := by
   match h with
   | Exists.intro a ha => exact (Forall.elim hpq a) ha
 
-
+-- Law of excluded middle
 axiom EM : Forall (Sort u) (λ (p: Sort u) ↦ (Or p (Not p)))
 
 end PredicateLogic
