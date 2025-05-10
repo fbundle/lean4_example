@@ -1,4 +1,3 @@
-namespace PredicateLogic
 /-
 `Prop` is an object at `universe level 1` which is at the same level with `Nat` or `String`. A term of `universe Prop` is called a `proposition`, e.g. `1 + 1 = 3`, `True`, `Fermat's last theorem`
 
@@ -13,6 +12,10 @@ A proposition `p: Prop` is `inhabited` if and only if it is true.
 
 -- `False` is an uninhabited type i.e. there is no proof for `False`
 -- `False` implies everything
+
+
+
+namespace PredicateLogic
 inductive False
 def False.elim : {q : Sort u} → (h : False) → q :=
   λ h ↦ nomatch h
@@ -102,6 +105,7 @@ inductive Exists (α: Sort u) (p: α → Sort v)  where
 def Exists.elim (h : Exists α p) (hpq : Forall α (λ a => p a → q)) : q :=
   match h with
   | Exists.intro a ha => (Forall.elim hpq a) ha
+
 
 axiom EM : Forall (Sort u) (λ (p: Sort u) ↦ (Or p (Not p)))
 
