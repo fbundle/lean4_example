@@ -598,7 +598,7 @@ Curry-Howard (CH) asserts that there is an correspondence between mathematical p
 If `hp: p` is a term of proposition `p: Prop`, then we say the truth of `p` is witnessed by `hp` or `hp` is a proof/certificate for the truth of `p`
 
 
-A proposition `p: Prop` is said to be `inhabited`
+A proposition `p: Prop` is `inhabited` if and only if it is true.
 -/
 
 
