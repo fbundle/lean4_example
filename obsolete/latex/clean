@@ -1,8 +1,0 @@
-#!/bin/bash
-
-while read -r pattern; do
-  [[ "$pattern" =~ ^#.*$ || -z "$pattern" ]] && continue
-  pattern="${pattern#/}"
-  find . -type f -name "$pattern" -exec rm -v {} +
-done < .gitignore
-
