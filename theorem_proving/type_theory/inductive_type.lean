@@ -91,11 +91,10 @@ def add (x : Nat) (y: Nat) : Nat :=
   | Nat.zero   => x
   | Nat.succ z => Nat.succ (add x z)
 
--- proof by `induction` for `0 + y = y`
+-- proof by (weak) `induction` for `0 + y = y`
 theorem add_zero: (y: Nat) → add Nat.zero y = y := by
   intro y
-  -- similar to `cases `
-  -- but `induction` gives `ih: add Nat.zero z = z`
+  -- similar to `cases ` but `induction` gives `ih: add Nat.zero z = z`
   induction y with
     | zero => rfl
     | succ z ih =>
@@ -104,3 +103,38 @@ theorem add_zero: (y: Nat) → add Nat.zero y = y := by
         _ = Nat.succ z := by rw [ih]
 
 end InductiveType
+
+section StrongInduction
+
+
+-- `f n = 1^2 + 2^2 + ... + n^2`
+-- `g n = n (n+1) (2n+1) / 6`
+def f (n: Nat) : Nat :=
+  match n with
+  | 0 => 0
+  | Nat.succ m => n^2 + f m
+
+def g (n: Nat): Nat :=
+  n * (n + 1) * (2 * n + 1) / 6
+
+theorem g_step (m : Nat) : (m + 1)^2 + g m = g (m + 1) := by
+  sorry
+
+
+-- prove that `f n = g n`
+example: ∀ (n: Nat), f n = g n := by
+  intro n
+  induction n with
+    | zero => rfl
+    | succ m hm =>
+      calc
+        f (m+1) = (m+1)^2 + f m := by rfl
+        _ = (m+1)^2 + g m := by rw [hm]
+        _ = g (m+1) := by rw [g_step]
+
+
+
+
+
+
+end StrongInduction

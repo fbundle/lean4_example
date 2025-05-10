@@ -895,11 +895,10 @@ def add (x : Nat) (y: Nat) : Nat :=
   | Nat.zero   => x
   | Nat.succ z => Nat.succ (add x z)
 
--- proof by `induction` for `0 + y = y`
+-- proof by (weak) `induction` for `0 + y = y`
 theorem add_zero: (y: Nat) → add Nat.zero y = y := by
   intro y
-  -- similar to `cases `
-  -- but `induction` gives `ih: add Nat.zero z = z`
+  -- similar to `cases ` but `induction` gives `ih: add Nat.zero z = z`
   induction y with
     | zero => rfl
     | succ z ih =>
@@ -908,6 +907,41 @@ theorem add_zero: (y: Nat) → add Nat.zero y = y := by
         _ = Nat.succ z := by rw [ih]
 
 end InductiveType
+
+section StrongInduction
+
+
+-- `f n = 1^2 + 2^2 + ... + n^2`
+-- `g n = n (n+1) (2n+1) / 6`
+def f (n: Nat) : Nat :=
+  match n with
+  | 0 => 0
+  | Nat.succ m => n^2 + f m
+
+def g (n: Nat): Nat :=
+  n * (n + 1) * (2 * n + 1) / 6
+
+theorem g_step (m : Nat) : (m + 1)^2 + g m = g (m + 1) := by
+  sorry
+
+
+-- prove that `f n = g n`
+example: ∀ (n: Nat), f n = g n := by
+  intro n
+  induction n with
+    | zero => rfl
+    | succ m hm =>
+      calc
+        f (m+1) = (m+1)^2 + f m := by rfl
+        _ = (m+1)^2 + g m := by rw [hm]
+        _ = g (m+1) := by rw [g_step]
+
+
+
+
+
+
+end StrongInduction
 ./theorem_proving/type_theory/predicate_logic.lean
 /-
 `Prop` is an object at `universe level 1` which is at the same level with `Nat` or `String`. A term of `universe Prop` is called a `proposition`, e.g. `1 + 1 = 3`, `True`, `Fermat's last theorem`
@@ -1030,7 +1064,6 @@ def Exists.elim: Exists α p → Forall α (λ a => p a → q) → q := by
 axiom EM : Forall (Sort u) (λ (p: Sort u) ↦ (Or p (Not p)))
 
 end PredicateLogic
-./theorem_proving/type_theory/proof_by_induction.lean
 ./theorem_proving/type_theory/dependent_type_theory.lean
 namespace DependentTypeTheory
 
@@ -1081,15 +1114,14 @@ def make_vector (α: Type) [s: Inhabited α] (n: Nat): Vector α n :=
 end DependentTypeTheory
 ./theorem_proving/Main.lean
 -- the import order is also the reading order
-import type_theory_1.dependent_type_theory
-import type_theory_1.inductive_type
-import type_theory_1.predicate_logic
-import type_theory_1.induction
+import type_theory.dependent_type_theory
+import type_theory.inductive_type
+import type_theory.predicate_logic
 
-import tactic_2.calculation_proof
-import tactic_2.calculation_proof_for_transitivity
-import tactic_2.auxiliary_subgoals
-import tactic_2.tactic
+import tactic.calculation_proof
+import tactic.calculation_proof_for_transitivity
+import tactic.auxiliary_subgoals
+import tactic.tactic
 
 
 def main : IO Unit :=
