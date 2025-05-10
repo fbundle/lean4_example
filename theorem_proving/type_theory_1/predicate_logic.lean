@@ -85,7 +85,7 @@ def Iff.mpr (h : Iff p q): q → p :=
   match h with
     | intro _ hqp => hqp
 
--- `Forall` is actually `α → Prop` or `∀ (a: α), p a`
+-- `Forall` also written as `∀ (a: α), p a`
 -- `Forall.elim h a` proves `p a` from `h: Forall α p` and `a: α`
 inductive Forall (α: Sort u) (p: α → Sort v) where
   | intro : ((a: α) → p a) → Forall α p
@@ -94,16 +94,16 @@ def Forall.elim (h: Forall α p) (a: α): p a :=
   match h with
   | intro hap => hap a
 
--- `Exists` is actually `p a` for some `a: α` or `∃ (a: α), p a`
+-- `Exists` also written as `∃ (a: α), p a`
+-- `Exists` is constructed from `a: α` and `p a: Prop`
 inductive Exists (α: Sort u) (p: α → Sort v)  where
   | intro : (a: α) → (ha: p a) → Exists α p
 
-def Exists.elim (h: Exists α p) (hpq: Forall α (p (y: α) → q)): q :=
+def Exists.elim (h : Exists α p) (hpq : Forall α (λ a => p a → q)) : q :=
   match h with
-    | intro a ha => Forall.elim hpq
+  | Exists.intro a ha => (Forall.elim hpq a) ha
 
-
-
+axiom EM : Forall (Sort u) (λ (p: Sort u) ↦ (Or p (Not p)))
 
 
 end PredicateLogic
