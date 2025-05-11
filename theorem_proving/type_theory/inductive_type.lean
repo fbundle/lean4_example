@@ -110,9 +110,6 @@ section StrongInduction
 def is_prime : Nat →  Prop := by
   intro n
   exact (n ≥ 2) ∧ (∀ (m: Nat), m ∣ n → m = 1 ∨ m = n)
-
-
-
 -- from classical logic
 def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), ¬ p a) := by sorry
 
@@ -153,15 +150,5 @@ theorem prime_decomposition: ∀ (n: Nat), (n ≥ 2) → ∃ (m: Nat), (is_prime
           | intro v hv =>
             have v_divides_n := l4 v w n hv.right hw₃.left
             exact Exists.intro v (And.intro hv.left v_divides_n)
-
-
-
-
-
-
-
-
-
-
 
 end StrongInduction
