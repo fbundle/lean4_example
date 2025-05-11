@@ -104,34 +104,23 @@ theorem add_zero: (y: Nat) → add Nat.zero y = y := by
 
 end InductiveType
 
+
 section StrongInduction
-
-
--- `f n = 1^2 + 2^2 + ... + n^2`
--- `g n = n (n+1) (2n+1) / 6`
-def f (n: Nat) : Nat :=
-  match n with
-  | 0 => 0
-  | Nat.succ m => n^2 + f m
-
-def g (n: Nat): Nat :=
-  n * (n + 1) * (2 * n + 1) / 6
-
-theorem g_step (m : Nat) : (m + 1)^2 + g m = g (m + 1) := by
-  sorry
-
-
--- prove that `f n = g n`
-example: ∀ (n: Nat), f n = g n := by
+def is_prime : Nat →  Prop := by
   intro n
-  induction n with
-    | zero => rfl
-    | succ m hm =>
-      calc
-        f (m+1) = (m+1)^2 + f m := by rfl
-        _ = (m+1)^2 + g m := by rw [hm]
-        _ = g (m+1) := by rw [g_step]
+  exact (n ≥ 2) ∧ (∀ (m: Nat), m ∣ n → m = 1 ∨ m = n)
 
+theorem prime_decomposition: ∀ (n: Nat), (n ≥ 2) → (is_prime n) ∨ (∃ (m: Nat), (is_prime m) ∧ (m ∣ n)) := by
+  intro n -- `n: Nat`
+  intro h₁ -- `h₁: n ≥ 2`
+  by_cases h₂ : is_prime n
+  case pos =>
+    -- `h₂: is_prime n` is true
+    exact Or.inl h₂
+  case neg =>
+    -- h₂: `¬is_prime n`
+    -- Now show ∃ m, is_prime m ∧ m ∣ n
+    sorry
 
 
 
