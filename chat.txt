@@ -910,6 +910,9 @@ end InductiveType
 
 
 section StrongInduction
+
+
+
 def is_prime : Nat →  Prop := by
   intro n
   exact (n ≥ 2) ∧ (∀ (m: Nat), m ∣ n → m = 1 ∨ m = n)
