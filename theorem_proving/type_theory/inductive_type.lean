@@ -107,8 +107,7 @@ end InductiveType
 
 section StrongInduction
 
-def is_prime : Nat →  Prop := by
-  intro n
+def is_prime (n: Nat): Prop := by
   exact (n ≥ 2) ∧ (∀ (m: Nat), m ∣ n → m = 1 ∨ m = n)
 -- from classical logic
 def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), ¬ p a) := by sorry
