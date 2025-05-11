@@ -107,11 +107,15 @@ end InductiveType
 
 section StrongInduction
 
-
+open Classical
 
 def is_prime : Nat →  Prop := by
   intro n
   exact (n ≥ 2) ∧ (∀ (m: Nat), m ∣ n → m = 1 ∨ m = n)
+
+def l1: ¬ (p ∧ q) → p → ¬ q := by
+  intro h hp hq
+  exact h (And.intro hp hq)
 
 theorem prime_decomposition: ∀ (n: Nat), (n ≥ 2) → (is_prime n) ∨ (∃ (m: Nat), (is_prime m) ∧ (m ∣ n)) := by
   intro n -- `n: Nat`
@@ -123,6 +127,8 @@ theorem prime_decomposition: ∀ (n: Nat), (n ≥ 2) → (is_prime n) ∨ (∃ (
   case neg =>
     -- h₂: `¬is_prime n`
     -- Now show ∃ m, is_prime m ∧ m ∣ n
+    have h₃ : ¬ (∀ m, m ∣ n → m = 1 ∨ m = n) := l1 h₂ h₁
+
     sorry
 
 
