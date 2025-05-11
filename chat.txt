@@ -930,12 +930,9 @@ theorem prime_decomposition: ∀ (n: Nat), (n ≥ 2) → ∃ (m: Nat), (is_prime
   have h₀ : ∀ (m: Nat), (m < n) → (m ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ m) := by sorry
   intro h₁ -- `h₁: n ≥ 2`
   by_cases h₂ : is_prime n
-  case pos =>
-    -- `h₂: is_prime n` is true
+  case pos => -- `h₂: is_prime n`
     exact Exists.intro n (And.intro h₂ (l3 n))
-  case neg =>
-    -- h₂: `¬is_prime n`
-    -- Now show ∃ m, is_prime m ∧ m ∣ n
+  case neg => -- h₂: `¬is_prime n`
     have h₃ : ¬ (∀ (m: Nat), m ∣ n → m = 1 ∨ m = n) := l2 h₂ h₁
     have h₄ : ∃ (m: Nat), ¬(m ∣ n → m = 1 ∨ m = n) := by exact l1 h₃
     cases h₄ with
@@ -944,9 +941,9 @@ theorem prime_decomposition: ∀ (n: Nat), (n ≥ 2) → ∃ (m: Nat), (is_prime
         have hw₂ : w ∣ n ∧ w ≠ 1 ∧ w ≠ n := by sorry
         have hw₃ : w ∣ n ∧ w < n ∧ w ≥ 2 := by sorry
         by_cases hw₄ : is_prime w
-        case pos =>
+        case pos => -- `hw₄ : is_prime w`
           exact Exists.intro w (And.intro hw₄ (hw₃.left))
-        case neg =>
+        case neg => -- `hw₄ : ¬ is_prime w`
           have hv₀ : (w < n) → (w ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ w) := h₀ w
           have hv₁ := (hv₀ hw₃.right.left) hw₃.right.right
           cases hv₁ with
