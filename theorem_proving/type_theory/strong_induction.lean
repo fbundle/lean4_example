@@ -53,18 +53,18 @@ theorem prime_factor: ∀ (n: Nat), 2 ≤ n → ∃ (m: Nat), is_prime m ∧ m �
       let h₄ : ∃ (m: Nat), ¬(m ∣ n → ¬ (2 ≤ m ∧ m < n)) := cl_1 h₃
       cases h₄ with | intro m hm => -- `m: Nat` `hm : ¬(m ∣ n → ¬(2 ≤ m ∧ m < n))`
           let hm₁ : m ∣ n ∧ 2 ≤ m ∧ m < n := cl_2 hm
-          let hm₂ : m ∣ n := hm₁.left
-          let hm₃ : 2 ≤ m ∧ m < n := hm₁.right
+          let m_divides_n : m ∣ n := hm₁.left
+          let m_inrange : 2 ≤ m ∧ m < n := hm₁.right
           by_cases hm₄ : is_prime m
           case pos => -- `hm₄ : is_prime w`
-            exact Exists.intro m (And.intro hm₄ hm₂)
+            exact Exists.intro m (And.intro hm₄ m_divides_n)
           case neg => -- `hm₄ : ¬ is_prime w`
             let hm₅ : (m < n) → (m ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ m) := ih m
-            let hm₆ : ∃ l, is_prime l ∧ l ∣ m := (hm₅ hm₃.right) hm₃.left
+            let hm₆ : ∃ l, is_prime l ∧ l ∣ m := (hm₅ m_inrange.right) m_inrange.left
             cases hm₆ with | intro l hl => -- `hv : is_prime v ∧ v ∣ w`
-              let hl₁: is_prime l := hl.left
-              let hl₂: l ∣ m := hl.right
-              let l_divides_n := divide_trans l m n hl₂ hm₂
-              exact Exists.intro l (And.intro hl₁ l_divides_n)
+              let l_is_prime: is_prime l := hl.left
+              let l_divides_m: l ∣ m := hl.right
+              let l_divides_n := divide_trans l m n l_divides_m m_divides_n
+              exact Exists.intro l (And.intro l_is_prime l_divides_n)
 
 end StrongInduction
