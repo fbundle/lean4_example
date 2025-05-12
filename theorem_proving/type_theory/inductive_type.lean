@@ -121,6 +121,7 @@ def l3: ∀ (n: Nat), n ∣ n := by sorry
 
 def l4: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by sorry
 
+
 theorem prime_decomposition: ∀ (n: Nat), (2 ≤ n) → ∃ (m: Nat), (is_prime m) ∧ (m ∣ n) := by
   intro n -- `n: Nat`
   -- `h₀` strong induction hypothesis
