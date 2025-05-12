@@ -62,4 +62,6 @@ theorem prime_factor: ∀ (n: Nat), 2 ≤ n → ∃ (m: Nat), is_prime m ∧ m �
         let l_divides_n := divide_trans l m n l_divides_m m_divides_n
         exact Exists.intro l (And.intro l_is_prime l_divides_n)
 
+#print prime_factor
+
 end StrongInduction
