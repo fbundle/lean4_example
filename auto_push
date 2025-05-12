@@ -4,7 +4,7 @@ set -xe
 
 
 # make chat
-bash export_to_chat > chat.txt
+# bash export_to_chat > chat.txt
 
 # push to git
 git add .
