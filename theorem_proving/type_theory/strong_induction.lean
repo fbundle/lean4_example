@@ -29,6 +29,7 @@ def l4: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by
       cases hnl with
         | intro k₂ hk₂ => -- `k₂: Nat`, `hk₂: l = n * k₂`
           let k := k₁ * k₂
+          -- this proof only works if we define `let k := k₁ * k₂` but `have k := k₁ * k₂` won't works
           have hk : k = k₁ * k₂ := rfl
           have h : l = m * k := by
             calc
