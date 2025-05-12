@@ -1,4 +1,4 @@
-import Mathlib.Logic.Basic
+import Mathlib.Tactic.Tauto
 
 section StrongInduction
 
@@ -41,15 +41,9 @@ def l4: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by
           exact Exists.intro k h
 
 
--- `lean4` doesn't seem to have truth table proof - what a bummer
+-- auto proof - use `itauto` to avoid classical reasoning where possible
 def l5 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
-  intro h
-  have h₁ : ¬(p → ¬q) ↔ p ∧ ¬¬q := _root_.not_imp
-  have h₂ : p ∧ ¬¬q := h₁.mp h
-  have hp : p := h₂.left
-  have h₃ : ¬¬q → q := _root_.of_not_not
-  have hq : q := h₃ h₂.right
-  exact And.intro hp hq
+  tauto
 
 
 theorem prime_decomposition: ∀ (n: Nat), (2 ≤ n) → ∃ (m: Nat), (is_prime m) ∧ (m ∣ n) := by

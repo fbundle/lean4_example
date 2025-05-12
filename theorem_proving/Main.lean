@@ -9,6 +9,10 @@ import tactic.calculation_proof_for_transitivity
 import tactic.auxiliary_subgoals
 import tactic.tactic
 
+import Mathlib.Tactic.Tauto
+
+def l {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
+  tauto
 
 def main : IO Unit :=
   IO.println s!"Hello, World!"
