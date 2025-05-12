@@ -12,8 +12,8 @@ def cl_1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α),
     Iff.intro
       λ h a => by exact not_not_intro (h a)
       λ h a => by exact Classical.byContradiction (h a)
-  let h₄ : ¬ (∀ (a : α), p a) ↔ ¬ (∀ (a: α), ¬ ¬ p a) := Iff.not h₃
-  exact h₁.mp (h₄.mp h₂)
+  let h₃ : ¬ (∀ (a : α), p a) ↔ ¬ (∀ (a: α), ¬ ¬ p a) := Iff.not h₃
+  exact h₁.mp (h₃.mp h₂)
 def cl_2 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by tauto -- auto prove simple propositions
 def cl_3 {p q: Prop}: ¬ (p ∧ q) → p → ¬ q := by tauto -- auto prove simple propositions
 
@@ -48,19 +48,17 @@ theorem prime_factor: ∀ (n: Nat), 2 ≤ n → ∃ (m: Nat), is_prime m ∧ m �
     if h₂ : is_prime n then
       exact Exists.intro n (And.intro h₂ (divide_rfl n))
     else -- `h₂: ¬ is_prime n`
-      let h₃ : ¬ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)) := (cl_3 h₂) h₁
-      let h₄ : ∃ (m: Nat), ¬(m ∣ n → ¬ (2 ≤ m ∧ m < n)) := cl_1 h₃
-      cases h₄ with | intro m hm => -- `m: Nat` `hm : ¬(m ∣ n → ¬(2 ≤ m ∧ m < n))`
-          let hm₁ : m ∣ n ∧ 2 ≤ m ∧ m < n := cl_2 hm
-          let m_divides_n : m ∣ n := hm₁.left
-          let m_inrange : 2 ≤ m ∧ m < n := hm₁.right
-          by_cases hm₄ : is_prime m
-          case pos => -- `hm₄ : is_prime w`
-            exact Exists.intro m (And.intro hm₄ m_divides_n)
-          case neg => -- `hm₄ : ¬ is_prime w`
-            let hm₅ : (m < n) → (m ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ m) := ih m
-            let hm₆ : ∃ l, is_prime l ∧ l ∣ m := (hm₅ m_inrange.right) m_inrange.left
-            cases hm₆ with | intro l hl => -- `hv : is_prime v ∧ v ∣ w`
+      let h₃ : ∃ (m: Nat), ¬(m ∣ n → ¬ (2 ≤ m ∧ m < n)) := cl_1 ((cl_3 h₂) h₁)
+      cases h₃ with | intro m hm => -- `m: Nat` `hm : ¬(m ∣ n → ¬(2 ≤ m ∧ m < n))`
+          let h₄ : m ∣ n ∧ 2 ≤ m ∧ m < n := cl_2 hm
+          let m_divides_n : m ∣ n := h₄.left
+          let m_ge_2 : 2 ≤ m := h₄.right.left
+          let m_lt_n : m < n := h₄.right.right
+          if h₅ : is_prime m then
+            exact Exists.intro m (And.intro h₅ m_divides_n)
+          else -- `h₅ : ¬ is_prime w`
+            let h₆ : ∃ l, is_prime l ∧ l ∣ m := ((ih m) m_lt_n) m_ge_2
+            cases h₆ with | intro l hl => -- `hv : is_prime v ∧ v ∣ w`
               let l_is_prime: is_prime l := hl.left
               let l_divides_m: l ∣ m := hl.right
               let l_divides_n := divide_trans l m n l_divides_m m_divides_n
