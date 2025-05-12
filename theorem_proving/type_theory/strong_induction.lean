@@ -7,7 +7,13 @@ def is_prime (n: Nat): Prop := by
 
 -- from classical logic
 def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), ¬ p a) := by
-   sorry
+  have h₁ : ¬ (∀ (a: α), ¬ ¬ p a) ↔ (∃ (a: α), ¬ p a) := not_forall_not
+  intro h₂ -- `h : ¬ (∀ (a : α), p a)`
+  have h₃ : (∀ (a : α), p a) ↔ (∀ (a: α), ¬ ¬ p a) := sorry
+  have h₄ : ¬ (∀ (a : α), p a) ↔ ¬ (∀ (a: α), ¬ ¬ p a) := Iff.not h₃
+  exact h₁.mp (h₄.mp h₂)
+
+
 
 def l2: ¬ (p ∧ q) → p → ¬ q := by
   intro h hp hq
@@ -29,14 +35,12 @@ def l4: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by
       cases hnl with
         | intro k₂ hk₂ => -- `k₂: Nat`, `hk₂: l = n * k₂`
           let k := k₁ * k₂
-          -- this proof only works if we define `let k := k₁ * k₂` but `have k := k₁ * k₂` won't works
-          have hk : k = k₁ * k₂ := rfl
           have h : l = m * k := by
             calc
               l = n * k₂ := by rw [hk₂]
               _ = m * k₁ * k₂ := by rw[hk₁]
               _ = m * (k₁ * k₂) := by rw[Nat.mul_assoc]
-              _ = m * k := by rw [hk]
+              _ = m * k := by rfl
 
           exact Exists.intro k h
 
