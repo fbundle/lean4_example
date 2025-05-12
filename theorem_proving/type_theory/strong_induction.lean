@@ -14,10 +14,11 @@ def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), �
   have h₄ : ¬ (∀ (a : α), p a) ↔ ¬ (∀ (a: α), ¬ ¬ p a) := Iff.not h₃
   exact h₁.mp (h₄.mp h₂)
 
--- auto proof - use `itauto` to avoid classical reasoning where possible
+-- auto prove simple propositions
+-- use `itauto` to avoid classical reasoning where possible
 def l5 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
   tauto
-def l2: ¬ (p ∧ q) → p → ¬ q := by
+def l2 {p q: Prop}: ¬ (p ∧ q) → p → ¬ q := by
   tauto
 
 -- divide is reflexive `def Nat.dvd (m n : Nat) : Prop := ∃ k, n = m * k`
