@@ -122,6 +122,17 @@ example (p q : Nat → Prop) : (∃ x, p x) → ∃ x, p x ∨ q x := by
     apply Or.inl
     exact pw
 
+-- decompose an existence by `obtain` or more generally any thing with 1 constructor
+example (p q : Nat → Prop) : (∃ x, p x) → ∃ x, p x ∨ q x := by
+  intro h
+  -- current goal: `p q : Nat → Prop ; h : ∃ x, p x ⊢ ∃ x, p x ∨ q x`
+  obtain ⟨w, pw⟩ := h
+  -- current goal: `p q : Nat → Prop ; w : Nat ; pw : p ; w ⊢ ∃ x, p x ∨ q x`
+  exists w -- tell `lean` that `w` is the chosen point to satisfy existential goal
+  -- current goal: `p q : Nat → Prop ; w : Nat ; pw : p w ⊢ p w ∨ q w`
+  apply Or.inl
+  exact pw
+
 
 -- proof by contradiction
 example (p q : Prop) : p ∧ ¬p → q := by
