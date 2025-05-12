@@ -54,7 +54,7 @@ theorem prime_factor: ∀ (n: Nat), 2 ≤ n → ∃ (m: Nat), is_prime m ∧ m �
       let m_lt_n : m < n := h₄.right.right
       if h₅ : is_prime m then
         exact Exists.intro m (And.intro h₅ m_divides_n)
-      else -- `h₅ : ¬ is_prime w`
+      else -- `h₅ : ¬ is_prime m`
         let h₆ : ∃ l, is_prime l ∧ l ∣ m := ih m m_lt_n m_ge_2
         obtain ⟨(l: Nat), (hl: is_prime l ∧ l ∣ m)⟩ := h₆
         let l_is_prime: is_prime l := hl.left
