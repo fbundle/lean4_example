@@ -11,8 +11,8 @@ def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), �
   intro h₂ -- `h : ¬ (∀ (a : α), p a)`
   have h₃ : (∀ (a : α), p a) ↔ (∀ (a: α), ¬ ¬ p a) :=
     Iff.intro
-      fun h a => by exact not_not_intro (h a)
-      fun h a => by exact Classical.byContradiction (h a)
+      λ h a => by exact not_not_intro (h a)
+      λ h a => by exact Classical.byContradiction (h a)
   have h₄ : ¬ (∀ (a : α), p a) ↔ ¬ (∀ (a: α), ¬ ¬ p a) := Iff.not h₃
   exact h₁.mp (h₄.mp h₂)
 
