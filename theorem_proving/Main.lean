@@ -9,8 +9,9 @@ import tactic.auxiliary_subgoals
 import tactic.tactic
 
 import Mathlib.Tactic.Tauto
-def l5: ¬ (p → ¬ q) → p ∧ q := by
-  exact sorry
+def l5 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
+  exact Mathlib.Tactic.Tauto.tauto
+
 
 def main : IO Unit :=
   IO.println s!"Hello, World!"
