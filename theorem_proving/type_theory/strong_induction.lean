@@ -1,8 +1,8 @@
 import Mathlib.Tactic.Tauto
 section StrongInduction
 
-def is_prime (n: Nat): Prop := by
-  exact (2 ≤ n) ∧ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n))
+def is_prime (n: Nat): Prop :=
+  2 ≤ n ∧ ∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)
 
 -- some truth in classical logic
 def cl_1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), ¬ p a) := by
@@ -49,8 +49,8 @@ theorem prime_factor: ∀ (n: Nat), 2 ≤ n → ∃ (m: Nat), is_prime m ∧ m �
     case pos => -- `h₂: is_prime n`
       exact Exists.intro n (And.intro h₂ (divide_rfl n))
     case neg => -- h₂: `¬is_prime n`
-      let h₃ : ¬ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)) := cl_3 h₂ h₁
-      let h₄ : ∃ (m: Nat), ¬(m ∣ n → ¬ (2 ≤ m ∧ m < n)) := by exact cl_1 h₃
+      let h₃ : ¬ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)) := (cl_3 h₂) h₁
+      let h₄ : ∃ (m: Nat), ¬(m ∣ n → ¬ (2 ≤ m ∧ m < n)) := cl_1 h₃
       cases h₄ with | intro w hw => -- `hw : ¬(w ∣ n → ¬(2 ≤ w ∧ w < n))`
           let hw₀ : w ∣ n ∧ 1 < w ∧ w < n := cl_2 hw
           let hw₁ : w ∣ n := hw₀.left
