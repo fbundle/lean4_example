@@ -5,7 +5,6 @@ section StrongInduction
 def is_prime (n: Nat): Prop := by
   exact (2 ≤ n) ∧ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n))
 
--- from classical logic
 def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), ¬ p a) := by
   have h₁ : ¬ (∀ (a: α), ¬ ¬ p a) ↔ (∃ (a: α), ¬ p a) := not_forall_not
   intro h₂ -- `h : ¬ (∀ (a : α), p a)`
@@ -15,7 +14,6 @@ def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), �
       λ h a => by exact Classical.byContradiction (h a)
   have h₄ : ¬ (∀ (a : α), p a) ↔ ¬ (∀ (a: α), ¬ ¬ p a) := Iff.not h₃
   exact h₁.mp (h₄.mp h₂)
-
 
 -- auto proof - use `itauto` to avoid classical reasoning where possible
 def l5 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
@@ -48,14 +46,10 @@ def l4: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by
 
           exact Exists.intro k h
 
-
-
-
-
 theorem prime_decomposition: ∀ (n: Nat), (2 ≤ n) → ∃ (m: Nat), (is_prime m) ∧ (m ∣ n) := by
   intro n -- `n: Nat`
-  -- `h₀` strong induction hypothesis
-  have h₀ : ∀ (m: Nat), (m < n) → (m ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ m) := by sorry
+  -- `ih` strong induction hypothesis
+  have ih : ∀ (m: Nat), (m < n) → (m ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ m) := by sorry
   intro h₁ -- `h₁: 2 ≤ n`
   by_cases h₂ : is_prime n
   case pos => -- `h₂: is_prime n`
@@ -72,7 +66,7 @@ theorem prime_decomposition: ∀ (n: Nat), (2 ≤ n) → ∃ (m: Nat), (is_prime
         case pos => -- `hw₄ : is_prime w`
           exact Exists.intro w (And.intro hw₃ hw₁)
         case neg => -- `hw₄ : ¬ is_prime w`
-          have hv₀ : (w < n) → (w ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ w) := h₀ w
+          have hv₀ : (w < n) → (w ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ w) := ih w
           have hv₁ : ∃ l, is_prime l ∧ l ∣ w := (hv₀ hw₂.right) hw₂.left
           cases hv₁ with
           | intro v hv => -- `hv : is_prime v ∧ v ∣ w`
