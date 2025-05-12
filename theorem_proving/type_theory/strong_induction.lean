@@ -4,6 +4,7 @@ section StrongInduction
 def is_prime (n: Nat): Prop := by
   exact (2 ≤ n) ∧ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n))
 
+-- some truth in classical logic
 def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), ¬ p a) := by
   have h₁ : ¬ (∀ (a: α), ¬ ¬ p a) ↔ (∃ (a: α), ¬ p a) := not_forall_not
   intro h₂ -- `h : ¬ (∀ (a : α), p a)`
@@ -13,13 +14,10 @@ def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), �
       λ h a => by exact Classical.byContradiction (h a)
   have h₄ : ¬ (∀ (a : α), p a) ↔ ¬ (∀ (a: α), ¬ ¬ p a) := Iff.not h₃
   exact h₁.mp (h₄.mp h₂)
-
--- auto prove simple propositions
--- use `itauto` to avoid classical reasoning where possible
 def l5 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
-  tauto
+  tauto -- auto prove simple propositions
 def l2 {p q: Prop}: ¬ (p ∧ q) → p → ¬ q := by
-  tauto
+  tauto -- auto prove simple propositions
 
 -- divide is reflexive `def Nat.dvd (m n : Nat) : Prop := ∃ k, n = m * k`
 def l3: ∀ (n: Nat), n ∣ n := by
