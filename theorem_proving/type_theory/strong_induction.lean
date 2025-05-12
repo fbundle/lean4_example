@@ -14,10 +14,11 @@ def l1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), �
   exact h₁.mp (h₄.mp h₂)
 
 
-
+-- auto proof - use `itauto` to avoid classical reasoning where possible
+def l5 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
+  tauto
 def l2: ¬ (p ∧ q) → p → ¬ q := by
-  intro h hp hq
-  exact h (And.intro hp hq)
+  tauto
 
 -- divide is reflexive `def Nat.dvd (m n : Nat) : Prop := ∃ k, n = m * k`
 def l3: ∀ (n: Nat), n ∣ n := by
@@ -45,9 +46,7 @@ def l4: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by
           exact Exists.intro k h
 
 
--- auto proof - use `itauto` to avoid classical reasoning where possible
-def l5 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
-  tauto
+
 
 
 theorem prime_decomposition: ∀ (n: Nat), (2 ≤ n) → ∃ (m: Nat), (is_prime m) ∧ (m ∣ n) := by
