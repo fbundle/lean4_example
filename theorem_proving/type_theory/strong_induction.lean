@@ -41,7 +41,7 @@ def l4: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by
           exact Exists.intro k h
 
 
--- `lean4` seems to not have truth table proof - what a bummer
+-- `lean4` doesn't seem to have truth table proof - what a bummer
 def l5 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by
   intro h
   have h₁ : ¬(p → ¬q) ↔ p ∧ ¬¬q := _root_.not_imp
