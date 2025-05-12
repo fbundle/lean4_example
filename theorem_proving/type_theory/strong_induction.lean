@@ -45,10 +45,9 @@ theorem prime_factor: ∀ (n: Nat), 2 ≤ n → ∃ (m: Nat), is_prime m ∧ m �
     -- `ih : ∀ (m : ℕ), m < n → 2 ≤ m → ∃ l, is_prime l ∧ l ∣ m`
     -- wts `2 ≤ n → ∃ m, is_prime m ∧ m ∣ n` given `ih`
     intro (h₁: 2 ≤ n)
-    by_cases h₂ : is_prime n
-    case pos => -- `h₂: is_prime n`
+    if h₂ : is_prime n then
       exact Exists.intro n (And.intro h₂ (divide_rfl n))
-    case neg => -- h₂: `¬is_prime n`
+    else -- `h₂: ¬ is_prime n`
       let h₃ : ¬ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)) := (cl_3 h₂) h₁
       let h₄ : ∃ (m: Nat), ¬(m ∣ n → ¬ (2 ≤ m ∧ m < n)) := cl_1 h₃
       cases h₄ with | intro m hm => -- `m: Nat` `hm : ¬(m ∣ n → ¬(2 ≤ m ∧ m < n))`
