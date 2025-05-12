@@ -17,13 +17,11 @@ def cl_1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α),
 def cl_2 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by tauto -- auto prove simple propositions
 def cl_3 {p q: Prop}: ¬ (p ∧ q) → p → ¬ q := by tauto -- auto prove simple propositions
 
--- divide is reflexive `def Nat.dvd (m n : Nat) : Prop := ∃ k, n = m * k`
+-- divide is reflexive and transitive `def Nat.dvd (m n : Nat) : Prop := ∃ k, n = m * k`
 def divide_rfl: ∀ (n: Nat), n ∣ n := by
   intro n
   let h : n = n * 1 := Eq.symm (Nat.mul_one n)
   exact Exists.intro 1 h
-
--- divide is transitive
 def divide_trans: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by
   intro (m: Nat) (n: Nat) (l: Nat) (hmn: m ∣ n) (hnl: n ∣ l)
   cases hmn with | intro k₁ hk₁ => -- `k₁: Nat`, `hk₁: n = m * k₁`
