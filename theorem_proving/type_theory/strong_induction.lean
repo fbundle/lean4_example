@@ -45,10 +45,12 @@ def l4: ∀ (m n l: Nat), m ∣ n → n ∣ l → m ∣ l := by
           exact Exists.intro k h
 
 theorem prime_decomposition: ∀ (n: Nat), (2 ≤ n) → ∃ (m: Nat), (is_prime m) ∧ (m ∣ n) := by
-  intro x -- `n: Nat`
+  intro n -- `n: Nat`
+  -- wts `2 ≤ n → ∃ m, is_prime m ∧ m ∣ n`
   -- strong induction
-  induction x using Nat.strongRecOn with
-  | ind n ih => -- `ih : ∀ (m: Nat), (m < n) → (m ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ m)`
+  induction n using Nat.strongRecOn with
+  | ind n ih => -- `ih : ∀ (m : ℕ), m < n → 2 ≤ m → ∃ l, is_prime l ∧ l ∣ m`
+    -- wts `2 ≤ n → ∃ m, is_prime m ∧ m ∣ n` given `ih`
     intro h₁ -- `h₁: 2 ≤ n`
     by_cases h₂ : is_prime n
     case pos => -- `h₂: is_prime n`
@@ -57,17 +59,17 @@ theorem prime_decomposition: ∀ (n: Nat), (2 ≤ n) → ∃ (m: Nat), (is_prime
       have h₃ : ¬ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)) := l2 h₂ h₁
       have h₄ : ∃ (m: Nat), ¬(m ∣ n → ¬ (2 ≤ m ∧ m < n)) := by exact l1 h₃
       cases h₄ with
-        | intro w hw => -- `hw : ¬(w ∣ n → ¬ (1 < w ∧ w < n)`
+        | intro w hw => -- `hw : ¬(w ∣ n → ¬(2 ≤ w ∧ w < n))`
           have hw₀ : w ∣ n ∧ 1 < w ∧ w < n := l5 hw
           have hw₁ : w ∣ n := hw₀.left
           have hw₂ : 1 < w ∧ w < n := hw₀.right
           by_cases hw₃ : is_prime w
-          case pos => -- `hw₄ : is_prime w`
+          case pos => -- `hw₃ : is_prime w`
             exact Exists.intro w (And.intro hw₃ hw₁)
-          case neg => -- `hw₄ : ¬ is_prime w`
-            have hv₀ : (w < n) → (w ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ w) := ih w
-            have hv₁ : ∃ l, is_prime l ∧ l ∣ w := (hv₀ hw₂.right) hw₂.left
-            cases hv₁ with
+          case neg => -- `hw₃ : ¬ is_prime w`
+            have hw₄ : (w < n) → (w ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ w) := ih w
+            have hw₅ : ∃ l, is_prime l ∧ l ∣ w := (hw₄ hw₂.right) hw₂.left
+            cases hw₅ with
             | intro v hv => -- `hv : is_prime v ∧ v ∣ w`
               have hv₁: is_prime v := hv.left
               have hv₂: v ∣ w := hv.right
