@@ -51,20 +51,20 @@ theorem prime_factor: ∀ (n: Nat), 2 ≤ n → ∃ (m: Nat), is_prime m ∧ m �
     case neg => -- h₂: `¬is_prime n`
       let h₃ : ¬ (∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)) := (cl_3 h₂) h₁
       let h₄ : ∃ (m: Nat), ¬(m ∣ n → ¬ (2 ≤ m ∧ m < n)) := cl_1 h₃
-      cases h₄ with | intro w hw => -- `hw : ¬(w ∣ n → ¬(2 ≤ w ∧ w < n))`
-          let hw₀ : w ∣ n ∧ 1 < w ∧ w < n := cl_2 hw
-          let hw₁ : w ∣ n := hw₀.left
-          let hw₂ : 2 ≤ w ∧ w < n := hw₀.right
-          by_cases hw₃ : is_prime w
-          case pos => -- `hw₃ : is_prime w`
-            exact Exists.intro w (And.intro hw₃ hw₁)
-          case neg => -- `hw₃ : ¬ is_prime w`
-            let hw₄ : (w < n) → (w ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ w) := ih w
-            let hw₅ : ∃ l, is_prime l ∧ l ∣ w := (hw₄ hw₂.right) hw₂.left
-            cases hw₅ with | intro v hv => -- `hv : is_prime v ∧ v ∣ w`
-              let hv₁: is_prime v := hv.left
-              let hv₂: v ∣ w := hv.right
-              let v_divides_n := divide_trans v w n hv₂ hw₁
-              exact Exists.intro v (And.intro hv₁ v_divides_n)
+      cases h₄ with | intro m hm => -- `m: Nat` `hm : ¬(m ∣ n → ¬(2 ≤ m ∧ m < n))`
+          let hm₁ : m ∣ n ∧ 2 ≤ m ∧ m < n := cl_2 hm
+          let hm₂ : m ∣ n := hm₁.left
+          let hm₃ : 2 ≤ m ∧ m < n := hm₁.right
+          by_cases hm₄ : is_prime m
+          case pos => -- `hm₄ : is_prime w`
+            exact Exists.intro m (And.intro hm₄ hm₂)
+          case neg => -- `hm₄ : ¬ is_prime w`
+            let hm₅ : (m < n) → (m ≥ 2) → ∃ (l: Nat), (is_prime l) ∧ (l ∣ m) := ih m
+            let hm₆ : ∃ l, is_prime l ∧ l ∣ m := (hm₅ hm₃.right) hm₃.left
+            cases hm₆ with | intro l hl => -- `hv : is_prime v ∧ v ∣ w`
+              let hl₁: is_prime l := hl.left
+              let hl₂: l ∣ m := hl.right
+              let l_divides_n := divide_trans l m n hl₂ hm₂
+              exact Exists.intro l (And.intro hl₁ l_divides_n)
 
 end StrongInduction
