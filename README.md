@@ -36,3 +36,4 @@ After reading the official book [Theorem Proving in Lean 4](https://lean-lang.or
 | Inductive Type            | a framework to construct type                             |
 | Tactic Mode               | goal oriented proof writing                               |
 
+Moreover, for math specific examples, one can refer to [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/index.html)
