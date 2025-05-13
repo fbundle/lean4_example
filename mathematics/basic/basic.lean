@@ -23,7 +23,7 @@ section Ring
   theorem add_neg_cancel_right1 (a b : R) : a + b + -b = a := by
     calc
       a + b + -b = a + (b + -b) := by rw[add_assoc]
-      _ = a + (-b + b) := by rw [add_comm]
+      _ = a + (-b + b) := by rw [add_comm (-b) b] -- add args
       _ = a + 0 := by rw [neg_add_cancel]
       _ = 0 + a := by rw [add_comm]
       _ = a := by rw [zero_add]
