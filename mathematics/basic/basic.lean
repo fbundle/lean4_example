@@ -28,6 +28,16 @@ section Ring
       _ = 0 + a := by rw [add_comm]
       _ = a := by rw [zero_add]
 
+  theorem add_left_cancel1 {a b c : R} (h : a + b = a + c) : b = c := by
+    calc
+      b = 0 + b := by rw [zero_add]
+      _ = -a + a + b := by rw [neg_add_cancel]
+      _ = -a + (a + b) := by rw [add_assoc]
+      _ = -a + (a + c) := by rw [h]
+      _ = -a + a + c := by rw [add_assoc]
+      _ = 0 + c := by rw [neg_add_cancel]
+      _ = c := by rw [zero_add]
+
 
 end Ring
 
