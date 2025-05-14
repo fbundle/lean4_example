@@ -1,4 +1,3 @@
-import Mathlib.Tactic.Tauto
 section StrongInduction
 
 def is_prime (n: Nat): Prop := 2 ≤ n ∧ ∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)
