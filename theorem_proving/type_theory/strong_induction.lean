@@ -1,8 +1,7 @@
 import Mathlib.Tactic.Tauto
 section StrongInduction
 
-def is_prime (n: Nat): Prop :=
-  2 ≤ n ∧ ∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)
+def is_prime (n: Nat): Prop := 2 ≤ n ∧ ∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)
 
 -- some truth in classical logic - `simp`
 -- The simplifier is what is known as a conditional term rewriting system: all it does is repeatedly replace (or rewrite) subterms of the form A by B, for all applicable facts of the form A = B or A ↔ B. The simplifier mindlessly rewrites until it can rewrite no more
