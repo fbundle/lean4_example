@@ -14,3 +14,19 @@ example : s ∩ t = t ∩ s := by
   · rintro ⟨xt, xs⟩; exact ⟨xs, xt⟩
 
 end Set
+
+section Function
+
+variable {α β : Type*}
+variable (f : α → β)
+variable (s t : Set α)
+variable (u v : Set β)
+
+open Function
+open Set
+
+example : f ⁻¹' (u ∩ v) = f ⁻¹' u ∩ f ⁻¹' v := by
+  ext
+  rfl -- `rfl` is like `by definition`
+
+end Function
