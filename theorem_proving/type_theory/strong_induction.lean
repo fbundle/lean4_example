@@ -4,18 +4,11 @@ section StrongInduction
 def is_prime (n: Nat): Prop :=
   2 ≤ n ∧ ∀ (m: Nat), m ∣ n → ¬ (2 ≤ m ∧ m < n)
 
--- some truth in classical logic
-def cl_1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), ¬ p a) := by
-  let h₁ : ¬ (∀ (a: α), ¬ ¬ p a) ↔ (∃ (a: α), ¬ p a) := not_forall_not
-  intro (h₂: ¬ (∀ (a : α), p a))
-  let h₃ : (∀ (a : α), p a) ↔ (∀ (a: α), ¬ ¬ p a) :=
-    Iff.intro
-      λ h a => by exact not_not_intro (h a)
-      λ h a => by exact Classical.byContradiction (h a)
-  let h₃ : ¬ (∀ (a : α), p a) ↔ ¬ (∀ (a: α), ¬ ¬ p a) := Iff.not h₃
-  exact h₁.mp (h₃.mp h₂)
-def cl_2 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by tauto -- auto prove simple propositions
-def cl_3 {p q: Prop}: ¬ (p ∧ q) → p → ¬ q := by tauto -- auto prove simple propositions
+-- some truth in classical logic - `simp`
+-- The simplifier is what is known as a conditional term rewriting system: all it does is repeatedly replace (or rewrite) subterms of the form A by B, for all applicable facts of the form A = B or A ↔ B. The simplifier mindlessly rewrites until it can rewrite no more
+def cl_1 {α : Sort u} {p: α → Prop}: ¬ (∀ (a: α), p a) → (∃ (a: α), ¬ p a) := by simp
+def cl_2 {p q: Prop}: ¬ (p → ¬ q) → p ∧ q := by simp
+def cl_3 {p q: Prop}: ¬ (p ∧ q) → p → ¬ q := by simp
 
 -- divide is reflexive and transitive `def Nat.dvd (m n : Nat) : Prop := ∃ k, n = m * k`
 def divide_rfl: ∀ (n: Nat), n ∣ n := by
