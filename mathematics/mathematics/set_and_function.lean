@@ -29,4 +29,9 @@ example : f ⁻¹' (u ∩ v) = f ⁻¹' u ∩ f ⁻¹' v := by
   ext
   rfl -- `rfl` is like `by definition`
 
+def g: s → u := sorry
+
+
+
+
 end Function
