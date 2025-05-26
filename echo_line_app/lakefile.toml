@@ -5,6 +5,9 @@ defaultTargets = ["echo_line_app"]
 [[lean_lib]]
 name = "echo_line"
 
+[[lean_lib]]
+name = "json"
+
 [[lean_exe]]
 name = "echo_line_app"
 root = "Main"

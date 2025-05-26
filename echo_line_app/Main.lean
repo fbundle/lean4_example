@@ -1,3 +1,8 @@
+import json.Json
+
+def main : IO Unit := do
+  IO.println "Enter your name:"
+/-
 import echo_line.EchoLine
 
 
@@ -18,3 +23,4 @@ def main : IO Unit := do
   IO.println "Enter your name:"
   EchoLine.loop default_state apply
   IO.println "Goodbye!"
+-/
