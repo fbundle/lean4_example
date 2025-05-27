@@ -129,6 +129,18 @@ mutual
   def parseObjectJson (s: String): String × Option Json :=
     let consumeOpenBrace (s: String): String × Bool := consumeExactString "{" s
 
+    let consumeKV(s: String): String × Option (String × Json) :=
+      match parseString s with
+        | (s, some key) =>
+          match parseJson s with
+            | (s, some val) => (s, some (key, val))
+            | _ => (s, none)
+        | _ => (s, none)
+
+    let rec consumeContent (s: String) (acc: List (String × Json)): String × Option List (String × Json) :=
+      match consumeKV s with
+        | (s, some kv) => consume 
+
     (s, none)
 
 
