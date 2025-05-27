@@ -79,6 +79,13 @@ def parseInteger (input: String): String × Option Int :=
 
 #eval! parseInteger "-1123 abc"
 
+def consumeSpace (input: String): String :=
+  let (input, o_s) := parseExactString [" ", "\t", "\n"] input
+  match o_s with
+    | some s => consumeSpace input
+    | none => input
+  decreasing_by all_goals sorry
+
 -- parse json
 mutual
 
@@ -108,8 +115,8 @@ mutual
     match o_c with
       | some c => (input, some c)
       | _ =>
+        let input := consumeSpace input
         match head input with
-          | some ' ' => parseJson (input.drop 1)
           | some '\"' => parseStringJson input
           | some '-' | some '0'| some '1'| some '2'| some '3'| some '4'| some '5'| some '6'| some '7'| some '8'| some '9' => parseIntegerJson input
           | some '[' => parseArrayJson input
@@ -120,15 +127,20 @@ mutual
 
   def parseArrayJson (input: String): String × Option Json :=
     let rec loop (input: String) (acc: List Json): String × Option (List Json) :=
+      let input := consumeSpace input
       let (input, o_json) := parseJson input
-      match o_json with
-        | some json =>
-          let (input, c) := parseExactString [",", "]"] input
-          match c with
-            | some "," => loop input (acc ++ [json])
-            | some "]" => (input, some (acc ++ [json])) -- end of array
-            | _ => (input, none) -- parse error
-        | _ => (input, some acc)
+      let acc :=
+        match o_json with
+          | some json => acc ++ [json]
+          | _ => acc
+
+      let input := consumeSpace input
+      let (input, c) := parseExactString [",", "]"] input
+      match c with
+        | some "," => loop input acc
+        | some "]" => (input, some acc)
+        | _ => (input, none) -- parse error
+
       decreasing_by all_goals sorry
 
     let (input, c) := parseExactString ["["] input
@@ -141,22 +153,38 @@ mutual
       | _ => (input, none)
 
   def parseObjectJson (input: String): String × Option Json :=
-    let rec loop (input: String) (acc: List (String × Json)) : String × Option (List (String × Json)) :=
-      let (input, o_key) := parseStringJson input
+    let parseKV (input: String): String × Option (String × Json) :=
+      let input := consumeSpace input
+      let (input, o_key) := parseString input
       match o_key with
-        | some (Json.string key) =>
-          let (input, o_val) := parseJson input
-            match o_val with
-              | some val =>
-                let (input, c) := parseExactString [",", "}"] input
-                match c with
-                  | some "," => loop input (acc ++ [(key, val)])
-                  | some "}" => (input, some (acc ++ [(key, val)]))
-                  | _ => (input, none)
-              | _ => (input, none)
+        | some key =>
+          let input := consumeSpace input
+          let (input, c) := parseExactString [":"] input
+          match c with
+            | some ":" =>
+              let input := consumeSpace input
+              let (input, o_val) := parseJson input
+              match o_val with
+                | some val => (input, some (key, val))
+                | _ => (input, none)
+            | _ => (input, none)
         | _ => (input, none)
-      decreasing_by all_goals sorry
 
+    let rec loop (input: String) (acc: List (String × Json)) : String × Option (List (String × Json)) :=
+      let input := consumeSpace input
+      let (input, o_kv) := parseKV input
+      let acc := match o_kv with
+        | some kv => acc ++ [kv]
+        | _ => acc
+
+      let input := consumeSpace input
+      let (input, c) := parseExactString [",", "}"] input
+      match c with
+        | some "," => loop input acc
+        | some "}" => (input, acc)
+        | _ => (input, none)
+
+      decreasing_by all_goals sorry
 
     let (input, c) := parseExactString ["{"] input
     match c with
@@ -167,8 +195,7 @@ mutual
           | _ => (input, none)
       | _ => (input, none)
 
-
 end
 
-#eval! parseArrayJson "[ 1, 2, 43, \"aacas casca\"] cascass"
-#eval! parseObjectJson "{\"key\": 1231} casaassaa"
+#eval! parseArrayJson "[ 1, 2, 43 , \"aacas casca\"] cascass"
+#eval! parseObjectJson "{ \"key\" : 1231} casaassaa"
