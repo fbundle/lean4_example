@@ -9,30 +9,30 @@ structure State where
 -- default : starting state
 def default_state : State := { count := 0 }
 
-def sum(json: Json): Int :=
+def sum(json: Json.Value): Int :=
   match json with
-  | Json.array l =>
-    let rec loop (l: List Json) (acc: Int): Int :=
+  | Json.Value.array l =>
+    let rec loop (l: List Json.Value) (acc: Int): Int :=
       match l with
         | [] => acc
         | x :: xs =>
           match x with
-            | Json.number y => loop xs (acc + y)
+            | Json.Value.number y => loop xs (acc + y)
             | _ => loop xs acc
 
     loop l.toList 0
   | _ => 0
 
-def echo(json: Json): String :=
+def echo(json: Json.Value): String :=
   match json with
-    | Json.string s => s
+    | Json.Value.string s => s
     | _ => ""
 
 -- apply : transform state by receiving input
 def apply (state: State) (input: String): State × String :=
   let new_state := { state with count := state.count + 1 }
-  let (_, o_o) := parseJson input -- read the first json only
-  let rec loop (o : List (String × Json)) (acc: String): String :=
+  let (_, o_o) := Json.parseJson input -- read the first json only
+  let rec loop (o : List (String × Json.Value)) (acc: String): String :=
     match o with
       | [] => acc
       | x :: xs =>
@@ -43,7 +43,7 @@ def apply (state: State) (input: String): State × String :=
           | _ => loop xs acc
 
   match o_o with
-  | some (Json.object o) => (new_state, s!"state {state.count}: {loop o.toList ""}")
+  | some (Json.Value.object o) => (new_state, s!"state {state.count}: {loop o.toList ""}")
   | _ => (new_state, s!"state {state.count}")
 
 
