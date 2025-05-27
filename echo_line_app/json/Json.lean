@@ -25,7 +25,7 @@ def consumeExactString (s₁: String) (s: String): String × Bool :=
 
 -- parse literal
 
-def parseStringLiteral(s: String): String × Option String :=
+def parseString(s: String): String × Option String :=
   let rec parseContent (s: String) (acc: String) : String × Option String :=
     match head2 s with
       | (none, none) => (s, none) -- parse error
@@ -47,7 +47,7 @@ def parseStringLiteral(s: String): String × Option String :=
         | some acc => (s, some acc)
     | _ => (s, none) -- parse error
 
-def parseIntegerLiteral (s: String): String × Option Int :=
+def parseInteger (s: String): String × Option Int :=
   let consumeDigit (s: String): String × Option Char :=
     match head s with
       | some c =>
@@ -82,13 +82,13 @@ def parseIntegerLiteral (s: String): String × Option Int :=
 mutual
 
   def parseStringJson(s: String): String × Option Json :=
-    let (s, o_acc) := parseStringLiteral s
+    let (s, o_acc) := parseString s
     match o_acc with
       | some acc => (s, (Json.string acc))
       | none => (s, none)
 
   def parseIntegerJson(s: String): String × Option Json :=
-    let (s, o_acc) := parseIntegerLiteral s
+    let (s, o_acc) := parseInteger s
     match o_acc with
       | some acc => (s, (Json.number acc))
       | none => (s, none)
