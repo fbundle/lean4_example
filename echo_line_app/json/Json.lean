@@ -23,128 +23,151 @@ def consumeExactString (s₁: String) (s: String): String × Bool :=
   then (s.drop s₁.length, true)
   else (s, false) -- string does not match
 
--- parse literal
+def parseExactString (ss: List String) (input: String) : String × Option String :=
+  match ss with
+  | [] => (input, none)
+  | s :: tail =>
+    if input.startsWith s
+    then ((input.drop s.length), some s)
+    else parseExactString tail input
 
-def parseString(s: String): String × Option String :=
-  let rec parseContent (s: String) (acc: String) : String × Option String :=
-    match head2 s with
-      | (none, none) => (s, none) -- parse error
-      | (some '"', none) => (s.drop 1, some acc) -- end of string
-      | (some '\\', some '"') => parseContent (s.drop 2) (acc ++ "\"")
-      | (some '\\', some '\\') => parseContent (s.drop 2) (acc ++ "\\")
-      | (some c, _) => parseContent (s.drop 1) (acc ++ c.toString)
-      | _ => (s, none) -- dummy case to satisfy pattern matching
+def parseString (input: String): String × Option String :=
+  let rec loop (input: String) (acc: String): String × Option String :=
+    let (o_c1, o_c2) := head2 input
+    match (o_c1, o_c2) with
+      | (some '\"', _)          => ((input.drop 1), acc) -- end of string
+      | (some '\\', some '\"')  => loop (input.drop 2) (acc ++ "\"")
+      | (some '\\', some '\\')  => loop (input.drop 2) (acc ++ "\\")
+      | (some c1, _)            => loop (input.drop 1) (acc ++ c1.toString)
+      | _                       => (input, none) -- parse error
     decreasing_by all_goals sorry
 
-  let consumeDoubleQuote (s: String): String × Bool := consumeExactString "\"" s
+  let (input, c) := parseExactString ["\""] input
 
-  -- we can only parse a string if it starts with a double quote
-  match consumeDoubleQuote s with
-    | (s, true) => -- string must start with double quote
-      let (s, o_acc) := parseContent s ""
-      match o_acc with
-        | none => (s, none)
-        | some acc => (s, some acc)
-    | _ => (s, none) -- parse error
+  match c with
+  | some "\"" => loop input ""
+  | _ => (input, none) -- parse error
 
-def parseInteger (s: String): String × Option Int :=
-  let consumeDigit (s: String): String × Option Char :=
-    match head s with
-      | some c =>
-        if c.isDigit
-        then (s.drop 1, some c)
-        else (s, none) -- character is not a digit
-      | _ => (s, none) -- parse error
-  let rec parseNatural (s: String) (acc: String): String × Option Int :=
-    match consumeDigit s with
-      | (s, some c) => parseNatural s (acc ++ c.toString)
-      | (s, none) =>
-        match acc.toInt? with
-          | some abs => (s, some abs)
-          | none => (s, none)
-  decreasing_by all_goals sorry
+#eval! parseString "\"hello \\\"  wo\\\\rld\" 1234"
 
-  let consumeSign (s: String) : String × Int :=
-    match consumeExactString "-" s with
-      | (s, true) => (s, -1)
-      | _ => (s, 1)
+def parseInteger (input: String): String × Option Int :=
+  let parseSign (input: String): String × Int :=
+    let (input, s) := parseExactString ["-"] input
+    match s with
+      | some "-" => (input, -1)
+      | _ => (input, 1)
 
-  let (s, sign) := consumeSign s
-  let (s, o_abs) := parseNatural s ""
+  let (input, sign) := parseSign input
+
+  let parseAbs (input: String): String × Option Int :=
+    let rec loop (input: String) (acc: String): String × String :=
+      let (input, o_d) := parseExactString ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] input
+      match o_d with
+        | some d => loop input (acc ++ d)
+        | _ => (input, acc)
+      decreasing_by all_goals sorry
+
+    let (input, abs_s) := loop input ""
+    match abs_s.toInt? with
+      | some abs => (input, some abs)
+      | _ => (input, none) -- parse error
+
+  let (input, o_abs) := parseAbs input
   match o_abs with
-    | some abs => (s, some (sign * abs))
-    | none => (s, none)
+    | some abs => (input, abs * sign)
+    | _ => (input, none)
 
-
-
+#eval! parseInteger "-1123 abc"
 
 -- parse json
 mutual
 
-  def parseStringJson(s: String): String × Option Json :=
-    let (s, o_acc) := parseString s
-    match o_acc with
-      | some acc => (s, (Json.string acc))
-      | none => (s, none)
+  def parseStringJson (input: String): String × Option Json :=
+    let (input, o_s) := parseString input
+    match o_s with
+      | some s => (input, Json.string s)
+      | none => (input, none)
 
-  def parseIntegerJson(s: String): String × Option Json :=
-    let (s, o_acc) := parseInteger s
-    match o_acc with
-      | some acc => (s, (Json.number acc))
-      | none => (s, none)
+  def parseIntegerJson (input: String): String × Option Json :=
+    let (input, o_i) := parseInteger input
+    match o_i with
+      | some i => (input, Json.number i)
+      | none => (input, none)
 
-  def parseConstantJson (s: String): String × Option Json :=
-    if s.startsWith "null"
-    then (s.drop 4, some Json.null)
-    else if s.startsWith "true"
-    then (s.drop 4, some (Json.bool true))
-    else if s.startsWith "false"
-    then (s.drop 5, some (Json.bool false))
-    else (s, none) -- parse error, return none
+  def parseConstantJson (input: String): String × Option Json :=
+    if input.startsWith "null"
+    then (input.drop 4, some Json.null)
+    else if input.startsWith "true"
+    then (input.drop 4, some (Json.bool true))
+    else if input.startsWith "false"
+    then (input.drop 5, some (Json.bool false))
+    else (input, none) -- parse error, return none
+
+  def parseJson (input: String): String × Option Json :=
+    let (input, o_c) := parseConstantJson input
+    match o_c with
+      | some c => (input, some c)
+      | _ =>
+        match head input with
+          | some ' ' => parseJson (input.drop 1)
+          | some '\"' => parseStringJson input
+          | some '-' | some '0'| some '1'| some '2'| some '3'| some '4'| some '5'| some '6'| some '7'| some '8'| some '9' => parseIntegerJson input
+          | some '[' => parseArrayJson input
+          | _ => (input, none)
+    decreasing_by all_goals sorry
 
 
-
-  def parseArrayJson(s: String): String × Option Json :=
-    let rec parseContent (s: String) (acc: List Json): String × Option (List Json) :=
-      match parseJson s with
-        | (s, some json) =>
-          let acc := acc ++ [json]
-          match head s with
-            | some ',' => parseContent (s.drop 1) acc
-            | some ']' => ((s.drop 1), acc)
-            | _ => (s, none)
-        | _ => (s, none) -- parse error
+  def parseArrayJson (input: String): String × Option Json :=
+    let rec loop (input: String) (acc: List Json): String × Option (List Json) :=
+      let (input, o_json) := parseJson input
+      match o_json with
+        | some json =>
+          let (input, c) := parseExactString [",", "]"] input
+          match c with
+            | some "," => loop input (acc ++ [json])
+            | some "]" => (input, some (acc ++ [json])) -- end of array
+            | _ => (input, none) -- parse error
+        | _ => (input, some acc)
       decreasing_by all_goals sorry
 
-    let consumeOpenBracket (s: String): String × Bool := consumeExactString "[" s
+    let (input, c) := parseExactString ["["] input
+    match c with
+      | some "[" =>
+        let (input, o_a) := loop input []
+        match o_a with
+          | some a => (input, Json.array a)
+          | _ => (input, none)
+      | _ => (input, none)
 
-    match consumeOpenBracket s with
-      | (s, true) =>
-        let (s, o_acc) := parseContent s []
-        match o_acc with
-          | some acc => (s, Json.array acc)
-          | none => (s, none)
-      | _ => (s, none)
-
-  def parseObjectJson (s: String): String × Option Json :=
-    let consumeOpenBrace (s: String): String × Bool := consumeExactString "{" s
-
-    let consumeKV(s: String): String × Option (String × Json) :=
-      match parseString s with
-        | (s, some key) =>
-          match parseJson s with
-            | (s, some val) => (s, some (key, val))
-            | _ => (s, none)
-        | _ => (s, none)
-
-    let rec consumeContent (s: String) (acc: List (String × Json)): String × Option List (String × Json) :=
-      match consumeKV s with
-        | (s, some kv) => consume 
-
-    (s, none)
+  def parseObjectJson (input: String): String × Option Json :=
+    let rec loop (input: String) (acc: List (String × Json)) : String × Option (List (String × Json)) :=
+      let (input, o_key) := parseStringJson input
+      match o_key with
+        | some (Json.string key) =>
+          let (input, o_val) := parseJson input
+            match o_val with
+              | some val =>
+                let (input, c) := parseExactString [",", "}"] input
+                match c with
+                  | some "," => loop input (acc ++ [(key, val)])
+                  | some "}" => (input, some (acc ++ [(key, val)]))
+                  | _ => (input, none)
+              | _ => (input, none)
+        | _ => (input, none)
+      decreasing_by all_goals sorry
 
 
-  def parseJson(s: String): String × Option Json :=
-    (s, none)
+    let (input, c) := parseExactString ["{"] input
+    match c with
+      | some "{" =>
+        let (input, o_o) := loop input []
+        match o_o with
+          | some o => (input, Json.object o)
+          | _ => (input, none)
+      | _ => (input, none)
+
 
 end
+
+#eval! parseArrayJson "[ 1, 2, 43, \"aacas casca\"] cascass"
+#eval! parseObjectJson "{\"key\": 1231} casaassaa"
