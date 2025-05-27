@@ -40,15 +40,13 @@ def parseString (input: String): String × Option String :=
       | (some '\\', some '\\')  => loop (input.drop 2) (acc ++ "\\")
       | (some c1, _)            => loop (input.drop 1) (acc ++ c1.toString)
       | _                       => (input, none) -- parse error
-    decreasing_by all_goals sorry
+  decreasing_by all_goals sorry
 
   let (input, c) := parseExactString ["\""] input
 
   match c with
   | some "\"" => loop input ""
   | _ => (input, none) -- parse error
-
-#eval! parseString "\"hello \\\"  wo\\\\rld\" 1234"
 
 def parseInteger (input: String): String × Option Int :=
   let parseSign (input: String): String × Int :=
@@ -65,7 +63,7 @@ def parseInteger (input: String): String × Option Int :=
       match o_d with
         | some d => loop input (acc ++ d)
         | _ => (input, acc)
-      decreasing_by all_goals sorry
+    decreasing_by all_goals sorry
 
     let (input, abs_s) := loop input ""
     match abs_s.toInt? with
@@ -77,14 +75,12 @@ def parseInteger (input: String): String × Option Int :=
     | some abs => (input, abs * sign)
     | _ => (input, none)
 
-#eval! parseInteger "-1123 abc"
-
 def consumeSpace (input: String): String :=
   let (input, o_s) := parseExactString [" ", "\t", "\n"] input
   match o_s with
     | some s => consumeSpace input
     | none => input
-  decreasing_by all_goals sorry
+decreasing_by all_goals sorry
 
 -- parse json
 mutual
@@ -122,7 +118,8 @@ mutual
           | some '[' => parseArrayJson input
           | some '{' => parseObjectJson input
           | _ => (input, none)
-    decreasing_by all_goals sorry
+
+  decreasing_by all_goals sorry
 
 
   def parseArrayJson (input: String): String × Option Json :=
@@ -141,7 +138,7 @@ mutual
         | some "]" => (input, some acc)
         | _ => (input, none) -- parse error
 
-      decreasing_by all_goals sorry
+    decreasing_by all_goals sorry
 
     let (input, c) := parseExactString ["["] input
     match c with
@@ -151,6 +148,8 @@ mutual
           | some a => (input, Json.array a)
           | _ => (input, none)
       | _ => (input, none)
+
+  decreasing_by all_goals sorry
 
   def parseObjectJson (input: String): String × Option Json :=
     let parseKV (input: String): String × Option (String × Json) :=
@@ -184,7 +183,7 @@ mutual
         | some "}" => (input, acc)
         | _ => (input, none)
 
-      decreasing_by all_goals sorry
+    decreasing_by all_goals sorry
 
     let (input, c) := parseExactString ["{"] input
     match c with
@@ -195,7 +194,6 @@ mutual
           | _ => (input, none)
       | _ => (input, none)
 
-end
+  decreasing_by all_goals sorry
 
-#eval! parseArrayJson "[ 1, 2, 43 , \"aacas casca\"] cascass"
-#eval! parseObjectJson "{ \"key\" : 1231} casaassaa"
+end
