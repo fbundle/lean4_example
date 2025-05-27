@@ -4,4 +4,4 @@
 
 - my model of `lean` is just this simple
 
-- just run `lake exe echo_line_app < stdin.txt`
+- just run `lake exe example_app < stdin.txt`

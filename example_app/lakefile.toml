@@ -1,6 +1,6 @@
-name = "echo_line_app"
+name = "example_app"
 version = "0.1.0"
-defaultTargets = ["echo_line_app"]
+defaultTargets = ["example_app"]
 
 [[lean_lib]]
 name = "echo_line"
@@ -9,5 +9,5 @@ name = "echo_line"
 name = "json"
 
 [[lean_exe]]
-name = "echo_line_app"
+name = "example_app"
 root = "Main"
