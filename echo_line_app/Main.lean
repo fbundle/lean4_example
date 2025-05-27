@@ -31,7 +31,7 @@ def echo(json: Json): String :=
 -- apply : transform state by receiving input
 def apply (state: State) (input: String): State × String :=
   let new_state := { state with count := state.count + 1 }
-  let (input, o_o) := parseJson input
+  let (_, o_o) := parseJson input -- read the first json only
   let rec loop (o : List (String × Json)) (acc: String): String :=
     match o with
       | [] => acc
@@ -43,8 +43,8 @@ def apply (state: State) (input: String): State × String :=
           | _ => loop xs acc
 
   match o_o with
-  | some (Json.object o) => (new_state, loop o "")
-  | _ => (new_state, "")
+  | some (Json.object o) => (new_state, s!"state {state.count}: {loop o ""}")
+  | _ => (new_state, s!"state {state.count}")
 
 
 def main : IO Unit := do
