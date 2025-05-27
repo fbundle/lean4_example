@@ -113,6 +113,7 @@ mutual
           | some '\"' => parseStringJson input
           | some '-' | some '0'| some '1'| some '2'| some '3'| some '4'| some '5'| some '6'| some '7'| some '8'| some '9' => parseIntegerJson input
           | some '[' => parseArrayJson input
+          | some '{' => parseObjectJson input
           | _ => (input, none)
     decreasing_by all_goals sorry
 
