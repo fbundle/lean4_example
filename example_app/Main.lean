@@ -20,7 +20,7 @@ def sum(json: Json): Int :=
             | Json.number y => loop xs (acc + y)
             | _ => loop xs acc
 
-    loop l 0
+    loop l.toList 0
   | _ => 0
 
 def echo(json: Json): String :=
@@ -43,7 +43,7 @@ def apply (state: State) (input: String): State × String :=
           | _ => loop xs acc
 
   match o_o with
-  | some (Json.object o) => (new_state, s!"state {state.count}: {loop o ""}")
+  | some (Json.object o) => (new_state, s!"state {state.count}: {loop o.toList ""}")
   | _ => (new_state, s!"state {state.count}")
 
 

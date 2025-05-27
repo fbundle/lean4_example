@@ -3,8 +3,8 @@ inductive Json where
   | bool (b : Bool): Json
   | number (n : Int): Json
   | string (s : String): Json
-  | array (a : List Json): Json
-  | object (o : List (String × Json)): Json
+  | array (a : Array Json): Json
+  | object (o : Array (String × Json)): Json
   deriving Repr
 
 def head (s: String): Option Char :=
@@ -17,11 +17,6 @@ def head2 (s: String): Option Char × Option Char :=
     | 0 => (none, none)
     | 1 => (some s.front, none)
     | _ => (some s.front, some (s.drop 1).front)
-
-def consumeExactString (s₁: String) (s: String): String × Bool :=
-  if s.startsWith s₁
-  then (s.drop s₁.length, true)
-  else (s, false) -- string does not match
 
 def parseExactString (ss: List String) (input: String) : String × Option String :=
   match ss with
@@ -123,12 +118,12 @@ mutual
 
 
   def parseArrayJson (input: String): String × Option Json :=
-    let rec loop (input: String) (acc: List Json): String × Option (List Json) :=
+    let rec loop (input: String) (acc: Array Json): String × Option (Array Json) :=
       let input := consumeSpace input
       let (input, o_json) := parseJson input
       let acc :=
         match o_json with
-          | some json => acc ++ [json]
+          | some json => acc ++ [json] -- TODO : push back list here
           | _ => acc
 
       let input := consumeSpace input
@@ -143,7 +138,7 @@ mutual
     let (input, c) := parseExactString ["["] input
     match c with
       | some "[" =>
-        let (input, o_a) := loop input []
+        let (input, o_a) := loop input #[]
         match o_a with
           | some a => (input, Json.array a)
           | _ => (input, none)
@@ -169,11 +164,11 @@ mutual
             | _ => (input, none)
         | _ => (input, none)
 
-    let rec loop (input: String) (acc: List (String × Json)) : String × Option (List (String × Json)) :=
+    let rec loop (input: String) (acc: Array (String × Json)) : String × Option (Array (String × Json)) :=
       let input := consumeSpace input
       let (input, o_kv) := parseKV input
       let acc := match o_kv with
-        | some kv => acc ++ [kv]
+        | some kv => acc ++ [kv] -- TODO push back list here
         | _ => acc
 
       let input := consumeSpace input
@@ -188,7 +183,7 @@ mutual
     let (input, c) := parseExactString ["{"] input
     match c with
       | some "{" =>
-        let (input, o_o) := loop input []
+        let (input, o_o) := loop input #[]
         match o_o with
           | some o => (input, Json.object o)
           | _ => (input, none)
