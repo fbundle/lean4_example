@@ -82,44 +82,28 @@ namespace Json
   decreasing_by all_goals sorry
 
   -- parse json
+  def parseStringJson (input: String): String × Option Value :=
+    let (input, o_s) := parseString input
+    match o_s with
+      | some s => (input, Value.string s)
+      | none => (input, none)
+
+  def parseIntegerJson (input: String): String × Option Value :=
+    let (input, o_i) := parseInteger input
+    match o_i with
+      | some i => (input, Value.number i)
+      | none => (input, none)
+
+  def parseConstantJson (input: String): String × Option Value :=
+    if input.startsWith "null"
+    then (input.drop 4, some Value.null)
+    else if input.startsWith "true"
+    then (input.drop 4, some ( Value.bool true))
+    else if input.startsWith "false"
+    then (input.drop 5, some ( Value.bool false))
+    else (input, none) -- parse error, return none
+
   mutual
-    def parseStringJson (input: String): String × Option Value :=
-      let (input, o_s) := parseString input
-      match o_s with
-        | some s => (input, Value.string s)
-        | none => (input, none)
-
-    def parseIntegerJson (input: String): String × Option Value :=
-      let (input, o_i) := parseInteger input
-      match o_i with
-        | some i => (input, Value.number i)
-        | none => (input, none)
-
-    def parseConstantJson (input: String): String × Option Value :=
-      if input.startsWith "null"
-      then (input.drop 4, some Value.null)
-      else if input.startsWith "true"
-      then (input.drop 4, some ( Value.bool true))
-      else if input.startsWith "false"
-      then (input.drop 5, some ( Value.bool false))
-      else (input, none) -- parse error, return none
-
-    def parseJson (input: String): String × Option Value :=
-      let (input, o_c) := parseConstantJson input
-      match o_c with
-        | some c => (input, some c)
-        | _ =>
-          let input := consumeSpace input
-          match head input with
-            | some '\"' => parseStringJson input
-            | some '-' | some '0'| some '1'| some '2'| some '3'| some '4'| some '5'| some '6'| some '7'| some '8'| some '9' => parseIntegerJson input
-            | some '[' => parseArrayJson input
-            | some '{' => parseObjectJson input
-            | _ => (input, none)
-
-    decreasing_by all_goals sorry
-
-
     def parseArrayJson (input: String): String × Option Value :=
       let rec loop (input: String) (acc: Array Value): String × Option (Array Value) :=
         let input := consumeSpace input
@@ -193,6 +177,23 @@ namespace Json
         | _ => (input, none)
 
     decreasing_by all_goals sorry
+
+    def parseJson (input: String): String × Option Value :=
+      let (input, o_c) := parseConstantJson input
+      match o_c with
+        | some c => (input, some c)
+        | _ =>
+          let input := consumeSpace input
+          match head input with
+            | some '\"' => parseStringJson input
+            | some '-' | some '0'| some '1'| some '2'| some '3'| some '4'| some '5'| some '6'| some '7'| some '8'| some '9' => parseIntegerJson input
+            | some '[' => parseArrayJson input
+            | some '{' => parseObjectJson input
+            | _ => (input, none)
+
+    decreasing_by all_goals sorry
+
+
 
   end
 
