@@ -110,7 +110,7 @@ namespace Json
         let (input, o_json) := parseJson input
         let acc :=
           match o_json with
-            | some json => acc ++ [json] -- TODO : push back list here
+            | some json => acc.push json
             | _ => acc
 
         let input := consumeSpace input
@@ -155,7 +155,7 @@ namespace Json
         let input := consumeSpace input
         let (input, o_kv) := parseKV input
         let acc := match o_kv with
-          | some kv => acc ++ [kv] -- TODO push back list here
+          | some kv => acc.push kv
           | _ => acc
 
         let input := consumeSpace input
