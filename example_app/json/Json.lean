@@ -23,26 +23,28 @@ namespace Json
   def parseExact (ss: List String) (input: String) : String × Option String :=
     match ss with
     | [] => (input, none)
-    | s :: tail =>
+    | s :: ss =>
       if input.startsWith s
       then ((input.drop s.length), some s)
-      else parseExact tail input
+      else parseExact ss input
 
   def parseString (input: String): String × Option String :=
-    let rec loop (input: String) (acc: String): String × Option String :=
-      let (o_c1, o_c2) := head2 input
-      match (o_c1, o_c2) with
-        | (some '\"', _)          => ((input.drop 1), acc) -- end of string
-        | (some '\\', some '\"')  => loop (input.drop 2) (acc ++ "\"")
-        | (some '\\', some '\\')  => loop (input.drop 2) (acc ++ "\\")
-        | (some c1, _)            => loop (input.drop 1) (acc ++ c1.toString)
-        | _                       => (input, none) -- parse error
-    decreasing_by all_goals sorry
-
     let (input, c) := parseExact ["\""] input
-
     match c with
-    | some "\"" => loop input ""
+    | some "\"" => -- start of string
+
+      let rec loop (input: String) (acc: String): String × Option String :=
+        let (o_c1, o_c2) := head2 input
+        match (o_c1, o_c2) with
+          | (some '\"', _)          => ((input.drop 1), acc) -- end of string
+          | (some '\\', some '\"')  => loop (input.drop 2) (acc.push '\"')
+          | (some '\\', some '\\')  => loop (input.drop 2) (acc.push '\\')
+          | (some c1, _)            => loop (input.drop 1) (acc.push c1)
+          | _                       => (input, none) -- parse error
+      decreasing_by all_goals sorry
+
+      loop input ""
+
     | _ => (input, none) -- parse error
 
   def parseInteger (input: String): String × Option Int :=
@@ -63,11 +65,13 @@ namespace Json
       decreasing_by all_goals sorry
 
       let (input, abs_s) := loop input ""
+
       match abs_s.toInt? with
         | some abs => (input, some abs)
         | _ => (input, none) -- parse error
 
     let (input, o_abs) := parseAbs input
+
     match o_abs with
       | some abs => (input, abs * sign)
       | _ => (input, none)
@@ -105,30 +109,34 @@ namespace Json
 
   mutual
     def parseArrayJson (input: String): String × Option Json :=
-      let rec loop (input: String) (acc: Array Json): String × Option (Array Json) :=
-        let input := consumeSpace input
-        let (input, o_json) := parseJson input
-        let acc :=
-          match o_json with
-            | some json => acc.push json
-            | _ => acc
-
-        let input := consumeSpace input
-        let (input, c) := parseExact [",", "]"] input
-        match c with
-          | some "," => loop input acc
-          | some "]" => (input, some acc)
-          | _ => (input, none) -- parse error
-
-      decreasing_by all_goals sorry
 
       let (input, c) := parseExact ["["] input
       match c with
         | some "[" =>
+
+          let rec loop (input: String) (acc: Array Json): String × Option (Array Json) :=
+            let input := consumeSpace input
+            let (input, o_json) := parseJson input
+            let acc :=
+              match o_json with
+                | some json => acc.push json
+                | _ => acc
+
+            let input := consumeSpace input
+            let (input, c) := parseExact [",", "]"] input
+            match c with
+              | some "," => loop input acc
+              | some "]" => (input, some acc)
+              | _ => (input, none) -- parse error
+
+          decreasing_by all_goals sorry
+
           let (input, o_a) := loop input #[]
+
           match o_a with
             | some a => (input, Json.array a)
             | _ => (input, none)
+
         | _ => (input, none)
 
     decreasing_by all_goals sorry
@@ -151,29 +159,33 @@ namespace Json
               | _ => (input, none)
           | _ => (input, none)
 
-      let rec loop (input: String) (acc: Array (String × Json)) : String × Option (Array (String × Json)) :=
-        let input := consumeSpace input
-        let (input, o_kv) := parseKV input
-        let acc := match o_kv with
-          | some kv => acc.push kv
-          | _ => acc
-
-        let input := consumeSpace input
-        let (input, c) := parseExact [",", "}"] input
-        match c with
-          | some "," => loop input acc
-          | some "}" => (input, acc)
-          | _ => (input, none)
-
-      decreasing_by all_goals sorry
 
       let (input, c) := parseExact ["{"] input
       match c with
         | some "{" =>
+
+          let rec loop (input: String) (acc: Array (String × Json)) : String × Option (Array (String × Json)) :=
+            let input := consumeSpace input
+            let (input, o_kv) := parseKV input
+            let acc := match o_kv with
+              | some kv => acc.push kv
+              | _ => acc
+
+            let input := consumeSpace input
+            let (input, c) := parseExact [",", "}"] input
+            match c with
+              | some "," => loop input acc
+              | some "}" => (input, acc)
+              | _ => (input, none)
+
+          decreasing_by all_goals sorry
+
           let (input, o_o) := loop input #[]
+
           match o_o with
             | some o => (input, Json.object o)
             | _ => (input, none)
+
         | _ => (input, none)
 
     decreasing_by all_goals sorry
