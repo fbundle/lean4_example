@@ -1,12 +1,12 @@
 namespace Json
 
-  inductive Value where
-    | null: Value
-    | bool (b : Bool): Value
-    | number (n : Int): Value
-    | string (s : String): Value
-    | array (a : Array Value): Value
-    | object (o : Array (String × Value)): Value
+  inductive Json where
+    | null: Json
+    | bool (b : Bool): Json
+    | number (n : Int): Json
+    | string (s : String): Json
+    | array (a : Array Json): Json
+    | object (o : Array (String × Json)): Json
     deriving Repr
 
   def head (s: String): Option Char :=
@@ -82,30 +82,30 @@ namespace Json
   decreasing_by all_goals sorry
 
   -- parse json
-  def parseStringJson (input: String): String × Option Value :=
+  def parseStringJson (input: String): String × Option Json :=
     let (input, o_s) := parseString input
     match o_s with
-      | some s => (input, Value.string s)
+      | some s => (input, Json.string s)
       | none => (input, none)
 
-  def parseIntegerJson (input: String): String × Option Value :=
+  def parseIntegerJson (input: String): String × Option Json :=
     let (input, o_i) := parseInteger input
     match o_i with
-      | some i => (input, Value.number i)
+      | some i => (input, Json.number i)
       | none => (input, none)
 
-  def parseConstantJson (input: String): String × Option Value :=
+  def parseConstantJson (input: String): String × Option Json :=
     if input.startsWith "null"
-    then (input.drop 4, some Value.null)
+    then (input.drop 4, some Json.null)
     else if input.startsWith "true"
-    then (input.drop 4, some ( Value.bool true))
+    then (input.drop 4, some (Json.bool true))
     else if input.startsWith "false"
-    then (input.drop 5, some ( Value.bool false))
+    then (input.drop 5, some (Json.bool false))
     else (input, none) -- parse error, return none
 
   mutual
-    def parseArrayJson (input: String): String × Option Value :=
-      let rec loop (input: String) (acc: Array Value): String × Option (Array Value) :=
+    def parseArrayJson (input: String): String × Option Json :=
+      let rec loop (input: String) (acc: Array Json): String × Option (Array Json) :=
         let input := consumeSpace input
         let (input, o_json) := parseJson input
         let acc :=
@@ -127,14 +127,14 @@ namespace Json
         | some "[" =>
           let (input, o_a) := loop input #[]
           match o_a with
-            | some a => (input, Value.array a)
+            | some a => (input, Json.array a)
             | _ => (input, none)
         | _ => (input, none)
 
     decreasing_by all_goals sorry
 
-    def parseObjectJson (input: String): String × Option Value :=
-      let parseKV (input: String): String × Option (String × Value) :=
+    def parseObjectJson (input: String): String × Option Json :=
+      let parseKV (input: String): String × Option (String × Json) :=
         let input := consumeSpace input
         let (input, o_key) := parseString input
         match o_key with
@@ -151,7 +151,7 @@ namespace Json
               | _ => (input, none)
           | _ => (input, none)
 
-      let rec loop (input: String) (acc: Array (String × Value)) : String × Option (Array (String × Value)) :=
+      let rec loop (input: String) (acc: Array (String × Json)) : String × Option (Array (String × Json)) :=
         let input := consumeSpace input
         let (input, o_kv) := parseKV input
         let acc := match o_kv with
@@ -172,13 +172,13 @@ namespace Json
         | some "{" =>
           let (input, o_o) := loop input #[]
           match o_o with
-            | some o => (input, Value.object o)
+            | some o => (input, Json.object o)
             | _ => (input, none)
         | _ => (input, none)
 
     decreasing_by all_goals sorry
 
-    def parseJson (input: String): String × Option Value :=
+    def parseJson (input: String): String × Option Json :=
       let input := consumeSpace input
       let (input, o_c) := parseConstantJson input
       match o_c with
