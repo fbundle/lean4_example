@@ -20,13 +20,13 @@ namespace Json
       | 1 => (some s.front, none)
       | _ => (some s.front, some (s.drop 1).front)
 
-  def parseExactString (ss: List String) (input: String) : String × Option String :=
+  def parseExact (ss: List String) (input: String) : String × Option String :=
     match ss with
     | [] => (input, none)
     | s :: tail =>
       if input.startsWith s
       then ((input.drop s.length), some s)
-      else parseExactString tail input
+      else parseExact tail input
 
   def parseString (input: String): String × Option String :=
     let rec loop (input: String) (acc: String): String × Option String :=
@@ -39,7 +39,7 @@ namespace Json
         | _                       => (input, none) -- parse error
     decreasing_by all_goals sorry
 
-    let (input, c) := parseExactString ["\""] input
+    let (input, c) := parseExact ["\""] input
 
     match c with
     | some "\"" => loop input ""
@@ -47,7 +47,7 @@ namespace Json
 
   def parseInteger (input: String): String × Option Int :=
     let parseSign (input: String): String × Int :=
-      let (input, s) := parseExactString ["-"] input
+      let (input, s) := parseExact ["-"] input
       match s with
         | some "-" => (input, -1)
         | _ => (input, 1)
@@ -56,7 +56,7 @@ namespace Json
 
     let parseAbs (input: String): String × Option Int :=
       let rec loop (input: String) (acc: String): String × String :=
-        let (input, o_d) := parseExactString ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] input
+        let (input, o_d) := parseExact ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] input
         match o_d with
           | some d => loop input (acc ++ d)
           | _ => (input, acc)
@@ -114,7 +114,7 @@ namespace Json
             | _ => acc
 
         let input := consumeSpace input
-        let (input, c) := parseExactString [",", "]"] input
+        let (input, c) := parseExact [",", "]"] input
         match c with
           | some "," => loop input acc
           | some "]" => (input, some acc)
@@ -122,7 +122,7 @@ namespace Json
 
       decreasing_by all_goals sorry
 
-      let (input, c) := parseExactString ["["] input
+      let (input, c) := parseExact ["["] input
       match c with
         | some "[" =>
           let (input, o_a) := loop input #[]
@@ -140,7 +140,7 @@ namespace Json
         match o_key with
           | some key =>
             let input := consumeSpace input
-            let (input, c) := parseExactString [":"] input
+            let (input, c) := parseExact [":"] input
             match c with
               | some ":" =>
                 let input := consumeSpace input
@@ -159,7 +159,7 @@ namespace Json
           | _ => acc
 
         let input := consumeSpace input
-        let (input, c) := parseExactString [",", "}"] input
+        let (input, c) := parseExact [",", "}"] input
         match c with
           | some "," => loop input acc
           | some "}" => (input, acc)
@@ -167,7 +167,7 @@ namespace Json
 
       decreasing_by all_goals sorry
 
-      let (input, c) := parseExactString ["{"] input
+      let (input, c) := parseExact ["{"] input
       match c with
         | some "{" =>
           let (input, o_o) := loop input #[]
