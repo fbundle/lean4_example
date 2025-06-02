@@ -14,7 +14,7 @@ namespace JsonUtil
     match o_a with
       | some a =>
         -- use (a: List Json.Json) instead of (a: Array Json.Json) for loop
-        let rec loop (a: List Json.Json) (acc: Array Int): (List Json.Json × Array Int) :=
+        let rec loop (a: List Json) (acc: Array Int): (List Json × Array Int) :=
           match a with 
             | [] => (a, acc)
             | x :: xs => 
@@ -26,5 +26,5 @@ namespace JsonUtil
         (s, some acc)
       | _ => (s, none)
 
-  #eval! parseArrayOfNumbers "[1, 2, 4, 5]" 
+  -- #eval! parseArrayOfNumbers "[1, 2, 4, 5]" 
 end JsonUtil 

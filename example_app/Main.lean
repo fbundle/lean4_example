@@ -3,6 +3,16 @@ import json.JsonUtil
 import echo_line.EchoLine
 
 
+def calc_fib (n: Nat): Nat :=
+  let rec loop (n: Nat) (nm1: Nat) (nm2: Nat): Nat × Nat × Nat :=
+    if n = 0
+      then (n, nm1, nm2)
+      else loop (n-1) (nm2) (nm1 + nm2)
+  
+  let (n, nm1, nm2) := loop n 0 1
+  nm1
+
+
 -- State : the structure that holds the state of the application
 structure State where
   count : Nat
@@ -29,6 +39,11 @@ def echo(json: Json.Json): String :=
     | Json.Json.string s => s
     | _ => ""
 
+def fib(json: Json.Json): String :=
+  match json with
+    | Json.Json.number i => (calc_fib i.natAbs).repr
+    | _ => ""
+
 -- apply : transform state by receiving input
 def apply (state: State) (input: String): State × String :=
   let new_state := { state with count := state.count + 1 }
@@ -41,6 +56,7 @@ def apply (state: State) (input: String): State × String :=
         match key with
           | "sum" => loop xs (acc ++ " " ++ s!"sum {sum val}")
           | "echo" => loop xs (acc ++ " " ++ (echo val))
+          | "fib" => loop xs (acc ++ " " ++ (fib val))
           | _ => loop xs acc
 
   match o_o with
