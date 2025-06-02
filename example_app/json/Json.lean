@@ -9,18 +9,18 @@ namespace Json
     | object (o : Array (String × Json)): Json
     deriving Repr
 
-  def head (s: String): Option Char :=
+  private def head (s: String): Option Char :=
     match s.length with
       | 0 => none
       | _ => some s.front
 
-  def head2 (s: String): Option Char × Option Char :=
+  private def head2 (s: String): Option Char × Option Char :=
     match s.length with
       | 0 => (none, none)
       | 1 => (some s.front, none)
       | _ => (some s.front, some (s.drop 1).front)
 
-  def parseExact (ss: List String) (input: String) : String × Option String :=
+  private def parseExact (ss: List String) (input: String) : String × Option String :=
     match ss with
     | [] => (input, none)
     | s :: ss =>
@@ -28,7 +28,7 @@ namespace Json
       then ((input.drop s.length), some s)
       else parseExact ss input
 
-  def parseString (input: String): String × Option String :=
+  private def parseString (input: String): String × Option String :=
     let (input, c) := parseExact ["\""] input
     match c with
     | some "\"" => -- start of string
@@ -47,7 +47,7 @@ namespace Json
 
     | _ => (input, none) -- parse error
 
-  def parseInteger (input: String): String × Option Int :=
+  private def parseInteger (input: String): String × Option Int :=
     let parseSign (input: String): String × Int :=
       let (input, s) := parseExact ["-"] input
       match s with
@@ -76,7 +76,7 @@ namespace Json
       | some abs => (input, abs * sign)
       | _ => (input, none)
 
-  def consumeSpace (input: String): String :=
+  private def consumeSpace (input: String): String :=
     match head input with
       | some c =>
         if c.isWhitespace
@@ -86,19 +86,19 @@ namespace Json
   decreasing_by all_goals sorry
 
   -- parse json
-  def parseStringJson (input: String): String × Option Json :=
+  private def parseStringJson (input: String): String × Option Json :=
     let (input, o_s) := parseString input
     match o_s with
       | some s => (input, Json.string s)
       | none => (input, none)
 
-  def parseIntegerJson (input: String): String × Option Json :=
+  private def parseIntegerJson (input: String): String × Option Json :=
     let (input, o_i) := parseInteger input
     match o_i with
       | some i => (input, Json.number i)
       | none => (input, none)
 
-  def parseConstantJson (input: String): String × Option Json :=
+  private def parseConstantJson (input: String): String × Option Json :=
     if input.startsWith "null"
     then (input.drop 4, some Json.null)
     else if input.startsWith "true"
@@ -108,7 +108,7 @@ namespace Json
     else (input, none) -- parse error, return none
 
   mutual
-    def parseArrayJson (input: String): String × Option Json :=
+    private def parseArrayJson (input: String): String × Option Json :=
 
       let (input, c) := parseExact ["["] input
       match c with
@@ -141,7 +141,7 @@ namespace Json
 
     decreasing_by all_goals sorry
 
-    def parseObjectJson (input: String): String × Option Json :=
+    private def parseObjectJson (input: String): String × Option Json :=
       let parseKV (input: String): String × Option (String × Json) :=
         let input := consumeSpace input
         let (input, o_key) := parseString input
