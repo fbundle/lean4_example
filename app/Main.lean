@@ -21,7 +21,7 @@ def default_state : State := { count := 0 }
 def sum(json: Json): Int :=
   let o_a := JsonUtil.getArrayOfNumbers json
   match o_a with
-    | some a => reduce a.toList (λ (a: Int)(b: Int) => a + b) 0
+    | some a => reduce a.toList (λ (x: Int)(y: Int) => x + y) 0
     | _ => 0
 
 def echo(json: Json): String :=
