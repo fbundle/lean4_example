@@ -3,10 +3,28 @@ import json.JsonUtil
 import echo_line.EchoLine
 
 
+-- use map filter reduce to simplify code
 def reduce (l: List α) (f: α → α → α) (acc: α): α :=
   match l with
     | [] => acc
     | head :: tail => reduce tail f (f acc head)
+
+def map (l: List α) (f: α → α) (acc: Array α): Array α :=
+  match l with 
+    | [] => acc
+    | head :: tail => map tail f (acc.push (f head))
+
+def filter (l: List α) (f: α → Bool) (acc: Array α): Array α :=
+  match l with 
+    | [] => acc
+    | head :: tail => 
+      if (f head)
+        then filter tail f (acc.push head)
+        else filter tail f acc
+
+#eval reduce [1, 2, 3, 4] (λ (a: Nat)(b: Nat) => a + b) 0
+#eval map [1, 2, 3, 4] (λ (a: Nat) => 2 * a) #[]
+#eval filter [1, 2, 3, 4] (λ (a: Nat) => a % 2 == 0) #[]
       
 
 def calc_fib (n: Nat): Nat :=
