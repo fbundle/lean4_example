@@ -3,6 +3,12 @@ import json.JsonUtil
 import echo_line.EchoLine
 
 
+def reduce (l: List α) (f: α → α → α) (acc: α): α :=
+  match l with
+    | [] => acc
+    | head :: tail => reduce tail f (f acc head)
+      
+
 def calc_fib (n: Nat): Nat :=
   let rec loop (n: Nat) (nm1: Nat) (nm2: Nat): Nat × Nat × Nat :=
     if n = 0
@@ -23,13 +29,7 @@ def default_state : State := { count := 0 }
 def sum(json: Json.Json): Int :=
   let o_a := JsonUtil.getArrayOfNumbers json
   match o_a with
-    | some a =>
-      let rec loop (l: List Int) (acc: Int): Int :=
-        match l with 
-          | [] => acc
-          | x :: xs => loop xs (acc + x)
-      
-      loop a.toList 0
+    | some a => reduce a.toList (λ (a: Int)(b: Int) => a + b) 0
     | _ => 0
 
 def echo(json: Json.Json): String :=
