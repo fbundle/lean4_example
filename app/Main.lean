@@ -11,12 +11,7 @@ def reduce (items: List α) (combine: α → α → α) (acc: α): α :=
     | item :: items => reduce items combine (combine acc item)
 
 
--- State : the structure that holds the state of the application
-structure State where
-  count : Nat
 
--- default : starting state
-def default_state : State := { count := 0 }
 
 def sum(json: Json): Int :=
   let o_a := JsonUtil.getArrayOfNumbers json
@@ -43,25 +38,30 @@ def fib(json: Json): String :=
     | Json.number i => (calc_fib i.natAbs).repr
     | _ => ""
 
+
+-- State : the structure that holds the state of the application
+structure State where
+  count : Nat
+
+-- default : starting state
+def default_state : State := { count := 0 }
 -- apply : transform state by receiving input
 def apply (state: State) (input: String): State × String :=
   let new_state := { state with count := state.count + 1 }
-  let (_, o_o) := parseJson input -- read the first json only
-  let rec loop (o : List (String × Json)) (acc: String): String :=
-    match o with
-      | [] => acc
-      | x :: xs =>
-        let (key, val) := x
+  let (_, o) := parseJson input -- read the first json only
+
+  match o with
+    | some (Json.object o) =>
+      let l := o.map λ (kv: String × Json) =>
+        let (key, val) := kv
         match key with
-          | "sum" => loop xs (acc ++ " " ++ s!"sum {sum val}")
-          | "echo" => loop xs (acc ++ " " ++ (echo val))
-          | "fib" => loop xs (acc ++ " " ++ (fib val))
-          | _ => loop xs acc
-
-  match o_o with
-  | some (Json.object o) => (new_state, s!"state {state.count}: {loop o.toList ""}")
-  | _ => (new_state, s!"state {state.count}")
-
+          | "sum" => s!"sum {sum val}"
+          | "echo" => echo val
+          | "fib" => fib val
+          | _ => ""
+      let s := reduce l.toList (λ (x: String) (y: String) => x ++ " " ++ y) s!"state {state.count}"
+      (new_state, s)
+    | _ => (new_state, s!"state {state.count}")
 
 def main : IO Unit := do
   IO.println "Hello"
