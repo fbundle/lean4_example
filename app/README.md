@@ -2,4 +2,4 @@
 
 - parse stdin json and do some stuff 
 
-- just run `lake exe example_app < stdin.txt`
+- just run `lake exe app < stdin.txt`
