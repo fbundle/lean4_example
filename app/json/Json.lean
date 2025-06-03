@@ -20,13 +20,13 @@ namespace Json
       | 1 => (some s.front, none)
       | _ => (some s.front, some (s.drop 1).front)
 
-  private def parseExact (ss: List String) (input: String) : String × Option String :=
-    match ss with
+  private def parseExact (patterns: List String) (input: String) : String × Option String :=
+    match patterns with
     | [] => (input, none)
-    | s :: ss =>
-      if input.startsWith s
-      then ((input.drop s.length), some s)
-      else parseExact ss input
+    | pattern :: patterns =>
+      if input.startsWith pattern
+      then ((input.drop pattern.length), some pattern)
+      else parseExact patterns input
 
   private def parseString (input: String): String × Option String :=
     let (input, c) := parseExact ["\""] input
