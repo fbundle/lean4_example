@@ -5,10 +5,10 @@ import echo_line.EchoLine
 open Json
 
 -- use map filter reduce to simplify code
-def reduce (l: List α) (f: α → α → α) (acc: α): α :=
-  match l with
+def reduce (items: List α) (combine: α → α → α) (acc: α): α :=
+  match items with
     | [] => acc
-    | head :: tail => reduce tail f (f acc head)
+    | item :: items => reduce items combine (combine acc item)
 
 
 -- State : the structure that holds the state of the application
