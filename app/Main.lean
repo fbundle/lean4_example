@@ -10,33 +10,29 @@ def reduce (items: List α) (combine: α → α → α) (acc: α): α :=
     | [] => acc
     | item :: items => reduce items combine (combine acc item)
 
-
-
-
-def sum(json: Json): Int :=
-  let o_a := JsonUtil.getArrayOfNumbers json
-  match o_a with
+def sum(a: Option (Array Int)): Int :=
+  match a with
     | some a => reduce a.toList (λ (x: Int)(y: Int) => x + y) 0
     | _ => 0
 
-def echo(json: Json): String :=
-  match json with
-    | Json.string s => s
+def echo(s: Option String): String :=
+  match s with
+    | some s => s
     | _ => ""
 
-def fib(json: Json): String :=
-  let calc_fib (n: Nat): Nat :=
-    let rec loop (remain: Nat) (a: Nat) (b: Nat): Nat × Nat :=
-      if remain == 0
-        then (a, b)
-        else loop (remain-1) b (a + b)
-    decreasing_by all_goals sorry
 
-    let (a, b) := loop n 0 1
-    a
-  match json with
-    | Json.number i => (calc_fib i.natAbs).repr
-    | _ => ""
+def fib (n: Option Int): Int :=
+  match n with
+    | some n =>
+      let rec loop (remain: Nat) (a: Nat) (b: Nat): Nat × Nat :=
+        if remain == 0
+          then (a, b)
+          else loop (remain-1) b (a + b)
+      decreasing_by all_goals sorry
+
+      let (a, b) := loop n.natAbs 0 1
+      a
+    | _ => 0
 
 
 -- State : the structure that holds the state of the application
@@ -55,9 +51,9 @@ def apply (state: State) (input: String): State × String :=
       let l := o.map λ (kv: String × Json) =>
         let (key, val) := kv
         match key with
-          | "sum" => s!"sum {sum val}"
-          | "echo" => echo val
-          | "fib" => fib val
+          | "sum" => (sum (JsonUtil.getArrayOfNumbersFromJson val)).repr
+          | "echo" => echo (JsonUtil.getStringFromJson val)
+          | "fib" => (fib (JsonUtil.getNumberFromJson val)).repr
           | _ => ""
       let s := reduce l.toList (λ (x: String) (y: String) => x ++ " " ++ y) s!"state {state.count}"
       (new_state, s)

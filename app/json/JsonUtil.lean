@@ -3,7 +3,7 @@ import json.Json
 namespace JsonUtil
   open Json
   -- TODO use map filter reduce
-  def getArrayOfNumbers (json: Json): Option (Array Int) :=
+  def getArrayOfNumbersFromJson (json: Json): Option (Array Int) :=
     match json with
       | Json.array a =>
         let rec loop (l: List Json) (acc: Array Int): Array Int  :=
@@ -16,4 +16,15 @@ namespace JsonUtil
 
         loop a.toList #[]
       | _ => none
+
+  def getStringFromJson (json: Json): Option String :=
+    match json with
+      | Json.string s => s
+      | _ => none
+
+  def getNumberFromJson (json: Json): Option Int :=
+    match json with
+      | Json.number i => i
+      | _ => none
+
 end JsonUtil
