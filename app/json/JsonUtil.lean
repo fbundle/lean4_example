@@ -2,19 +2,28 @@ import json.Json
 
 namespace JsonUtil
   open Json
-  -- TODO use map filter reduce
   def getArrayOfNumbersFromJson (json: Json): Option (Array Int) :=
     match json with
       | Json.array a =>
-        let rec loop (l: List Json) (acc: Array Int): Array Int  :=
-          match l with
-            | [] => acc
-            | x :: xs =>
-              match x with
-                | Json.number i => loop xs (acc.push i)
-                | _ => loop xs acc
+        let a := a.map ((λ (json: Json) =>
+          match json with
+            | Json.number i => some i
+            | _ => none
+        ): Json → Option Int)
 
-        loop a.toList #[]
+        let a := a.filter (λ (i: Option Int) =>
+          match i with
+            | some i => true
+            | none => false
+        )
+
+        let a := a.map ((λ (i: Option Int) =>
+          match i with
+           | some i => i
+           | none => 0
+        ): Option Int → Int)
+
+        some a
       | _ => none
 
   def getStringFromJson (json: Json): Option String :=
