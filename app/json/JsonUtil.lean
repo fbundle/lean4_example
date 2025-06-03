@@ -13,7 +13,7 @@ namespace JsonUtil
 
         let a := a.filter (λ (i: Option Int) =>
           match i with
-            | some i => true
+            | some _ => true
             | none => false
         )
 
