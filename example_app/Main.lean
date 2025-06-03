@@ -21,18 +21,16 @@ structure State where
 def default_state : State := { count := 0 }
 
 def sum(json: Json.Json): Int :=
-  match json with
-  | Json.Json.array l =>
-    let rec loop (l: List Json.Json) (acc: Int): Int :=
-      match l with
-        | [] => acc
-        | x :: xs =>
-          match x with
-            | Json.Json.number y => loop xs (acc + y)
-            | _ => loop xs acc
-
-    loop l.toList 0
-  | _ => 0
+  let o_a := JsonUtil.getArrayOfNumbers json
+  match o_a with
+    | some a =>
+      let rec loop (l: List Int) (acc: Int): Int :=
+        match l with 
+          | [] => acc
+          | x :: xs => loop xs (acc + x)
+      
+      loop a.toList 0
+    | _ => 0
 
 def echo(json: Json.Json): String :=
   match json with
