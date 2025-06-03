@@ -2,7 +2,7 @@ import json.Json
 
 namespace JsonUtil
   open Json
-
+  -- TODO use map filter reduce
   def getArrayOfNumbers (json: Json): Option (Array Int) :=
     match json with
       | Json.array a =>
