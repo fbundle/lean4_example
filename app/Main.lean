@@ -55,7 +55,7 @@ def apply (state: State) (input: String): State × String :=
           | "echo" => echo (JsonUtil.getStringFromJson val)
           | "fib" => (fib (JsonUtil.getNumberFromJson val)).repr
           | _ => ""
-      let s := reduce l.toList (λ (x: String) (y: String) => x ++ " " ++ y) s!"state {state.count}"
+      let s := reduce l.toList (λ (x: String) (y: String) => x ++ "|" ++ y) s!"state {state.count}"
       (new_state, s)
     | _ => (new_state, s!"state {state.count}")
 
