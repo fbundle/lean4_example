@@ -5,10 +5,17 @@ import echo_line.EchoLine
 open Json
 
 -- use map filter reduce to simplify code
-def reduce (items: List α) (combine: α → α → α) (acc: α): α :=
-  match items with
-    | [] => acc
-    | item :: items => reduce items combine (combine acc item)
+--
+def reduce (actions: List β) (update: α → β → α) (state: α): α :=
+  match actions with
+    | [] => state
+    | action :: actions => reduce actions update (update state action)
+
+def printList (l: List Int): String :=
+  let s := reduce l (λ (acc: String)(item: Int) => acc ++ item.repr ++ ", ") ""
+  "[" ++ s ++ "]"
+
+#eval printList [1, 2, 3]
 
 def sum(a: Option (Array Int)): Int :=
   match a with
