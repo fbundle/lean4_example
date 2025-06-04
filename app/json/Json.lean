@@ -28,7 +28,7 @@ namespace Json
       then ((input.drop pattern.length), some pattern)
       else parseExact patterns input
 
-  private def parseString (input: String): String × Option String :=
+  private partial def parseString (input: String): String × Option String :=
     let (input, c) := parseExact ["\""] input
     match c with
     | some "\"" => -- start of string
@@ -41,13 +41,12 @@ namespace Json
           | (some '\\', some '\\')  => loop (input.drop 2) (acc.push '\\')
           | (some c1, _)            => loop (input.drop 1) (acc.push c1)
           | _                       => (input, none) -- parse error
-      decreasing_by all_goals sorry
 
       loop input ""
 
     | _ => (input, none) -- parse error
 
-  private def parseInteger (input: String): String × Option Int :=
+  private partial def parseInteger (input: String): String × Option Int :=
     let parseSign (input: String): String × Int :=
       let (input, s) := parseExact ["-"] input
       match s with
@@ -62,7 +61,6 @@ namespace Json
         match o_d with
           | some d => loop input (acc ++ d)
           | _ => (input, acc)
-      decreasing_by all_goals sorry
 
       let (input, abs_s) := loop input ""
 
@@ -76,14 +74,13 @@ namespace Json
       | some abs => (input, abs * sign)
       | _ => (input, none)
 
-  private def consumeSpace (input: String): String :=
+  private partial def consumeSpace (input: String): String :=
     match head input with
       | some c =>
         if c.isWhitespace
           then consumeSpace (input.drop 1)
           else input
       | none => input
-  decreasing_by all_goals sorry
 
   -- parse json
   private def parseStringJson (input: String): String × Option Json :=
@@ -108,7 +105,7 @@ namespace Json
     else (input, none) -- parse error, return none
 
   mutual
-    private def parseArrayJson (input: String): String × Option Json :=
+    private partial def parseArrayJson (input: String): String × Option Json :=
 
       let (input, c) := parseExact ["["] input
       match c with
@@ -129,8 +126,6 @@ namespace Json
               | some "]" => (input, some acc)
               | _ => (input, none) -- parse error
 
-          decreasing_by all_goals sorry
-
           let (input, o_a) := loop input #[]
 
           match o_a with
@@ -139,9 +134,7 @@ namespace Json
 
         | _ => (input, none)
 
-    decreasing_by all_goals sorry
-
-    private def parseObjectJson (input: String): String × Option Json :=
+    private partial def parseObjectJson (input: String): String × Option Json :=
       let parseKV (input: String): String × Option (String × Json) :=
         let input := consumeSpace input
         let (input, o_key) := parseString input
@@ -178,8 +171,6 @@ namespace Json
               | some "}" => (input, acc)
               | _ => (input, none)
 
-          decreasing_by all_goals sorry
-
           let (input, o_o) := loop input #[]
 
           match o_o with
@@ -188,9 +179,7 @@ namespace Json
 
         | _ => (input, none)
 
-    decreasing_by all_goals sorry
-
-    def parseJson (input: String): String × Option Json :=
+    partial def parseJson (input: String): String × Option Json :=
       let input := consumeSpace input
       let (input, o_c) := parseConstantJson input
       match o_c with
@@ -202,10 +191,6 @@ namespace Json
             | some '[' => parseArrayJson input
             | some '{' => parseObjectJson input
             | _ => (input, none)
-
-    decreasing_by all_goals sorry
-
-
 
   end
 
