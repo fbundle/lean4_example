@@ -18,13 +18,13 @@ namespace Json
   /--
   Core JSON algebraic data type used by this module.
 
-  Note: numbers are represented as `Int`. If you need full JSON number
-  support (decimals, exponents), extend the parser and this type accordingly.
+  Note: numbers are represented as their source literal `String` and support
+  integers, decimals, and scientific notation (e.g., 1e-3).
   -/
   inductive Json where
     | null: Json
     | bool (b : Bool): Json
-    | number (n : Int): Json
+    | number (n : String): Json
     | string (s : String): Json
     | array (a : Array Json): Json
     | object (o : Array (String × Json)): Json
@@ -33,7 +33,7 @@ namespace Json
     match json with
       | Json.null => "null"
       | Json.bool b => if b then "true" else "false"
-      | Json.number n => n.repr
+      | Json.number n => n
       | Json.string s => s
       | Json.array a =>
         let fields := (a.toList.map toString).intersperse ", "
@@ -92,34 +92,58 @@ namespace Json
 
     | _ => (input, none) -- parse error
 
-  /-- Parse a signed sequence of digits into an `Int`. -/
-  private partial def parseInteger (input: String): String × Option Int :=
-    let parseSign (input: String): String × Int :=
-      let (input, s) := parseExact ["-"] input
-      match s with
-        | some "-" => (input, -1)
-        | _ => (input, 1)
+  /-- Parse a JSON number (integer, decimal, or scientific) and return its literal string. -/
+  private partial def parseNumber (input: String): String × Option String :=
+    let start := input
 
-    let (input, sign) := parseSign input
+    let rec takeDigits (input: String) (acc: String): String × String :=
+      let (input', o_d) := parseExact ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] input
+      match o_d with
+        | some d => takeDigits input' (acc ++ d)
+        | none => (input, acc)
 
-    let parseAbs (input: String): String × Option Int :=
-      let rec loop (input: String) (acc: String): String × String :=
-        let (input, o_d) := parseExact ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] input
-        match o_d with
-          | some d => loop input (acc ++ d)
-          | _ => (input, acc)
+    -- optional minus
+    let (input, o_minus) := parseExact ["-"] input
+    let lit := match o_minus with | some _ => "-" | none => ""
 
-      let (input, abs_s) := loop input ""
+    -- integer part (at least one digit)
+    let (input, intDigits) := takeDigits input ""
+    if intDigits == "" then
+      (start, none)
+    else
+      let lit := lit ++ intDigits
 
-      match abs_s.toInt? with
-        | some abs => (input, some abs)
-        | _ => (input, none) -- parse error
+      -- optional fractional part
+      let (input, o_dot) := parseExact ["."] input
+      let (input, lit, fracOk) :=
+        match o_dot with
+          | some _ =>
+            let (input2, fracDigits) := takeDigits input ""
+            if fracDigits == ""
+            then (input2, lit, false)
+            else (input2, lit ++ "." ++ fracDigits, true)
+          | none => (input, lit, true)
 
-    let (input, o_abs) := parseAbs input
+      if !fracOk then
+        (start, none)
+      else
+        -- optional exponent part
+        let (input, o_e) := parseExact ["e", "E"] input
+        let (input, lit, expOk) :=
+          match o_e with
+            | some _ =>
+              let (input2, o_sign) := parseExact ["+", "-"] input
+              let lit := lit ++ "e" ++ (match o_sign with | some s => s | none => "")
+              let (input3, expDigits) := takeDigits input2 ""
+              if expDigits == ""
+              then (start, lit, false)
+              else (input3, lit ++ expDigits, true)
+            | none => (input, lit, true)
 
-    match o_abs with
-      | some abs => (input, abs * sign)
-      | _ => (input, none)
+        if !expOk then
+          (start, none)
+        else
+          (input, some lit)
 
   /-- Consume leading whitespace characters from `input`. -/
   private partial def consumeSpace (input: String): String :=
@@ -137,11 +161,11 @@ namespace Json
       | some s => (input, Json.string s)
       | none => (input, none)
 
-  /-- Parse a JSON integer number and wrap it in `Json.number`. -/
-  private def parseIntegerJson (input: String): String × Option Json :=
-    let (input, o_i) := parseInteger input
-    match o_i with
-      | some i => (input, Json.number i)
+  /-- Parse a JSON number and wrap it in `Json.number`. -/
+  private def parseNumberJson (input: String): String × Option Json :=
+    let (input, o_f) := parseNumber input
+    match o_f with
+      | some f => (input, Json.number f)
       | none => (input, none)
 
   /-- Parse `null`, `true`, or `false` as JSON constants. -/
@@ -243,7 +267,7 @@ namespace Json
         | _ =>
           match head input with
             | some '\"' => parseStringJson input
-            | some '-' | some '0'| some '1'| some '2'| some '3'| some '4'| some '5'| some '6'| some '7'| some '8'| some '9' => parseIntegerJson input
+            | some '-' | some '0'| some '1'| some '2'| some '3'| some '4'| some '5'| some '6'| some '7'| some '8'| some '9' => parseNumberJson input
             | some '[' => parseArrayJson input
             | some '{' => parseObjectJson input
             | _ => (input, none)
