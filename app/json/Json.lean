@@ -31,16 +31,19 @@ namespace Json
     deriving Repr
 
 
-  private def toString (json: Json): String :=
+  private partial def toString (json: Json): String :=
     match json with
       | Json.null => "null"
       | Json.bool b => if b then "true" else "false"
       | Json.number n => n.repr
       | Json.string s => s
       | Json.array a =>
-        let elemStrings := a.map Json.toString
+        let elemStrings := a.map toString
         s!"[{String.join (elemStrings.toList.intersperse ", ")}]"
-      | Json.object o => "{TODO}"
+      | Json.object o =>
+        let elemStrings := o.map (λ (k, v) => s!"\"{k}\": {toString v}")
+        "{" ++ s!"{String.join (elemStrings.toList.intersperse ", ")}" ++ "}"
+
   instance : ToString Json where
     toString := toString
 

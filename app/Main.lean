@@ -72,8 +72,7 @@ def apply_echo_json (state: State) (input: String): State × String :=
   let (_, o) := parseJson input -- read the first json only
 
   match o with
-    | some o =>
-      (new_state, o.toString)
+    | some o => (new_state, s!"{o}")
     | _ => (new_state, s!"state {state.count}")
 
 
