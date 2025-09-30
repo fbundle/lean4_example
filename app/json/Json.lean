@@ -38,11 +38,11 @@ namespace Json
       | Json.number n => n.repr
       | Json.string s => s
       | Json.array a =>
-        let elemStrings := a.map toString
-        s!"[{String.join (elemStrings.toList.intersperse ", ")}]"
+        let fields := (a.toList.map toString).intersperse ", "
+        s!"[{String.join fields}]"
       | Json.object o =>
-        let elemStrings := o.map (λ (k, v) => s!"\"{k}\": {toString v}")
-        "{" ++ s!"{String.join (elemStrings.toList.intersperse ", ")}" ++ "}"
+        let fields := (o.toList.map (λ (k, v) => s!"\"{k}\": {toString v}")).intersperse ", "
+        "{" ++ s!"{String.join fields}" ++ "}"
 
   instance : ToString Json where
     toString := toString
