@@ -1,5 +1,26 @@
+/-!
+Module: Json
+
+Lightweight JSON AST and a minimal, whitespace-tolerant parser implemented in pure Lean.
+
+Scope and limitations:
+- Numbers: only integers are supported (no decimals or exponents).
+- Strings: supports basic escapes for `\"` and `\\`.
+- Objects: parsed into an array of key–value pairs, keys are strings.
+- Arrays and objects permit arbitrary whitespace between tokens.
+- Parser returns the remaining unconsumed input together with an optional result.
+
+This is intended for educational/demo purposes, not as a fully compliant JSON parser.
+-/
+
 namespace Json
 
+  /--
+  Core JSON algebraic data type used by this module.
+
+  Note: numbers are represented as `Int`. If you need full JSON number
+  support (decimals, exponents), extend the parser and this type accordingly.
+  -/
   inductive Json where
     | null: Json
     | bool (b : Bool): Json
@@ -9,17 +30,23 @@ namespace Json
     | object (o : Array (String × Json)): Json
     deriving Repr
 
+  /-- Return the first character of `s` if present. -/
   private def head (s: String): Option Char :=
     match s.length with
       | 0 => none
       | _ => some s.front
 
+  /-- Return the first and second characters of `s` (if present). -/
   private def head2 (s: String): Option Char × Option Char :=
     match s.length with
       | 0 => (none, none)
       | 1 => (some s.front, none)
       | _ => (some s.front, some (s.drop 1).front)
 
+  /--
+  If the `input` starts with any of the `patterns`, consume it and return `(rest, some pattern)`.
+  Otherwise, return `(input, none)` without consuming anything.
+  -/
   private def parseExact (patterns: List String) (input: String) : String × Option String :=
     match patterns with
     | [] => (input, none)
@@ -28,6 +55,7 @@ namespace Json
       then ((input.drop pattern.length), some pattern)
       else parseExact patterns input
 
+  /-- Parse a JSON string, supporting `\"` and `\\` escapes. -/
   private partial def parseString (input: String): String × Option String :=
     let (input, c) := parseExact ["\""] input
     match c with
@@ -46,6 +74,7 @@ namespace Json
 
     | _ => (input, none) -- parse error
 
+  /-- Parse a signed sequence of digits into an `Int`. -/
   private partial def parseInteger (input: String): String × Option Int :=
     let parseSign (input: String): String × Int :=
       let (input, s) := parseExact ["-"] input
@@ -74,6 +103,7 @@ namespace Json
       | some abs => (input, abs * sign)
       | _ => (input, none)
 
+  /-- Consume leading whitespace characters from `input`. -/
   private partial def consumeSpace (input: String): String :=
     match head input with
       | some c =>
@@ -82,19 +112,21 @@ namespace Json
           else input
       | none => input
 
-  -- parse json
+  /-- Parse a JSON string value and wrap it in `Json.string`. -/
   private def parseStringJson (input: String): String × Option Json :=
     let (input, o_s) := parseString input
     match o_s with
       | some s => (input, Json.string s)
       | none => (input, none)
 
+  /-- Parse a JSON integer number and wrap it in `Json.number`. -/
   private def parseIntegerJson (input: String): String × Option Json :=
     let (input, o_i) := parseInteger input
     match o_i with
       | some i => (input, Json.number i)
       | none => (input, none)
 
+  /-- Parse `null`, `true`, or `false` as JSON constants. -/
   private def parseConstantJson (input: String): String × Option Json :=
     if input.startsWith "null"
     then (input.drop 4, some Json.null)
@@ -105,6 +137,7 @@ namespace Json
     else (input, none) -- parse error, return none
 
   mutual
+    /-- Parse a JSON array: `[ v1, v2, ... ]`. -/
     private partial def parseArrayJson (input: String): String × Option Json :=
 
       let (input, c) := parseExact ["["] input
@@ -134,6 +167,7 @@ namespace Json
 
         | _ => (input, none)
 
+    /-- Parse a JSON object: `{ "key": value, ... }`. -/
     private partial def parseObjectJson (input: String): String × Option Json :=
       let parseKV (input: String): String × Option (String × Json) :=
         let input := consumeSpace input
@@ -179,6 +213,10 @@ namespace Json
 
         | _ => (input, none)
 
+    /--
+    Parse any JSON value from `input`, consuming leading whitespace. On success,
+    returns the remaining input and `some Json`. On failure, returns `(input, none)`.
+    -/
     partial def parseJson (input: String): String × Option Json :=
       let input := consumeSpace input
       let (input, o_c) := parseConstantJson input

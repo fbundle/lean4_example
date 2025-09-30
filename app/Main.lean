@@ -46,8 +46,9 @@ def fib (n: Option Int): Int :=
 structure State where
   count : Nat
 
--- default : starting state
-def default_state : State := { count := 0 }
+-- init_state : starting state
+def init_state : State := { count := 0 }
+
 -- apply : transform state by receiving input
 def apply (state: State) (input: String): State × String :=
   let new_state := { state with count := state.count + 1 }
@@ -68,5 +69,5 @@ def apply (state: State) (input: String): State × String :=
 
 def main : IO Unit := do
   IO.println "Hello"
-  EchoLine.loop default_state apply
+  EchoLine.main_loop apply init_state
   IO.println "Goodbye!"
