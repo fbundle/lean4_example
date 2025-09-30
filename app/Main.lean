@@ -50,7 +50,7 @@ structure State where
 def init_state : State := { count := 0 }
 
 -- apply : transform state by receiving input
-def apply (state: State) (input: String): State × String :=
+def apply_read_json (state: State) (input: String): State × String :=
   let new_state := { state with count := state.count + 1 }
   let (_, o) := parseJson input -- read the first json only
 
@@ -67,7 +67,11 @@ def apply (state: State) (input: String): State × String :=
       (new_state, s)
     | _ => (new_state, s!"state {state.count}")
 
+
+
+
+
 def main : IO Unit := do
   IO.println "Hello"
-  EchoLine.main_loop apply init_state
+  (EchoLine.main_loop apply_read_json) init_state
   IO.println "Goodbye!"
