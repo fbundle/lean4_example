@@ -30,6 +30,20 @@ namespace Json
     | object (o : Array (String × Json)): Json
     deriving Repr
 
+
+  private def toString (json: Json): String :=
+    match json with
+      | Json.null => "null"
+      | Json.bool b => if b then "true" else "false"
+      | Json.number n => n.repr
+      | Json.string s => s
+      | Json.array a =>
+        let elemStrings := a.map Json.toString
+        s!"[{String.join (elemStrings.toList.intersperse ", ")}]"
+      | Json.object o => "{TODO}"
+  instance : ToString Json where
+    toString := toString
+
   /-- Return the first character of `s` if present. -/
   private def head (s: String): Option Char :=
     match s.length with
