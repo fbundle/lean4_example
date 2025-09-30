@@ -3,7 +3,7 @@ namespace EchoLine
 
 universe u
 
-def apply_func (α : Type u) : Type u := α → String → α × String
+private def apply_func (α : Type u) : Type u := α → String → α × String
 
 partial def main_loop (apply: apply_func α) (state: α) : IO Unit :=
   do

@@ -73,5 +73,5 @@ def apply_read_json (state: State) (input: String): State × String :=
 
 def main : IO Unit := do
   IO.println "Hello"
-  (EchoLine.main_loop apply_read_json) init_state
+  EchoLine.main_loop apply_read_json init_state
   IO.println "Goodbye!"
