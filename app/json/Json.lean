@@ -28,8 +28,6 @@ namespace Json
     | string (s : String): Json
     | array (a : Array Json): Json
     | object (o : Array (String × Json)): Json
-    deriving Repr
-
 
   private partial def toString (json: Json): String :=
     match json with
