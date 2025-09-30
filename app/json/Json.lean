@@ -47,6 +47,9 @@ namespace Json
   instance : ToString Json where
     toString := toString
 
+  instance : Repr Json where
+    reprPrec := λ (json: Json) (_: Nat) ↦ toString json
+
   /-- Return the first character of `s` if present. -/
   private def head (s: String): Option Char :=
     match s.length with
