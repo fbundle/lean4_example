@@ -1,4 +1,0 @@
-*.lean.out
-*.lean.c
-*.lean.linked.bc
-test_flags.sh
