@@ -6,11 +6,11 @@ open Lean.Json
 
 def ReadFileTextRequest (filename: String): Lean.Json :=
   mkObj [
-    ⟨"request", "read_file_text"⟩,
+    ⟨"command", "read_file_text"⟩,
     ⟨"filename", filename⟩
   ]
 
-def ReadFileTextResponse2 (json: Lean.Json): Except String String := do
+def ReadFileTextResponse (json: Lean.Json): Except String String := do
   let error ← json.getObjVal? "error"
   if error != null then
     Except.error error.compress
@@ -19,8 +19,9 @@ def ReadFileTextResponse2 (json: Lean.Json): Except String String := do
     let contentStr ← content.getStr?
     return contentStr
 
+#eval ReadFileTextRequest "filename.txt"
 
-#eval ReadFileTextResponse2 (mkObj [
+#eval ReadFileTextResponse (mkObj [
   ⟨ "error", null ⟩,
   ⟨ "content", "file content" ⟩,
 ])
