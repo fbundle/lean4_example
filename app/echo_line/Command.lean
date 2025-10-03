@@ -18,9 +18,7 @@ def ReadFileTextResponse (json: Json): Except String String := do
   if error != null then
     Except.error error.compress
   else
-    let content ← json.getObjVal? "content"
-    let contentStr ← content.getStr?
-    return contentStr
+    json.getObjValAs? String "content"
 
 #eval ReadFileTextRequest "filename.txt"
 
