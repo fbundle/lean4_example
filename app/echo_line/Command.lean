@@ -2,15 +2,18 @@ import Lean.Data.Json
 
 namespace EchoLine
 
-open Lean.Json
+def Json := Lean.Json
+def mkObj := Lean.Json.mkObj
+def null := Lean.Json.null
 
-def ReadFileTextRequest (filename: String): Lean.Json :=
+
+def ReadFileTextRequest (filename: String): Json :=
   mkObj [
     ⟨"command", "read_file_text"⟩,
     ⟨"filename", filename⟩
   ]
 
-def ReadFileTextResponse (json: Lean.Json): Except String String := do
+def ReadFileTextResponse (json: Json): Except String String := do
   let error ← json.getObjVal? "error"
   if error != null then
     Except.error error.compress
