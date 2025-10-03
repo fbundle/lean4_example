@@ -2,6 +2,7 @@ import Lean.Data.Json
 
 namespace EchoLine
 
+open Lean.Json
 
 def ReadFileTextRequest (filename: String): Lean.Json :=
   Lean.Json.mkObj [
